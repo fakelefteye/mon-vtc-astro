@@ -1,0 +1,27 @@
+---
+import LanguagePicker from './LanguagePicker.astro';
+---
+<header>
+    <nav>
+        <a href="/" class="logo">ShipCars VTC Grenoble</a>
+        <div class="nav-links">
+            <a href="/">Accueil</a>
+            <a href="/a-propos">À Propos</a>
+            <a href="/nos-prestations">Nos Prestations</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <LanguagePicker />
+    </nav>
+</header>
+<style>
+    /* ... (styles existants, ajustez si besoin) ... */
+    .nav-links { display: flex; gap: 1.5rem; }
+</style>
+</header>
+<style>
+    header { background: var(--dark-bg); padding: 1rem 2rem; }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: white; text-decoration: none; margin-left: 1.5rem; }
+    .logo { font-weight: bold; font-size: 1.5em; }
+    .cta { background: var(--accent); padding: 0.5rem 1rem; border-radius: 5px; }
+</style>

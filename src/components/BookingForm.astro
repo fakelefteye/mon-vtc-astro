@@ -1,0 +1,125 @@
+---
+// src/components/BookingForm.astro
+---
+<div id="booking-container">
+    <form id="quote-form" class="form-grid">
+        <div class="form-group full-width">
+            <h3>1. Vos Coordonnées</h3>
+        </div>
+        <div class="form-group">
+            <label for="name">Nom & Prénom</label>
+            <input type="text" id="name" name="name" required placeholder="Ex: Marie Dupont">
+        </div>
+        <div class="form-group">
+            <label for="email">Adresse E-mail</label>
+            <input type="email" id="email" name="email" required placeholder="Pour recevoir le bon de réservation">
+        </div>
+        <div class="form-group">
+            <label for="phone">Téléphone</label>
+            <input type="tel" id="phone" name="phone" required placeholder="Pour vous contacter si besoin">
+        </div>
+        <div class="form-group">
+            <label for="passengers">Nombre de passagers</label>
+            <input type="number" id="passengers" name="passengers" required min="1" max="4" value="1">
+        </div>
+
+        <div class="form-group full-width">
+            <h3>2. Détails du Trajet</h3>
+        </div>
+        <div class="form-group">
+            <label for="pickup">Adresse de départ</label>
+            <input type="text" id="pickup" name="pickup" required placeholder="Commencez à taper une adresse...">
+        </div>
+        <div class="form-group">
+            <label for="dropoff">Adresse de destination</label>
+            <input type="text" id="dropoff" name="dropoff" required placeholder="Commencez à taper une adresse...">
+        </div>
+        <div class="form-group full-width">
+            <label for="booking-time">Date et heure de la prise en charge</label>
+            <input type="datetime-local" id="booking-time" name="bookingTime" required>
+        </div>
+        <div class="form-group full-width">
+            <label for="specialRequests">Demandes particulières (siège bébé, etc.)</label>
+            <textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Ex: J'aurai une grosse valise et un bagage à main."></textarea>
+        </div>
+
+        <div class="form-buttons full-width">
+            <button type="submit" id="estimate-btn">Estimer le Prix</button>
+            <button type="button" id="book-btn" class="cta-button" style="display: none;">Confirmer & Recevoir le Bon de Réservation</button>
+        </div>
+    </form>
+    <div id="quote-result" style="display: none; margin-top: 1.5rem;"></div>
+</div>
+
+<script>
+    let bookingData = {};
+    const quoteForm = document.getElementById('quote-form');
+    const estimateBtn = document.getElementById('estimate-btn');
+    const bookBtn = document.getElementById('book-btn');
+    const quoteResultEl = document.getElementById('quote-result');
+
+    // Fonction pour initialiser l'autocomplétion
+    function initAutocomplete() {
+        const pickupInput = document.getElementById('pickup');
+        const dropoffInput = document.getElementById('dropoff');
+        if (pickupInput && dropoffInput) {
+            const options = {
+                componentRestrictions: { country: 'fr' },
+                fields: ["formatted_address"],
+            };
+            new google.maps.places.Autocomplete(pickupInput, options);
+            new google.maps.places.Autocomplete(dropoffInput, options);
+            console.log("Autocomplete initialisé !");
+        }
+    }
+
+    // On attend que l'API Google Maps soit 100% chargée
+    // Cet événement 'maps-loaded' est créé dans Layout.astro
+    window.addEventListener('maps-loaded', initAutocomplete);
+
+    // Si le script est déjà chargé au moment où on arrive sur la page
+    if (window.google && window.google.maps && window.google.maps.places) {
+        initAutocomplete();
+    }
+    
+    // Le reste de votre script pour l'estimation et la réservation...
+    // Clic sur "Estimer le Prix"
+    quoteForm.addEventListener('submit', async (e) => { /* ... code existant ... */ });
+
+    // Clic sur "Confirmer & Recevoir le Bon de Réservation"
+    bookBtn.addEventListener('click', async () => { /* ... code existant ... */ });
+</script>
+
+<style>
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    .form-group h3 { margin: 0 0 0.5rem 0; border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; }
+    label { margin-bottom: 0.5rem; font-weight: bold; }
+    input, textarea, button { 
+        padding: 0.8rem; font-size: 1rem; border-radius: 5px; 
+        border: 1px solid #ccc; font-family: 'Montserrat', sans-serif;
+    }
+    .form-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
+    #estimate-btn { flex-grow: 1; }
+    #book-btn { flex-grow: 2; }
+    .cta-button { background-color: var(--accent); color: white; border: none; font-weight: bold; cursor: pointer; }
+    .price { font-size: 1.5em; font-weight: bold; color: var(--accent); text-align: center; }
+    .error { color: red; text-align: center; }
+    #estimate-btn {
+        background: linear-gradient(45deg, #333, #555);
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #estimate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+</style>
