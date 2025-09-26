@@ -1,0 +1,290 @@
+---
+import Layout from '../layouts/Layout.astro';
+// URLs fournies par l'utilisateur (Cloudflare R2)
+const baseR2Url = "https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/";
+
+const mainCarPhoto = baseR2Url + "grenoble leaf.png";
+const rearSeatsPhoto = baseR2Url + "Nissan-Leaf-inside.jpg.webp"; 
+const luggagePhoto = baseR2Url + "nissan bagage.jpg";
+const foldPhoto = baseR2Url + "nissan fold.jpg"; 
+
+// Gardé pour le détail des sièges chauffants, ou à remplacer par une photo réelle si vous en avez une
+const heatedSeatButtonPhoto = "https://placeholder.com/300x200/000000/FFFFFF?text=Bouton+Sieges+Chauffants"; 
+---
+<Layout
+    title="Notre Véhicule VTC : Nissan Leaf 62 kWh - Sécurité et Confort Électrique"
+    description="Voyagez en toute sécurité et confort à bord de notre Nissan Leaf e+ 62 kWh. 5 étoiles Euro NCAP, sièges chauffants, et une autonomie garantie pour toutes les stations de ski des Alpes (Alpe d'Huez, Les Deux Alpes, Courchevel, etc.)."
+>
+    
+    <section class="page-hero">
+        <div class="container">
+            <h1>Notre Véhicule : Nissan Leaf e+ 62 kWh</h1>
+            <p class="subtitle">Le choix d'une expérience de voyage <strong>premium</strong>, <strong>sécurisée</strong> et <strong>respectueuse de l'environnement</strong>.</p>
+        </div>
+    </section>
+
+    <section class="car-presentation">
+        <div class="container vehicle-grid">
+            
+            <div class="car-image">
+                <img 
+                    src={mainCarPhoto} 
+                    alt="Lise, chauffeure VTC de Ship Cars, avec sa Nissan Leaf noire à Grenoble"
+                    class="main-car-photo"
+                >
+            </div>
+            
+            <div class="features-list">
+                <h2>Confort, Sécurité et Espace : Le Voyage Sans Compromis</h2>
+                
+                <p>À bord de notre <strong>Nissan Leaf e+ (62 kWh)</strong>, chaque détail est pensé pour votre bien-être et votre tranquillité. C'est le choix idéal pour vos transferts vers la gare, l'aéroport ou les Alpes.</p>
+
+                <ul class="key-features">
+                    <li>
+                        <strong>Capacité Bagages :</strong> Un coffre généreux de <strong>435 Litres</strong>, idéal pour les valises ou l'équipement de ski de quatre passagers. Sièges arrière rabattables 60/40 en cas de besoin spécifique.
+                    </li>
+                    <li>
+                        <strong>Sécurité Maximale :</strong> Le modèle a obtenu <strong>5 étoiles au crash-test Euro NCAP</strong>, l'une des meilleures notes du marché. Votre sécurité est notre priorité absolue.
+                    </li>
+                    <li>
+                        <strong>Confort Hivernal Garanti :</strong> Profitez de <strong>sièges chauffants</strong> à l'avant comme à l'arrière. Même par temps froid, votre trajet sera des plus agréables.
+                    </li>
+                    <li>
+                        <strong>Silence et Discrétion :</strong> L'électrique offre une conduite <strong>ultra-silencieuse</strong>. Idéal pour travailler, se reposer ou profiter du paysage en toute discrétion.
+                    </li>
+                    <li>
+                        <strong>Impact Écologique Réduit :</strong> Un transport <strong>100% électrique</strong> pour minimiser notre empreinte carbone.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section class="interior-details">
+        <div class="container interior-showcase">
+            
+            <div class="details-text-seating">
+                <h3>Un Intérieur Pensé pour le Voyage</h3>
+                <p>L'habitacle spacieux de la Nissan Leaf assure un confort optimal pour 4 passagers. Vous y trouverez un espace généreux pour les jambes, des prises de recharge pour vos appareils, et une ambiance de berline haut de gamme.</p>
+                
+                <h4>Confort des Sièges Arrière et Détails Chauffants</h4>
+                <p>Nous savons que les transferts vers les stations de ski exigent un confort irréprochable. C'est pourquoi nous mettons en avant nos <strong>sièges chauffants</strong> à l'avant et à l'arrière. Un petit luxe qui fait toute la différence après une journée sur les pistes ou par grand froid.</p>
+            </div>
+
+            <img 
+                src={rearSeatsPhoto} 
+                alt="Vue des sièges arrière de la Nissan Leaf, spacieux et chauffants."
+                class="photo-large"
+            >
+            
+            <img 
+                src={heatedSeatButtonPhoto} 
+                alt="Bouton de commande des sièges chauffants"
+                class="photo-small"
+            >
+        </div>
+    </section>
+
+    <section class="luggage-details">
+        <div class="container interior-showcase reverse-grid">
+            
+            <div class="details-text-luggage">
+                <h3>Capacité de Chargement : 435 L de Flexibilité</h3>
+                <p>Avec son coffre généreux de <strong>435 Litres</strong>, la Nissan Leaf est l'une des berlines électriques offrant la meilleure capacité de chargement. Valises, sacs de voyage ou équipements de randonnée... tout trouve sa place sans difficulté pour 4 passagers.</p>
+                
+                <h4>Sièges Rabattables 60/40 pour les Skis</h4>
+                <p>Pour les équipements les plus volumineux comme les skis longs, l'arrière est équipé de <strong>sièges rabattables 60/40</strong>, permettant de dégager de l'espace tout en conservant une ou deux places assises à l'arrière.</p>
+            </div>
+            
+            <img 
+                src={luggagePhoto} 
+                alt="Coffre de la Nissan Leaf rempli de bagages et valises"
+                class="photo-large"
+            >
+
+            <img 
+                src={foldPhoto} 
+                alt="Détail du rabattement 60/40 des sièges arrière pour les longs objets"
+                class="photo-small"
+            >
+            
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <section class="autonomy-assurance">
+        <div class="container">
+            <h2>Autonomie : Oubliez l'Anxiété, Profitez du Voyage</h2>
+            
+            <div class="assurance-box">
+                <p>Avec sa batterie de <strong>62 kWh</strong> de dernière génération, la Nissan Leaf e+ est parfaitement adaptée aux trajets de longue distance, même en montagne. Nous vous garantissons un service <strong>sans interruption</strong> ni attente pour la recharge.</p>
+                
+                <h3>Autonomie garantie vers toutes les stations des Alpes :</h3>
+                
+                <p>Grâce à la batterie haute capacité et à la gestion optimisée de l'énergie (incluant la récupération au freinage en descente), nous effectuons tous les transferts classiques de la région <strong>sans avoir besoin de s'arrêter pour recharger</strong> :</p>
+                
+                <ul class="destinations-list">
+                    <li>Transferts aéroport Grenoble GNB ↔ <strong>Alpe d'Huez</strong>, Les Deux Alpes, Chamrousse.</li>
+                    <li>Transferts aéroport Lyon LYS ↔ Tignes, Val d'Isère, <strong>Courchevel</strong>, Méribel, Val Thorens.</li>
+                </ul>
+
+                <p>Notre véhicule est préparé et chargé à <strong>100%</strong> avant chaque grand départ. Vous montez à bord, vous arrivez à destination, sans souci d'autonomie.</p>
+            </div>
+        </div>
+    </section>
+
+</Layout>
+
+<style>
+    /* Styles CSS complets et cohérents */
+    :root {
+        --accent: #007bff; 
+        --primary-text: #333;
+        --secondary-bg: #f5f5f5;
+        --car-details-bg: #e6f0ff; 
+    }
+    .page-hero {
+        background: var(--accent);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    .page-hero h1 {
+        font-size: clamp(2em, 4vw, 3em);
+        margin-bottom: 0.5rem;
+    }
+    .subtitle {
+        font-size: 1.2em;
+        opacity: 0.9;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .car-presentation {
+        padding: 4rem 0;
+    }
+
+    /* Mise en page en grille pour la photo principale et la liste des fonctionnalités */
+    .vehicle-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+    @media (min-width: 900px) {
+        .vehicle-grid {
+            grid-template-columns: 1.2fr 1.5fr;
+        }
+    }
+
+    .main-car-photo {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        object-fit: cover;
+    }
+    .key-features {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+    .key-features li {
+        background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23007bff" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.53a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.08z"/></svg>') no-repeat left center;
+        background-size: 1em;
+        padding-left: 1.8em;
+        margin-bottom: 1em;
+        line-height: 1.4;
+    }
+    .key-features strong {
+        color: var(--accent);
+    }
+
+    /* Styles pour les sections intérieures et bagages */
+    .interior-details, .luggage-details {
+        padding: 2rem 0;
+    }
+    .interior-details {
+        background-color: var(--secondary-bg);
+    }
+    .interior-showcase {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: center;
+    }
+    /* Grille à 3 colonnes pour le desktop: Texte | Photo Grande | Photo Petite */
+    @media (min-width: 900px) {
+        .interior-showcase {
+            grid-template-columns: 1.5fr 1fr;
+            grid-template-areas: 
+                "text photo-large"
+                "text photo-small";
+        }
+        .details-text-seating, .details-text-luggage { grid-area: text; }
+        .photo-large { grid-area: photo-large; }
+        .photo-small { grid-area: photo-small; }
+        
+        /* Inversion des colonnes pour la section bagages (pour varier la mise en page) */
+        .reverse-grid {
+            grid-template-areas: 
+                "photo-large text"
+                "photo-small text";
+        }
+    }
+
+    .photo-large {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        object-fit: cover;
+    }
+    .photo-small {
+        max-width: 300px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+        justify-self: center; 
+    }
+
+    /* Styles pour l'autonomie inchangés */
+    .separator {
+        border: none;
+        border-top: 2px solid var(--secondary-bg);
+        margin: 3rem auto;
+        width: 80%;
+    }
+    .autonomy-assurance {
+        padding-bottom: 5rem;
+    }
+    .autonomy-assurance h2 {
+        text-align: center;
+        color: var(--accent);
+        margin-bottom: 2rem;
+    }
+    .assurance-box {
+        background-color: var(--car-details-bg);
+        padding: 2.5rem;
+        border-radius: 12px;
+        border-left: 5px solid var(--accent);
+    }
+    .assurance-box h3 {
+        color: var(--primary-text);
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .destinations-list {
+        list-style-type: '⚡'; 
+        padding-left: 1.5rem;
+        font-size: 1.1em;
+    }
+    .destinations-list li {
+        margin-bottom: 0.5rem;
+    }
+</style>

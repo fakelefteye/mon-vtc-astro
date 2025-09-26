@@ -1,36 +1,43 @@
 // src/pages/api/book.js
-export const prerender = false;
-// src/pages/api/book.js
+export const prerender = false; // Important pour les fonctions serveur
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
 
+// --- Configuration du transporteur d'email ---
 const transporter = nodemailer.createTransport({
     host: import.meta.env.EMAIL_HOST,
     port: import.meta.env.EMAIL_PORT,
-    secure: true,
+    secure: true, // true pour le port 465 (Gmail), false pour les autres
     auth: {
         user: import.meta.env.EMAIL_USER,
         pass: import.meta.env.EMAIL_PASSWORD,
     },
 });
 
+
 export const POST = async ({ request }) => {
     try {
         const data = await request.json();
-        // Validation simple des données
         if (!data.name || !data.email || !data.bookingTime || !data.price) {
             return new Response(JSON.stringify({ message: "Données de réservation incomplètes." }), { status: 400 });
         }
-        
-        // --- Création d'un numéro de réservation unique ---
-        const bookingId = `SC-${Date.now().toString().slice(-6)}`;
 
-        // --- Création de l'événement Google Calendar ---
-        const auth = new google.auth.GoogleAuth({ /* ... (config existante) ... */ });
+        // --- AUTHENTIFICATION GOOGLE CALENDAR ---
+        const auth = new google.auth.GoogleAuth({
+            credentials: {
+                client_email: import.meta.env.GOOGLE_CLIENT_EMAIL,
+                private_key: import.meta.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+            },
+            scopes: ['https://www.googleapis.com/auth/calendar.events'],
+        });
+        
         const calendar = google.calendar({ version: 'v3', auth });
+        
+        // --- Création de l'événement ---
         const eventStartTime = new Date(data.bookingTime);
         const eventEndTime = new Date(eventStartTime.getTime() + (data.durationValue || 3600) * 1000);
-
+        const bookingId = `SC-${Date.now().toString().slice(-6)}`;
+        
         const eventDescription = `
             Client: ${data.name} (${data.email}, ${data.phone})
             Passagers: ${data.passengers}
@@ -85,6 +92,7 @@ export const POST = async ({ request }) => {
         `;
 
         // --- Envoi de l'e-mail ---
+        // DÉPLACÉ ICI, À L'INTÉRIEUR DU 'TRY'
         await transporter.sendMail({
             from: `"${import.meta.env.COMPANY_NAME}" <${import.meta.env.EMAIL_USER}>`,
             to: data.email, // E-mail du client
@@ -93,10 +101,11 @@ export const POST = async ({ request }) => {
             html: bookingVoucherHtml,
         });
 
+        // La fonction se termine SEULEMENT APRÈS que tout a réussi.
         return new Response(JSON.stringify({ message: "Réservation réussie !" }), { status: 200 });
 
     } catch (error) {
-        console.error("API Book Error:", error);
+        console.error("API Book Error:", error); 
         return new Response(JSON.stringify({ message: "Erreur serveur lors de la réservation." }), { status: 500 });
     }
 };

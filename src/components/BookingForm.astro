@@ -82,12 +82,57 @@
         initAutocomplete();
     }
     
-    // Le reste de votre script pour l'estimation et la réservation...
-    // Clic sur "Estimer le Prix"
-    quoteForm.addEventListener('submit', async (e) => { /* ... code existant ... */ });
 
-    // Clic sur "Confirmer & Recevoir le Bon de Réservation"
-    bookBtn.addEventListener('click', async () => { /* ... code existant ... */ });
+    // Clic sur "Estimer le Prix"
+    quoteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        quoteResultEl.innerHTML = 'Calcul en cours...';
+        quoteResultEl.style.display = 'block';
+        bookBtn.style.display = 'none';
+
+        const data = Object.fromEntries(new FormData(quoteForm).entries());
+
+        // Appel à l'API de devis
+        const response = await fetch('/api/quote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pickup: data.pickup, dropoff: data.dropoff }),
+        });
+
+        const quote = await response.json();
+
+        if (!response.ok) {
+            quoteResultEl.innerHTML = `<p class="error">${quote.message}</p>`;
+            return;
+        }
+        
+        // Affichage du devis
+        quoteResultEl.innerHTML = `
+            <p><strong>Distance :</strong> ${quote.distanceText}</p>
+            <p><strong>Durée estimée :</strong> ${quote.durationText}</p>
+            <p class="price"><strong>Prix estimé :</strong> ${quote.price.toFixed(2)} €</p>
+        `;
+        bookBtn.style.display = 'inline-block';
+        bookingData = { ...data, ...quote };
+    });
+
+    // Clic sur "Réserver ce trajet"
+    bookBtn.addEventListener('click', async () => {
+        quoteResultEl.innerHTML += '<p>Enregistrement de la réservation...</p>';
+        
+        const response = await fetch('/api/book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bookingData),
+        });
+
+        if (response.ok) {
+            window.location.href = '/confirmation';
+        } else {
+            const error = await response.json();
+            quoteResultEl.innerHTML += `<p class="error">${error.message}</p>`;
+        }
+    });
 </script>
 
 <style>

@@ -3,85 +3,286 @@ import Layout from '../layouts/Layout.astro';
 import BookingForm from '../components/BookingForm.astro';
 ---
 <Layout 
-    title="Chauffeure VTC Grenoble | Véhicule Électrique | ShipCars"
-    description="Votre chauffeure privée à Grenoble en Nissan Leaf 100% électrique. Transferts aéroport Lyon et stations de ski (Alpes d'Huez...). Confort, sécurité et silence.">
+    title="VTC Grenoble | Chauffeur Privé | Navette Aéroport & Stations de Ski"
+    description="Service de chauffeure VTC à Grenoble en Nissan Leaf 100% électrique. Forfaits fixes pour l'aéroport de Lyon, Genève et les stations de ski. Alternative au taxi.">
 
     <section class="hero">
-        <video playsinline autoplay muted loop poster="https://images.pexels.com/photos/21014/pexels-photo.jpg">
-            <source src="https://videos.pexels.com/video-files/5965448/5965448-hd_1920_1080_25fps.mp4" type="video/mp4">
+        <video playsinline autoplay muted loop poster="">
+            <source src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/nissan.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
-            <h1>Voyagez en toute sérénité avec votre chauffeure privée à Grenoble</h1>
-            <p>En Nissan Leaf 100% électrique : confort, silence et respect de l'environnement.</p>
-            <a href="#booking" class="cta-button">Estimer & Réserver</a>
+            <h1>Votre Chauffeure Privée à Grenoble</h1>
+            <p>Voyages d'affaires, transferts aéroport ou escapades dans les Alpes en véhicule 100% électrique.</p>
+            <a href="#booking" class="cta-button">Estimer et Réserver Votre Trajet</a>
         </div>
     </section>
 
-    <section id="about" class="content-section">
-        <h2>Un service de transport VTC premium et personnalisé</h2>
-        <div class="intro-grid">
+    <section id="forfaits" class="content-section">
+        <h2>Nos Forfaits Exclusifs</h2>
+        <div class="forfaits-grid">
             
-            <div>
-                <p>
-                    Bonjour et bienvenue ! Je suis votre <strong>chauffeure VTC dédiée à Grenoble</strong> et sa magnifique région. Ma priorité est de vous offrir une expérience de transport qui allie sécurité, ponctualité et une touche personnelle. 
-                </p>
-                <p>
-                    Spécialisée dans les <strong>transferts vers l'aéroport de Lyon Saint-Exupéry</strong> et les joyaux des Alpes comme <strong>l'Alpe d'Huez</strong>, <strong>Les 2 Alpes</strong> ou <strong>Courchevel</strong>, je vous accompagne dans tous vos déplacements, qu'ils soient professionnels ou pour le loisir, avec un service discret et attentionné.
-                </p>
+            <div class="forfait-card special-card">
+                <i class="icon-plane"></i>
+                <h3>Grenoble ↔ Aéroport Lyon St-Exupéry</h3>
+                <p class="prix">200€</p>
+                <p><strong>Forfait Berline.</strong> La navette aéroport la plus confortable, une alternative au taxi.</p>
             </div>
+            
+            <div class="forfait-card">
+                <i class="icon-mountains"></i>
+                <h3>Aéroport Lyon (LYS) ↔ Alpe d'Huez</h3>
+                <p class="prix">350€</p>
+                <p>Transfert direct et rapide vers la station. Service Berline Premium.</p>
+            </div>
+            
+            <div class="forfait-card special-card">
+                <i class="icon-plane"></i>
+                <h3>Aéroport Grenoble (GNB) ↔ Alpe d'Huez</h3>
+                <p class="prix">250€</p>
+                <p>Transfert optimisé pour votre arrivée en Isère.</p>
+            </div>
+
+            <div class="forfait-card">
+                <i class="icon-global"></i>
+                <h3>Grenoble ↔ Genève Aéroport</h3>
+                <p class="prix">330€</p>
+                <p><strong>Forfait Berline.</strong> Voyage international sans stress. Trajet direct vers GVA.</p>
+            </div>
+
+            <div class="forfait-card special-card">
+                <i class="icon-mountains"></i>
+                <h3>Grenoble ↔ Stations de Ski</h3>
+                <p class="prix">À partir de 99€</p>
+                <p>Transferts vers Les 2 Alpes, Chamrousse, Courchevel, etc. Arrivez au pied des pistes.</p>
+            </div>
+            
+            <div class="forfait-card">
+                <i class="icon-clock"></i>
+                <h3>Mise à Disposition</h3>
+                <p class="prix">60€/heure</p>
+                <p>Pour vos rendez-vous professionnels, séminaires ou événements privés. Sur devis pour la journée.</p>
+            </div>
+            
         </div>
+        <a href="/nos-prestations" class="secondary-button">Voir tous nos forfaits &amp; tarifs</a>
     </section>
 
     <section id="booking" class="booking-section">
-        <h2>Calculez votre tarif et réservez votre trajet</h2>
+        <h2>Estimez et Réservez Votre Chauffeur</h2>
         <BookingForm />
     </section>
 
 </Layout>
 <style>
+    /* Les styles CSS complets sont inclus pour la cohérence */
+    /* ------------------------------------------- */
+    /* Nouveaux styles pour la vidéo en plein écran */
+    /* ------------------------------------------- */
     .hero {
-        position: relative;
-        height: 80vh;
+        position: relative; 
+        width: 100%;
+        height: 80vh; 
+        overflow: hidden; 
         display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+        color: white; 
         text-align: center;
-        overflow: hidden;
     }
+
     .hero video {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
         min-width: 100%;
         min-height: 100%;
         width: auto;
         height: auto;
-        z-index: -2;
+        z-index: 1; 
+        transform: translate(-50%, -50%);
+        filter: brightness(0.65); 
     }
-    .hero::after { /* Overlay pour la lisibilité */
+
+    .hero-content {
+        position: relative; 
+        z-index: 10; 
+        padding: 1rem;
+    }
+    
+    .hero-content h1 {
+        font-size: clamp(2em, 5vw, 3.5em);
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    .hero-content p {
+        font-size: clamp(1.1em, 2vw, 1.5em);
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    }
+    
+    /* ------------------------------------------- */
+    /* Styles pour le CTA (Call To Action) - Rendu plus visible et incitatif */
+    /* ------------------------------------------- */
+    :root {
+        --accent: #007bff; 
+        --accent-dark: #0056b3; 
+        --primary-text: #333;
+        --secondary-bg: #f5f5f5;
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        font-size: 1.1em;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        border: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cta-button:hover {
+        background-color: var(--accent-dark); 
+        transform: translateY(-2px); 
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ------------------------------------------- */
+    
+    /* Styles pour les sections de contenu */
+    .content-section, .booking-section { padding: 4rem 2rem; text-align: center; }
+    .booking-section { background: var(--secondary-bg); }
+    .content-section h2 { 
+        font-size: 2.2em; 
+        margin-bottom: 3rem; 
+        color: var(--primary-text);
+        position: relative;
+    }
+    .content-section h2::after {
         content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: -1;
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: var(--accent);
+        margin: 10px auto 0;
     }
-    .hero-content { z-index: 1; max-width: 800px; padding: 2rem; }
-    .hero h1 { font-size: 2.8em; }
-    .cta-button { background: var(--accent); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 1rem; }
-    .content-section { padding: 4rem 2rem; max-width: 1000px; margin: auto; text-align: center; }
-    .booking-section { padding: 4rem 2rem; background: #f9f9f9; }
-    .intro-grid {
+
+    /* Styles de la grille et des cartes */
+    .forfaits-grid {
         display: grid;
-        grid-template-columns: 1fr 2fr;
+        /* Adapté pour 3 cartes par ligne sur grand écran */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 2rem;
-        align-items: center;
-        text-align: left;
-        margin-top: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
     }
-    .intro-grid img { width: 100%; border-radius: 50%; }
+    
+    .forfait-card { 
+        border: 1px solid #ddd; 
+        border-radius: 12px; 
+        text-align: center; 
+        padding: 2.5rem 1.5rem; 
+        box-shadow: 0 8px 15px rgba(0,0,0,0.08); 
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: white;
+    }
+    .forfait-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    /* Style spécifique pour les cartes principales (Aéroport) */
+    .special-card {
+        background-color: var(--accent);
+        color: white;
+        border-color: var(--accent);
+    }
+    .special-card .prix {
+        color: white; 
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    .special-card .icon-plane, .special-card .icon-global, .special-card .icon-mountains { /* Ajout de .icon-mountains pour les cartes bleues */
+        color: white;
+        background: rgba(255, 255, 255, 0.2); 
+    }
+
+
+    /* Styles du texte dans la carte */
+    .forfait-card h3 {
+        font-size: 1.4em;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .prix { 
+        font-size: 2.5em; 
+        color: var(--accent); 
+        font-weight: 700; 
+        margin: 0.2em 0;
+    }
+    .forfait-card p {
+        color: #666;
+        font-size: 0.95em;
+    }
+    .special-card p {
+        color: #eee;
+    }
+    
+    /* Icônes (simulées) */
+    .forfait-card i {
+        display: block;
+        font-size: 2.5em;
+        color: var(--accent);
+        margin-bottom: 1rem;
+        background: var(--secondary-bg);
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        border-radius: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        font-style: normal;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+    }
+
+    .icon-plane::before { content: '✈️'; }
+    .icon-mountains::before { content: '🏔️'; }
+    .icon-global::before { content: '🌍'; }
+    .icon-clock::before { content: '⏱️'; }
+
+    /* Styles du bouton secondaire */
+    .secondary-button {
+        display: inline-block;
+        margin-top: 4rem;
+        padding: 0.8rem 1.8rem;
+        border: 2px solid var(--accent);
+        color: var(--accent);
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9em;
+    }
+    .secondary-button:hover {
+        background-color: var(--accent);
+        color: white;
+    }
+
+    /* Media Queries pour les petits écrans */
+    @media (max-width: 600px) {
+        .content-section, .booking-section { padding: 3rem 1rem; }
+        .hero { height: 60vh; }
+        .hero-content h1 { font-size: 2em; }
+        .hero-content p { font-size: 1.1em; }
+        .cta-button { padding: 0.8rem 1.5rem; font-size: 1em; }
+    }
 </style>

@@ -1,0 +1,19 @@
+---
+// src/components/LanguagePicker.astro
+const { pathname } = Astro.url;
+
+// Supprime la langue actuelle de l'URL pour créer les nouveaux liens
+const currentPath = pathname.startsWith('/en') || pathname.startsWith('/es')
+  ? pathname.substring(3) || '/'
+  : pathname;
+---
+<div class="language-switcher">
+    <a href={currentPath} class:list={{ active: !pathname.startsWith('/en') && !pathname.startsWith('/es') }}>🇫🇷</a>
+    <a href={`/en${currentPath}`} class:list={{ active: pathname.startsWith('/en') }}>🇬🇧</a>
+    <a href={`/es${currentPath}`} class:list={{ active: pathname.startsWith('/es') }}>🇪🇸</a>
+</div>
+<style>
+    .language-switcher { display: flex; gap: 0.5rem; }
+    .language-switcher a { text-decoration: none; opacity: 0.6; font-size: 1.5rem; }
+    .language-switcher a.active { opacity: 1; }
+</style>

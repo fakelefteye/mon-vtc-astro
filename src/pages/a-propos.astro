@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+    title="À Propos - Votre Chauffeure VTC à Grenoble : Sécurité & Transferts Alpes"
+    description="Découvrez le parcours de votre chauffeure privée VTC à Grenoble. D'une carrière en informatique à un service d'excellence, alliant rigueur, discrétion et sécurité. Spécialiste des transferts aéroport, gare et navette vers les stations de ski des Alpes.">
+        
+    <div class="container">
+        
+        <header>
+            <h1>De la Rigueur de l'Informatique à l'Excellence du Service</h1>
+            <p class="subtitle">Mon parcours, votre garantie d'un service VTC fiable, discret et sécurisant.</p>
+                        
+            <img 
+                src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/lise.jpg" 
+                alt="Photo de Lise, votre chauffeure VTC à Grenoble" 
+                class="profile-photo" 
+                width="200" 
+                height="200"
+            >
+        </header>
+                
+        <main class="content">
+            <section aria-labelledby="parcours-pro">
+                <h2 id="parcours-pro" class="sr-only">Mon parcours professionnel</h2>
+                <p>Après plusieurs années enrichissantes dans le secteur de l'informatique, où la <strong>précision</strong>, la <strong>logique</strong> et la <strong>résolution de problèmes</strong> étaient mon quotidien, j'ai décidé de me réorienter vers un métier de service et de contact humain : <strong>chauffeure privée VTC</strong>.</p>
+                                
+                <p>Ce bagage technique m'a apporté une <strong>rigueur</strong> et un <strong>sens de l'organisation</strong> que je mets aujourd'hui à votre service. Pour moi, un trajet réussi n'est pas seulement un point A relié à un point B. C'est une expérience complète : <strong>ponctualité absolue</strong>, anticipation de vos besoins, <strong>discrétion garantie</strong> et une conduite souple et sécurisante.</p>
+            </section>
+            
+            <hr>
+            
+            <section aria-labelledby="securite-service">
+                <h2>Sécurité, Discrétion et Transferts Clés à Grenoble et dans les Alpes</h2>
+                                
+                <p>En tant que <strong>femme</strong>, je suis particulièrement sensible à l'importance de se sentir <strong>parfaitement en sécurité</strong> lors de ses déplacements. C'est pourquoi, à bord de mon véhicule, je vous assure un environnement de voyage où le calme et la sérénité sont de rigueur. Mes clientes, qu'elles voyagent seules ou en groupe, apprécient ce gage de <strong>tranquillité supplémentaire</strong>.</p>
+                
+                <p>Je suis spécialisée dans les liaisons clés de la région : <strong>Transfert aéroport Grenoble Saint-Geoirs (GNB)</strong>, <strong>Transfert Gare de Grenoble</strong>, et les <strong>Navettes vers les stations de ski des Alpes</strong>.</p>
+                
+                <p>Passionnée par la région de Grenoble et les magnifiques paysages des Alpes, je serai ravie de vous conduire et de vous conseiller. <strong>Je parle couramment anglais et espagnol</strong>, ce qui me permet d'accueillir une <strong>clientèle internationale</strong> avec la même qualité de service.</p>
+            </section>
+            
+            <section aria-labelledby="mots-cles-reservation">
+                <h3>Votre alternative au taxi à Grenoble</h3>
+                <p>Vous cherchez une alternative au <strong>taxi à Grenoble</strong> ? Vous avez trouvé bien plus : un <strong>service de transport personnalisé</strong>, pensé pour votre tranquillité d'esprit. Pour trouver le meilleur service de <strong>chauffeur privé Grenoble</strong>, pensez à ces mots-clés : <strong>VTC Grenoble</strong>, <strong>Taxi ski Alpes</strong>, <strong>Transfert station de ski</strong>, <strong>Navette aéroport Grenoble</strong>, <strong>Transport privé Grenoble</strong>.</p>
+            </section>
+        </main>
+    </div>
+</Layout>
+
+<style>
+    .container {         
+        max-width: 900px;         
+        margin: 4rem auto;         
+        padding: 2rem;     
+    }
+    h1 {         
+        text-align: center;         
+        margin-bottom: 0.5rem;     
+    }
+    h2 {         
+        margin-top: 2rem;         
+        font-size: 1.5em;     
+    }
+    h3 {         
+        font-size: 1.2em;     
+    }
+    .subtitle {         
+        text-align: center;         
+        font-size: 1.2em;         
+        color: #777;         
+        margin-top: 0;         
+        margin-bottom: 2rem;    
+    }
+    .content p {         
+        font-size: 1.1em;         
+        line-height: 1.8;     
+    }
+    .profile-photo {
+        display: block;         
+        margin: 0 auto 2rem;         
+        width: 200px;         
+        height: 200px;         
+        border-radius: 50%; /* Pour une image ronde */
+        object-fit: cover; /* Assure que l'image couvre bien le cercle sans déformation */
+        /* MODIFICATION ICI : DÉCALER LA POSITION DE L'IMAGE */
+        object-position: 50% 30%; /* Le premier % est pour l'axe X (horizontal, 50% = centré), le second % est pour l'axe Y (vertical). 30% décale l'image vers le haut. */
+        border: 4px solid #f0f0f0; /* Petite bordure pour la faire ressortir */
+    }
+    .sr-only {         
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+</style>

@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+    title="Nos Prestations VTC et Véhicule Électrique - Grenoble"
+    description="Découvrez nos forfaits VTC depuis Grenoble et le confort de notre Nissan Leaf 100% électrique : sièges chauffants, sécurité 5*, silence et écologie.">
+
+    <div class="page-header">
+        <h1>Nos Prestations</h1>
+        <p>Des forfaits clairs pour vos destinations principales et un service sur-mesure.</p>
+    </div>
+
+    <div class="container">
+        <section class="forfaits-section">
+            <h2>Nos Forfaits Principaux</h2>
+            <div class="forfaits-grid">
+                <div class="forfait-card">
+                    <h3>Grenoble ↔ Aéroport Lyon St-Exupéry</h3>
+                    <p class="prix">à partir de 130€</p>
+                    <p>Votre transfert aéroport sans stress. Ponctualité et aide avec vos bagages garanties.</p>
+                </div>
+                <div class="forfait-card">
+                    <h3>Grenoble ↔ Stations de Ski</h3>
+                    <p class="prix">Devis personnalisé</p>
+                    <p>Accès direct aux pistes de l'Oisans et de la Tarentaise en toute sécurité, même sur la neige.</p>
+                </div>
+                <div class="forfait-card">
+                    <h3>Mise à Disposition</h3>
+                    <p class="prix">à partir de 60€/heure</p>
+                    <p>Pour vos événements, séminaires ou une journée shopping, je suis à votre entière disposition.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="separator">
+
+        <section class="vehicle-section">
+            <h2>Votre Confort à Bord de notre Nissan Leaf</h2>
+            <div class="vehicle-grid">
+                
+                <div class="vehicle-features">
+                    <p>Mon engagement est de vous offrir une expérience de première classe. C'est pourquoi j'ai choisi un véhicule qui allie luxe, technologie et respect de l'environnement.</p>
+                    <ul>
+                        <li><strong>👩‍🔧 Conduite Sereine :</strong> Profitez d'un trajet apaisant et sécurisant, assuré par une chauffeure professionnelle.</li>
+                        <li><strong>⚡ Silence 100% Électrique :</strong> Redécouvrez le plaisir de voyager dans un calme absolu, idéal pour vous détendre ou passer un appel.</li>
+                        <li><strong>🔥 Confort Premium :</strong> En hiver, appréciez le luxe des <strong>sièges chauffants</strong> à l'avant comme à l'arrière.</li>
+                        <li><strong>🧳 Espace Généreux :</strong> Un <strong>coffre spacieux</strong> pour vos bagages et <strong>beaucoup de place pour les jambes</strong>, pour un confort optimal même sur de longues distances.</li>
+                        <li><strong>⭐ Sécurité Maximale :</strong> Voyagez l'esprit tranquille, la Nissan Leaf est notée <strong>5 étoiles au crash-test Euro NCAP</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>
+<style>
+    .page-header { text-align: center; padding: 4rem 2rem; background: #f4f4f4; }
+    .container { max-width: 1200px; margin: auto; padding: 2rem; }
+    .separator { border: 0; height: 1px; background: #ddd; margin: 4rem 0; }
+    h2 { text-align: center; font-size: 2em; margin-bottom: 2rem; }
+    
+    /* Section Forfaits */
+    .forfaits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .forfait-card { border: 1px solid #eee; border-radius: 8px; text-align: center; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .prix { font-size: 2em; color: var(--accent); font-weight: bold; margin: 0.5rem 0; }
+
+    /* Section Véhicule */
+    .vehicle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .vehicle-grid img { width: 100%; border-radius: 8px; }
+    .vehicle-features ul { list-style: none; padding: 0; }
+    .vehicle-features li { padding: 0.5rem 0; font-size: 1.1em; line-height: 1.6; }
+</style>

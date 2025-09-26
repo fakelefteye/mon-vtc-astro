@@ -1,6 +1,42 @@
 <footer>
-    <p>&copy; {new Date().getFullYear()} Votre Entreprise VTC. Tous droits réservés.</p>
-</footer>
+    <div class="footer-content">
+        <p class="copyright">© {new Date().getFullYear()} VTC Grenoble by Lise. Tous droits réservés.</p>
+        
+        <p class="creation-mention">
+            Vous aimez ce site ? Je peux créer le vôtre ! <a href="/contact">Contactez-moi pour un devis.</a>
+        </p>
+    </div>
 <style>
     footer { text-align: center; padding: 2rem; margin-top: 3rem; background: #eee; }
+
+    /* ... autres styles du footer et du container ... */
+
+    .footer-content {
+        text-align: center;
+        padding: 2rem 0;
+        border-top: 1px solid #e0e0e0; /* Une petite ligne pour séparer le footer du contenu principal */
+        margin-top: 3rem;
+        font-size: 0.9em;
+    }
+
+    .copyright {
+        color: #777;
+        margin-bottom: 0.5rem;
+    }
+
+    .creation-mention {
+        margin-top: 0.5rem;
+        font-weight: 600; /* Rendre le texte plus visible */
+        color: #333;
+    }
+
+    .creation-mention a {
+        color: #007bff; /* Ou la couleur principale de votre charte */
+        text-decoration: none;
+    }
+
+    .creation-mention a:hover {
+        text-decoration: underline;
+    }
+
 </style>

@@ -1,8 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Réservation Confirmée">
-    <h1>Merci ! Votre réservation a bien été enregistrée.</h1>
-    <p>Un événement a été ajouté à notre calendrier. Nous vous contacterons sous peu pour confirmer les derniers détails.</p>
-    <a href="/">Retour à l'accueil</a>
+<Layout title="Demande de Réservation Envoyée">
+    <div class="container">
+        <h2>Merci pour votre demande !</h2>
+        <p>Votre bon de réservation vous a été envoyé par e-mail.</p>
+        <p class="confirmation-message">
+            <strong>Étape suivante :</strong> Je vous recontacterai personnellement par téléphone ou e-mail sous peu pour valider les derniers détails et <strong>confirmer définitivement votre course</strong>.
+        </p>
+        <a href="/" class="cta-button">Retour à l'accueil</a>
+    </div>
 </Layout>
+<style>
+    .container { text-align: center; padding: 4rem 1rem; }
+    .confirmation-message { font-size: 1.2em; margin: 2rem auto; max-width: 600px; padding: 1.5rem; border: 2px solid var(--accent); border-radius: 8px; }
+</style>
