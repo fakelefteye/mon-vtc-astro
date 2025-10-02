@@ -21,22 +21,20 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
+    <script src="https://js.stripe.com/v3/" async defer></script>
+
     <script define:vars={{ googleMapsApiKey }}>
-        // 1. On définit la fonction de callback AVANT qu'elle ne soit appelée.
         function initMap() {
-            // On envoie un signal global pour dire que l'API est prête.
             window.dispatchEvent(new CustomEvent('maps-loaded'));
             console.log("✅ API Google Maps chargée et prête !");
         }
-        // 2. On s'assure que la fonction est accessible globalement pour le callback.
         window.initMap = initMap;
     </script>
     <script 
         async
         defer
-        src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places,core&callback=initMap`}
+        src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&callback=initMap`}
     ></script>
-    <script src="https://js.stripe.com/v3/" async defer></script>
     
     <style>
         :root { --accent: #c5a47e; --dark-bg: #1a1a1a; --text-color: #333; }
