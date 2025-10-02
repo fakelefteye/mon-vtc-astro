@@ -15,8 +15,6 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="keywords" content="VTC Grenoble, chauffeur privé Grenoble, aéroport Lyon Saint-Exupéry, transfert stations de ski, Alpes, séminaire" />
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -26,28 +24,23 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     <script define:vars={{ googleMapsApiKey }}>
         function initMap() {
             window.dispatchEvent(new CustomEvent('maps-loaded'));
-            console.log("✅ API Google Maps chargée et prête !");
         }
         window.initMap = initMap;
     </script>
     <script 
-        async
-        defer
+        async defer
         src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&callback=initMap`}
     ></script>
     
     <style>
         :root { --accent: #c5a47e; --dark-bg: #1a1a1a; --text-color: #333; }
-        html { font-family: 'Montserrat', sans-serif; background: #fff; color: var(--text-color); scroll-behavior: smooth; }
+        html { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
         body { margin: 0; }
-        main { margin: 0; padding: 0; max-width: 100%; }
     </style>
 </head>
 <body>
     <Header />
-    <main>
-        <slot />
-    </main>
+    <main><slot /></main>
     <Footer />
 </body>
 </html>
