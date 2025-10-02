@@ -9,7 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/vercel": "^8.2.8",
+    "@astrojs/vercel": "^8.0.4",
     "@googlemaps/google-maps-services-js": "^3.4.2",
     "astro": "^5.13.10",
     "googleapis": "^161.0.0",
