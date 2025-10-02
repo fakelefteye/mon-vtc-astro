@@ -12,6 +12,7 @@
     "@astrojs/vercel": "^8.2.8",
     "@googlemaps/google-maps-services-js": "^3.4.2",
     "astro": "^5.13.10",
+    "googleapis": "^161.0.0",
     "nodemailer": "^7.0.6"
   },
   "devDependencies": {
