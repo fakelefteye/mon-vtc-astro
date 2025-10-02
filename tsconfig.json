@@ -1,5 +1,18 @@
 {
+  // Conservé de votre configuration : hérite des règles strictes d'Astro
   "extends": "astro/tsconfigs/strict",
+
+  // Ajouté pour que les alias fonctionnent
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+
+  // Conservé de votre configuration : indique quels fichiers analyser
   "include": [".astro/types.d.ts", "**/*"],
+
+  // Conservé de votre configuration : indique quels dossiers ignorer
   "exclude": ["dist"]
 }
