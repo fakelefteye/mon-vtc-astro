@@ -2,144 +2,183 @@
 // src/components/BookingForm.astro
 ---
 <div id="booking-container" class="booking-wrapper">
+    <h2 class="form-title">Demande de Devis et Réservation</h2>
+    <p class="form-subtitle">Obtenez une estimation et réservez votre trajet.</p>
+
     <form id="quote-form" class="form-grid">
-        <div class="form-group full-width"><h3>1. Vos Coordonnées</h3></div>
+        <div class="form-group full-width"><h3 class="step-title">1. Vos Coordonnées</h3></div>
         <div class="form-group"><label for="name">Nom & Prénom</label><input type="text" id="name" name="name" required placeholder="Ex: Marie Dupont"></div>
-        <div class="form-group"><label for="email">Adresse E-mail</label><input type="email" id="email" name="email" required placeholder="Pour recevoir le bon de réservation"></div>
-        <div class="form-group"><label for="phone">Téléphone</label><input type="tel" id="phone" name="phone" required placeholder="Pour vous contacter si besoin"></div>
-        <div class="form-group"><label for="passengers">Nombre de passagers</label><input type="number" id="passengers" name="passengers" required min="1" max="4" value="1"></div>
-        <div class="form-group full-width"><h3>2. Détails du Trajet</h3></div>
-        <div class="form-group"><label for="pickup">Adresse de départ</label><input type="text" id="pickup" name="pickup" required placeholder="Commencez à taper une adresse..."></div>
-        <div class="form-group"><label for="dropoff">Adresse de destination</label><input type="text" id="dropoff" name="dropoff" required placeholder="Commencez à taper une adresse..."></div>
-        <div class="form-group full-width"><label for="booking-time">Date et heure de la prise en charge</label><input type="datetime-local" id="booking-time" name="bookingTime" required></div>
-        <div class="form-group full-width"><label for="specialRequests">Demandes particulières</label><textarea id="specialRequests" name="specialRequests" rows="3"></textarea></div>
+        <div class="form-group"><label for="phone">Téléphone</label><input type="tel" id="phone" name="phone" required></div>
+        <div class="form-group full-width"><label for="email">Adresse E-mail</label><input type="email" id="email" name="email" required placeholder="Pour recevoir le bon de réservation"></div>
+
+        <div class="form-group full-width"><h3 class="step-title">2. Votre Trajet</h3></div>
+        <div class="form-group"><label for="pickup">Adresse de départ</label><input type="text" id="pickup" name="pickup" required placeholder="Saisissez une adresse..."></div>
+        <div class="form-group"><label for="dropoff">Adresse de destination</label><input type="text" id="dropoff" name="dropoff" required placeholder="Saisissez une adresse..."></div>
+        <div class="form-group"><label for="booking-time">Date et heure</label><input type="datetime-local" id="booking-time" name="bookingTime" required></div>
+        <div class="form-group"><label for="passengers">Passagers</label><input type="number" id="passengers" name="passengers" required min="1" max="4" value="1"></div>
 
         <div class="form-group full-width">
-            <button type="submit" id="estimate-btn">Estimer le Prix</button>
+            <button type="submit" id="estimate-btn" class="submit-button">Estimer le Prix</button>
         </div>
     </form>
     
-    <div id="quote-result" style="display: none; margin-top: 1.5rem;">
+    <div id="quote-result" class="quote-result-hidden">
         <div id="quote-details"></div>
-        <div class="form-buttons full-width">
-            <button type="button" id="pay-online-btn" class="cta-button">💳 Payer en ligne</button>
-            <button type="button" id="book-onboard-btn">🚗 Réserver & Payer à bord</button>
+        <h3 class="payment-title">3. Confirmez votre réservation</h3>
+        <div class="payment-buttons">
+            <button type="button" id="pay-online-btn" class="submit-button cta">💳 Payer en ligne</button>
+            <button type="button" id="book-onboard-btn" class="secondary-button">🚗 Réserver et Payer à bord</button>
         </div>
+        <p id="form-status" class="status-message"></p>
     </div>
 </div>
+
+<style>
+    :root { 
+        --accent-color: #c5a47e; 
+        --dark-color: #1a1a1a;
+        --cta-bg: linear-gradient(45deg, var(--accent-color), #b19472);
+        --cta-hover: linear-gradient(45deg, #b19472, #a08365);
+    }
+    .booking-wrapper { background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); max-width: 800px; margin: 3rem auto; font-family: 'Montserrat', sans-serif; }
+    .form-title { font-size: 2.2em; text-align: center; color: var(--dark-color); }
+    .form-subtitle { text-align: center; color: #666; margin: 0.5rem 0 2.5rem 0; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; }
+    .form-group { display: flex; flex-direction: column; }
+    .full-width { grid-column: 1 / -1; }
+    .step-title { font-size: 1.2em; color: var(--dark-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; margin: 1rem 0; }
+    label { margin-bottom: 0.5rem; font-weight: 600; color: #555; }
+    input, textarea { background-color: #fff !important; color: #333 !important; padding: 0.9rem; font-size: 1rem; border-radius: 8px; border: 1px solid #ddd; }
+
+    .submit-button { padding: 1rem; font-size: 1.1em; font-weight: bold; color: white; background: var(--dark-color); border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+    .submit-button:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+    .submit-button.cta { background: var(--cta-bg); }
+    .submit-button.cta:hover { background: var(--cta-hover); }
+
+    .secondary-button { padding: 1rem; font-size: 1.1em; font-weight: bold; color: var(--dark-color); background: #f1f3f5; border: 2px solid #dee2e6; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+    .secondary-button:hover { background: #e9ecef; transform: translateY(-2px); }
+
+    .quote-result-hidden { display: none; }
+    .quote-result-visible { display: block; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #eee; text-align: center; }
+    #quote-details .price { font-size: 1.8em; font-weight: bold; color: var(--accent-color); margin-top: 1rem; }
+    .payment-title { font-size: 1.2em; margin: 2rem 0 1rem 0; }
+    .payment-buttons { display: flex; flex-direction: column; gap: 1rem; }
+    .status-message { text-align: center; font-weight: 500; min-height: 24px; margin-top: 1.5rem; }
+    .error { color: #d9534f; }
+
+    @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+</style>
 
 <script>
     import type { Stripe } from '@stripe/stripe-js';
 
-    let bookingData = {};
-    let stripe: Stripe | null = null;
-    
-    const quoteForm = document.getElementById('quote-form');
-    const quoteResultEl = document.getElementById('quote-result');
-    const quoteDetailsEl = document.getElementById('quote-details');
-    // MODIFIÉ : Sélection des nouveaux boutons
-    const payOnlineBtn = document.getElementById('pay-online-btn');
-    const bookOnboardBtn = document.getElementById('book-onboard-btn');
-    
-    // AJOUTÉ : Initialisation de Stripe au chargement de la page
     document.addEventListener('DOMContentLoaded', () => {
+        let bookingData = {};
+        let stripe: Stripe | null = null;
+
+        const quoteForm = document.getElementById('quote-form') as HTMLFormElement;
+        const quoteResultEl = document.getElementById('quote-result') as HTMLDivElement;
+        const quoteDetailsEl = document.getElementById('quote-details') as HTMLDivElement;
+        const payOnlineBtn = document.getElementById('pay-online-btn') as HTMLButtonElement;
+        const bookOnboardBtn = document.getElementById('book-onboard-btn') as HTMLButtonElement;
+        const statusEl = document.getElementById('form-status') as HTMLParagraphElement;
+        
         const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_KEY;
         if (window.Stripe && stripePublishableKey) {
             stripe = window.Stripe(stripePublishableKey);
         } else {
-            console.error("Clé publique Stripe non chargée. Vérifiez votre .env et redémarrez le serveur.");
+            console.error("Stripe.js ou la clé publique n'est pas chargé(e).");
         }
-    });
-
-    // La fonction d'autocomplétion reste la même
-    function initAutocomplete() {
-        const pickupInput = document.getElementById('pickup');
-        const dropoffInput = document.getElementById('dropoff');
-        if (pickupInput && dropoffInput && window.google) {
-            const options = { componentRestrictions: { country: 'fr' }, fields: ["formatted_address"] };
-            new window.google.maps.places.Autocomplete(pickupInput, options);
-            new window.google.maps.places.Autocomplete(dropoffInput, options);
-        }
-    }
-    window.addEventListener('maps-loaded', initAutocomplete);
-    if (window.google?.maps?.places) initAutocomplete();
-    
-    // Clic sur "Estimer le Prix"
-    quoteForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        quoteDetailsEl.innerHTML = 'Calcul en cours...';
-        quoteResultEl.style.display = 'block';
-
-        const data = Object.fromEntries(new FormData(quoteForm).entries());
-
-        try {
-            const response = await fetch('/api/quote', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pickup: data.pickup, dropoff: data.dropoff }),
-            });
-            const quote = await response.json();
-            if (!response.ok) throw new Error(quote.message);
-            
-            quoteDetailsEl.innerHTML = `<p class="price"><strong>Prix estimé :</strong> ${quote.price.toFixed(2)} €</p>`;
-            bookingData = { ...data, ...quote };
-        } catch (error) {
-            quoteDetailsEl.innerHTML = `<p class="error">${error.message}</p>`;
-        }
-    });
-
-    // AJOUTÉ : Clic sur "Payer en ligne"
-    payOnlineBtn.addEventListener('click', async () => {
-        if (!stripe) { alert("Le service de paiement n'est pas prêt."); return; }
         
-        try {
-            const response = await fetch('/api/create-stripe-session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bookingData),
-            });
-            const session = await response.json();
-            if (session.id) {
-                await stripe.redirectToCheckout({ sessionId: session.id });
-            } else {
-                throw new Error("ID de session manquant.");
+        // ✅ CORRECTION : La fonction d'autocomplétion est restaurée ici.
+        function initAutocomplete() {
+            const pickupInput = document.getElementById('pickup');
+            const dropoffInput = document.getElementById('dropoff');
+            if (pickupInput && dropoffInput && window.google) {
+                const options = {
+                    componentRestrictions: { country: 'fr' },
+                    fields: ["formatted_address"],
+                };
+                new window.google.maps.places.Autocomplete(pickupInput as HTMLInputElement, options);
+                new window.google.maps.places.Autocomplete(dropoffInput as HTMLInputElement, options);
+                console.log("Autocomplete initialisé !");
             }
-        } catch (error) {
-            alert(`Erreur de paiement : ${error.message}`);
         }
-    });
 
-    // Clic sur "Réserver et Payer à bord" (ancien bouton "Confirmer")
-    bookOnboardBtn.addEventListener('click', async () => {
-        quoteDetailsEl.innerHTML += '<p>Enregistrement de la réservation...</p>';
-        
-        try {
-            const response = await fetch('/api/book', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bookingData),
-            });
-            if (!response.ok) throw new Error("La réservation a échoué.");
-            window.location.href = '/confirmation';
-        } catch (error) {
-            alert(`Erreur : ${error.message}`);
+        // On écoute l'événement de Layout.astro pour lancer l'autocomplétion
+        window.addEventListener('maps-loaded', initAutocomplete);
+        // On exécute aussi au cas où le script serait déjà chargé
+        if (window.google?.maps?.places) {
+            initAutocomplete();
         }
+
+        quoteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            quoteDetailsEl.innerHTML = 'Calcul en cours...';
+            quoteResultEl.className = 'quote-result-visible';
+            statusEl.textContent = '';
+            
+            const data = Object.fromEntries(new FormData(quoteForm).entries());
+            try {
+                const response = await fetch('/api/quote', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        pickup: data.pickup, 
+                        dropoff: data.dropoff,
+                        bookingTime: data.bookingTime 
+                    }),
+                });
+                const quote = await response.json();
+                if (!response.ok) throw new Error(quote.message || "Erreur de calcul.");
+                
+                quoteDetailsEl.innerHTML = `<p class="price">Prix estimé : ${quote.price.toFixed(2)} €</p>`;
+                bookingData = { ...data, ...quote };
+            } catch(error) {
+                quoteDetailsEl.innerHTML = `<p class="error">${error instanceof Error ? error.message : "Erreur inconnue"}</p>`;
+            }
+        });
+
+        payOnlineBtn.addEventListener('click', async () => {
+            if (!stripe) { 
+                statusEl.textContent = "Le service de paiement n'est pas prêt. Veuillez rafraîchir la page.";
+                statusEl.className = 'status-message error';
+                return;
+            }
+            statusEl.textContent = "Préparation du paiement...";
+            
+            try {
+                const response = await fetch('/api/create-stripe-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingData),
+                });
+                const session = await response.json();
+                if (session.id) {
+                    await stripe.redirectToCheckout({ sessionId: session.id });
+                } else {
+                    throw new Error("ID de session manquant.");
+                }
+            } catch (error) {
+                statusEl.textContent = `Erreur de paiement : ${error instanceof Error ? error.message : "Inconnue"}`;
+                statusEl.className = 'status-message error';
+            }
+        });
+
+        bookOnboardBtn.addEventListener('click', async () => {
+            statusEl.textContent = 'Enregistrement de la réservation...';
+            try {
+                const response = await fetch('/api/book', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingData),
+                });
+                if (!response.ok) throw new Error("La réservation a échoué.");
+                window.location.href = '/confirmation';
+            } catch(error) {
+                statusEl.textContent = `Erreur : ${error instanceof Error ? error.message : "Inconnue"}`;
+                statusEl.className = 'status-message error';
+            }
+        });
     });
 </script>
-
-<style>
-    /* Vos styles sont conservés, avec quelques ajouts pour les nouveaux boutons */
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .form-group { display: flex; flex-direction: column; }
-    .full-width { grid-column: 1 / -1; }
-    h3 { margin: 1rem 0 0.5rem 0; border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; }
-    label { margin-bottom: 0.5rem; font-weight: bold; }
-    input, textarea, button { padding: 0.8rem; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; font-family: 'Montserrat', sans-serif; }
-    .form-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
-    .form-buttons button { flex: 1; font-weight: bold; cursor: pointer; }
-    #pay-online-btn { background-color: var(--accent); color: white; border: none; }
-    #book-onboard-btn { background-color: #f0f0f0; color: #333; border: 1px solid #ccc; }
-    #estimate-btn { background: #333; color: white; font-weight: bold; border: none; cursor: pointer; }
-    .price { font-size: 1.5em; font-weight: bold; color: var(--accent); text-align: center; }
-    .error { color: red; text-align: center; }
-</style>

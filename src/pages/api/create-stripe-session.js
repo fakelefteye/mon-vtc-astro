@@ -3,7 +3,6 @@ import Stripe from 'stripe';
 
 export const prerender = false;
 
-// Initialise Stripe avec votre clé SECRÈTE
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY);
 
 export async function POST({ request }) {
@@ -24,19 +23,18 @@ export async function POST({ request }) {
                         name: `Course VTC : ${pickup} → ${dropoff}`,
                         description: `Prise en charge le ${new Date(bookingTime).toLocaleString('fr-FR')}`,
                     },
-                    unit_amount: Math.round(price * 100), // Prix en centimes
+                    unit_amount: Math.round(price * 100),
                 },
                 quantity: 1,
             }],
             mode: 'payment',
-            // URLs vers lesquelles le client est redirigé
-            success_url: `${request.headers.get('origin')}/confirmation?payment=success`,
+            // IMPORTANT : On transmet toutes les données de la course pour le webhook.
+            metadata: rideDetails,
+            success_url: `${request.headers.get('origin')}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${request.headers.get('origin')}/`,
         });
 
-        // On renvoie l'ID de la session au frontend
         return new Response(JSON.stringify({ id: session.id }), { status: 200 });
-
     } catch (error) {
         console.error("Erreur Stripe :", error);
         return new Response(JSON.stringify({ message: "Erreur lors de la création de la session de paiement" }), { status: 500 });
