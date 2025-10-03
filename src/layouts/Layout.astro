@@ -19,7 +19,7 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
-    <script src="https://js.stripe.com/v3/" async defer></script>
+    <script src="https://js.stripe.com/v3/" async defer onload="window.dispatchEvent(new CustomEvent('stripe-loaded'))"></script>
 
     <script define:vars={{ googleMapsApiKey }}>
         function initMap() {
