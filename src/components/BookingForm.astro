@@ -8,14 +8,15 @@
     <form id="quote-form" class="form-grid">
         <div class="form-group full-width"><h3 class="step-title">1. Vos Coordonnées</h3></div>
         <div class="form-group"><label for="name">Nom & Prénom</label><input type="text" id="name" name="name" required placeholder="Ex: Marie Dupont"></div>
-        <div class="form-group"><label for="phone">Téléphone</label><input type="tel" id="phone" name="phone" required></div>
-        <div class="form-group full-width"><label for="email">Adresse E-mail</label><input type="email" id="email" name="email" required placeholder="Pour recevoir le bon de réservation"></div>
+        <div class="form-group"><label for="email">Adresse E-mail</label><input type="email" id="email" name="email" required placeholder="Pour recevoir le bon de réservation"></div>
+        <div class="form-group"><label for="phone">Téléphone</label><input type="tel" id="phone" name="phone" required placeholder="Pour vous contacter si besoin"></div>
+        <div class="form-group"><label for="passengers">Nombre de passagers</label><input type="number" id="passengers" name="passengers" required min="1" max="4" value="1"></div>
 
-        <div class="form-group full-width"><h3 class="step-title">2. Votre Trajet</h3></div>
-        <div class="form-group"><label for="pickup">Adresse de départ</label><input type="text" id="pickup" name="pickup" required placeholder="Saisissez une adresse..."></div>
-        <div class="form-group"><label for="dropoff">Adresse de destination</label><input type="text" id="dropoff" name="dropoff" required placeholder="Saisissez une adresse..."></div>
-        <div class="form-group"><label for="booking-time">Date et heure</label><input type="datetime-local" id="booking-time" name="bookingTime" required></div>
-        <div class="form-group"><label for="passengers">Passagers</label><input type="number" id="passengers" name="passengers" required min="1" max="4" value="1"></div>
+        <div class="form-group full-width"><h3 class="step-title">2. Détails du Trajet</h3></div>
+        <div class="form-group"><label for="pickup">Adresse de départ</label><input type="text" id="pickup" name="pickup" required placeholder="Commencez à taper une adresse..."></div>
+        <div class="form-group"><label for="dropoff">Adresse de destination</label><input type="text" id="dropoff" name="dropoff" required placeholder="Commencez à taper une adresse..."></div>
+        <div class="form-group full-width"><label for="booking-time">Date et heure de la prise en charge</label><input type="datetime-local" id="booking-time" name="bookingTime" required></div>
+        <div class="form-group full-width"><label for="specialRequests">Demandes particulières</label><textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Ex: Siège bébé, bagages volumineux..."></textarea></div>
 
         <div class="form-group full-width">
             <button type="submit" id="estimate-btn" class="submit-button">Estimer le Prix</button>
@@ -27,7 +28,7 @@
         <h3 class="payment-title">3. Confirmez votre réservation</h3>
         <div class="payment-buttons">
             <button type="button" id="pay-online-btn" class="submit-button cta">💳 Payer en ligne</button>
-            <button type="button" id="book-onboard-btn" class="secondary-button">🚗 Réserver et Payer à bord</button>
+            <button type="button" id="book-onboard-btn" class="secondary-button">🚗 Réserver & Payer à bord</button>
         </div>
         <p id="form-status" class="status-message"></p>
     </div>
@@ -72,10 +73,13 @@
 <script>
     import type { Stripe } from '@stripe/stripe-js';
 
+    // On englobe tout dans un seul écouteur d'événement pour la stabilité.
     document.addEventListener('DOMContentLoaded', () => {
+        
         let bookingData = {};
         let stripe: Stripe | null = null;
 
+        // --- SÉLECTION DES ÉLÉMENTS DU DOM ---
         const quoteForm = document.getElementById('quote-form') as HTMLFormElement;
         const quoteResultEl = document.getElementById('quote-result') as HTMLDivElement;
         const quoteDetailsEl = document.getElementById('quote-details') as HTMLDivElement;
@@ -83,14 +87,18 @@
         const bookOnboardBtn = document.getElementById('book-onboard-btn') as HTMLButtonElement;
         const statusEl = document.getElementById('form-status') as HTMLParagraphElement;
         
-        const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_KEY;
-        if (window.Stripe && stripePublishableKey) {
-            stripe = window.Stripe(stripePublishableKey);
-        } else {
-            console.error("Stripe.js ou la clé publique n'est pas chargé(e).");
+        // --- INITIALISATION DES SCRIPTS EXTERNES ---
+        
+        function initStripe() {
+            const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_KEY;
+            if (window.Stripe && stripePublishableKey) {
+                stripe = window.Stripe(stripePublishableKey);
+                console.log("✅ Stripe est prêt !");
+            } else {
+                console.error("❌ La clé publique Stripe ou Stripe.js est manquant(e).");
+            }
         }
         
-        // ✅ CORRECTION : La fonction d'autocomplétion est restaurée ici.
         function initAutocomplete() {
             const pickupInput = document.getElementById('pickup');
             const dropoffInput = document.getElementById('dropoff');
@@ -101,17 +109,20 @@
                 };
                 new window.google.maps.places.Autocomplete(pickupInput as HTMLInputElement, options);
                 new window.google.maps.places.Autocomplete(dropoffInput as HTMLInputElement, options);
-                console.log("Autocomplete initialisé !");
+                console.log("✅ Autocomplete initialisé !");
             }
         }
-
-        // On écoute l'événement de Layout.astro pour lancer l'autocomplétion
+        
+        // On écoute les signaux du Layout pour initialiser
+        window.addEventListener('stripe-loaded', initStripe);
         window.addEventListener('maps-loaded', initAutocomplete);
-        // On exécute aussi au cas où le script serait déjà chargé
-        if (window.google?.maps?.places) {
-            initAutocomplete();
-        }
 
+        // On vérifie aussi si les scripts ne sont pas déjà chargés (pour les retours en arrière)
+        if (window.Stripe) initStripe();
+        if (window.google?.maps?.places) initAutocomplete();
+
+        // --- GESTION DES ÉVÉNEMENTS DU FORMULAIRE ---
+        
         quoteForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             quoteDetailsEl.innerHTML = 'Calcul en cours...';
@@ -146,7 +157,6 @@
                 return;
             }
             statusEl.textContent = "Préparation du paiement...";
-            
             try {
                 const response = await fetch('/api/create-stripe-session', {
                     method: 'POST',
