@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
     timeout: 30000, // Augmenter le délai d'attente à 30 secondes (par défaut 10s)
     logger: true,   // Active les logs internes de Nodemailer
     debug: true,    // Affiche des informations de débogage supplémentaires
-});
+
 });
 
 
