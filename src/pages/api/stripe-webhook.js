@@ -18,7 +18,13 @@ const transporter = nodemailer.createTransport({
         user: import.meta.env.EMAIL_USER,
         pass: import.meta.env.EMAIL_PASSWORD, // Utilisez EMAIL_PASSWORD si c'est ce que vous avez configuré
     },
+    // --- NOUVELLES OPTIONS DE DÉBOGAGE ---
+    timeout: 30000, // Augmenter le délai d'attente à 30 secondes (par défaut 10s)
+    logger: true,   // Active les logs internes de Nodemailer
+    debug: true,    // Affiche des informations de débogage supplémentaires
 });
+});
+
 
 // Configuration de Google Auth pour Calendar
 const auth = new google.auth.GoogleAuth({
