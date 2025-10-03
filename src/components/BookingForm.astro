@@ -1,35 +1,84 @@
 ---
-// src/components/BookingForm.astro
+// Pas de code serveur nécessaire.
 ---
-<div id="booking-container" class="booking-wrapper">
-    <h2 class="form-title">Demande de Devis et Réservation</h2>
-    <p class="form-subtitle">Obtenez une estimation et réservez votre trajet.</p>
+<div class="booking-wrapper">
+    <div class="form-container">
+        <h2 class="form-title">Réserver Votre Chauffeur</h2>
+        <p class="form-subtitle">Obtenez une estimation et réservez votre trajet en quelques clics.</p>
 
-    <form id="quote-form" class="form-grid">
-        <div class="form-group full-width"><h3 class="step-title">1. Vos Coordonnées</h3></div>
-        <div class="form-group"><label for="name">Nom & Prénom</label><input type="text" id="name" name="name" required placeholder="Ex: Marie Dupont"></div>
-        <div class="form-group"><label for="phone">Téléphone</label><input type="tel" id="phone" name="phone" required></div>
-        <div class="form-group full-width"><label for="email">Adresse E-mail</label><input type="email" id="email" name="email" required placeholder="Pour recevoir le bon de réservation"></div>
+        <form id="quote-form" class="form-grid">
+            <div class="form-group full-width"><h3 class="step-title">1. Vos Coordonnées</h3></div>
+            <div class="form-group">
+                <label for="name">Nom & Prénom</label>
+                <input type="text" id="name" name="name" required placeholder="Ex: Marie Dupont">
+            </div>
+            <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="email">Adresse E-mail</label>
+                <input type="email" id="email" name="email" required placeholder="Pour le bon de réservation et la facture">
+            </div>
 
-        <div class="form-group full-width"><h3 class="step-title">2. Votre Trajet</h3></div>
-        <div class="form-group"><label for="pickup">Adresse de départ</label><input type="text" id="pickup" name="pickup" required placeholder="Saisissez une adresse..."></div>
-        <div class="form-group"><label for="dropoff">Adresse de destination</label><input type="text" id="dropoff" name="dropoff" required placeholder="Saisissez une adresse..."></div>
-        <div class="form-group"><label for="booking-time">Date et heure</label><input type="datetime-local" id="booking-time" name="bookingTime" required></div>
-        <div class="form-group"><label for="passengers">Passagers</label><input type="number" id="passengers" name="passengers" required min="1" max="4" value="1"></div>
+            <div class="form-group full-width"><h3 class="step-title">2. Votre Trajet</h3></div>
+            <div class="form-group">
+                <label for="pickup">Adresse de départ</label>
+                <gmp-place-autocomplete for="pickup">
+                    <input type="text" id="pickup" name="pickup" required placeholder="Saisissez une adresse...">
+                </gmp-place-autocomplete>
+            </div>
+            <div class="form-group">
+                <label for="dropoff">Adresse de destination</label>
+                <gmp-place-autocomplete for="dropoff">
+                    <input type="text" id="dropoff" name="dropoff" required placeholder="Saisissez une adresse...">
+                </gmp-place-autocomplete>
+            </div>
+            <div class="form-group">
+                <label for="booking-time">Date et heure</label>
+                <input type="datetime-local" id="booking-time" name="bookingTime" required>
+            </div>
+            <div class="form-group">
+                <label for="passengers">Passagers</label>
+                <input type="number" id="passengers" name="passengers" required min="1" max="4" value="1">
+            </div>
 
-        <div class="form-group full-width">
-            <button type="submit" id="estimate-btn" class="submit-button">Estimer le Prix</button>
-        </div>
-    </form>
+            <div class="form-group full-width"><h3 class="step-title">3. Options</h3></div>
+            <div class="form-group full-width">
+                 <label class="checkbox-label">
+                    <input type="checkbox" id="is-professional-checkbox">
+                    <span>Je suis un professionnel (pour la facturation)</span>
+                </label>
+            </div>
+            <div id="professional-fields" class="professional-fields-hidden full-width">
+                <div class="form-group">
+                    <label for="company-name">Raison sociale</label>
+                    <input type="text" id="company-name" name="companyName" placeholder="Nom de votre entreprise">
+                </div>
+                <div class="form-group">
+                    <label for="company-siret">N° SIRET</label>
+                    <input type="text" id="company-siret" name="companySiret" placeholder="14 chiffres">
+                </div>
+                 <div class="form-group full-width">
+                    <label for="company-vat">N° TVA Intracommunautaire (si applicable)</label>
+                    <input type="text" id="company-vat" name="companyVat" placeholder="Ex: FR12345678901">
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <button type="submit" id="estimate-btn" class="submit-button">Estimer le Prix</button>
+            </div>
+        </form>
     
-    <div id="quote-result" class="quote-result-hidden">
-        <div id="quote-details"></div>
-        <h3 class="payment-title">3. Confirmez votre réservation</h3>
-        <div class="payment-buttons">
-            <button type="button" id="pay-online-btn" class="submit-button cta">💳 Payer en ligne</button>
-            <button type="button" id="book-onboard-btn" class="secondary-button">🚗 Réserver et Payer à bord</button>
+        <div id="quote-result" class="quote-result-hidden">
+            <div id="quote-details"></div>
+            <h3 class="payment-title">Confirmez votre réservation</h3>
+            <div class="payment-buttons">
+                <button type="button" id="pay-online-btn" class="submit-button cta">💳 Payer en ligne</button>
+                <button type="button" id="book-onboard-btn" class="secondary-button">🚗 Réserver et Payer à bord</button>
+            </div>
+            <p id="form-status" class="status-message"></p>
         </div>
-        <p id="form-status" class="status-message"></p>
     </div>
 </div>
 
@@ -49,6 +98,13 @@
     .step-title { font-size: 1.2em; color: var(--dark-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; margin: 1rem 0; }
     label { margin-bottom: 0.5rem; font-weight: 600; color: #555; }
     input, textarea { background-color: #fff !important; color: #333 !important; padding: 0.9rem; font-size: 1rem; border-radius: 8px; border: 1px solid #ddd; }
+    input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.3); }
+
+    .checkbox-label { flex-direction: row; align-items: center; cursor: pointer; user-select: none; }
+    .checkbox-label input { margin-right: 10px; width: 1.2em; height: 1.2em; accent-color: var(--accent-color); }
+
+    .professional-fields-hidden { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease-in-out; margin-top: 0 !important; padding-top: 0 !important; border: none !important; }
+    .professional-fields-visible { max-height: 500px; opacity: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; border-top: 1px solid #eee; margin-top: 1.5rem !important; padding-top: 1.5rem !important; }
 
     .submit-button { padding: 1rem; font-size: 1.1em; font-weight: bold; color: white; background: var(--dark-color); border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
     .submit-button:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
@@ -66,7 +122,7 @@
     .status-message { text-align: center; font-weight: 500; min-height: 24px; margin-top: 1.5rem; }
     .error { color: #d9534f; }
 
-    @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { .form-grid, .professional-fields-visible { grid-template-columns: 1fr; } }
 </style>
 
 <script>
@@ -76,42 +132,39 @@
         let bookingData = {};
         let stripe: Stripe | null = null;
 
+        // --- SÉLECTION DES ÉLÉMENTS DU DOM ---
         const quoteForm = document.getElementById('quote-form') as HTMLFormElement;
+        const professionalCheckbox = document.getElementById('is-professional-checkbox') as HTMLInputElement;
+        const professionalFields = document.getElementById('professional-fields') as HTMLDivElement;
         const quoteResultEl = document.getElementById('quote-result') as HTMLDivElement;
         const quoteDetailsEl = document.getElementById('quote-details') as HTMLDivElement;
         const payOnlineBtn = document.getElementById('pay-online-btn') as HTMLButtonElement;
         const bookOnboardBtn = document.getElementById('book-onboard-btn') as HTMLButtonElement;
         const statusEl = document.getElementById('form-status') as HTMLParagraphElement;
         
+        // --- INITIALISATION ---
         const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_KEY;
         if (window.Stripe && stripePublishableKey) {
             stripe = window.Stripe(stripePublishableKey);
-        } else {
-            console.error("Stripe.js ou la clé publique n'est pas chargé(e).");
         }
         
-        // ✅ CORRECTION : La fonction d'autocomplétion est restaurée ici.
-        function initAutocomplete() {
-            const pickupInput = document.getElementById('pickup');
-            const dropoffInput = document.getElementById('dropoff');
-            if (pickupInput && dropoffInput && window.google) {
-                const options = {
-                    componentRestrictions: { country: 'fr' },
-                    fields: ["formatted_address"],
-                };
-                new window.google.maps.places.Autocomplete(pickupInput as HTMLInputElement, options);
-                new window.google.maps.places.Autocomplete(dropoffInput as HTMLInputElement, options);
-                console.log("Autocomplete initialisé !");
+        // L'autocomplétion Google se charge grâce au Layout, il n'y a pas besoin de code d'initialisation complexe ici.
+        if (!window.google) {
+             window.addEventListener('maps-loaded', () => console.log("API Google Maps chargée."));
+        }
+
+        // --- GESTION DES ÉVÉNEMENTS ---
+
+        // Affiche/cache les champs pour les professionnels
+        professionalCheckbox.addEventListener('change', () => {
+            if (professionalCheckbox.checked) {
+                professionalFields.className = 'professional-fields-visible full-width';
+            } else {
+                professionalFields.className = 'professional-fields-hidden full-width';
             }
-        }
-
-        // On écoute l'événement de Layout.astro pour lancer l'autocomplétion
-        window.addEventListener('maps-loaded', initAutocomplete);
-        // On exécute aussi au cas où le script serait déjà chargé
-        if (window.google?.maps?.places) {
-            initAutocomplete();
-        }
-
+        });
+        
+        // Calcul du devis
         quoteForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             quoteDetailsEl.innerHTML = 'Calcul en cours...';
@@ -139,6 +192,7 @@
             }
         });
 
+        // Clic sur "Payer en ligne"
         payOnlineBtn.addEventListener('click', async () => {
             if (!stripe) { 
                 statusEl.textContent = "Le service de paiement n'est pas prêt. Veuillez rafraîchir la page.";
@@ -165,6 +219,7 @@
             }
         });
 
+        // Clic sur "Réserver et Payer à bord"
         bookOnboardBtn.addEventListener('click', async () => {
             statusEl.textContent = 'Enregistrement de la réservation...';
             try {
