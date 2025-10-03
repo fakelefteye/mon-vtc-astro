@@ -71,7 +71,7 @@ Statut: Payé en ligne.
 Requêtes spéciales: ${data.specialRequests || 'Aucune'}`, // Assurez-vous que specialRequests est passé via metadata
                     start: { dateTime: eventStartTime.toISOString(), timeZone: 'Europe/Paris' },
                     end: { dateTime: eventEndTime.toISOString(), timeZone: 'Europe/Paris' },
-                    attendees: [{ email: import.meta.env.EMAIL_RECEIVER }], // Pour que vous receviez l'événement
+                    //attendees: [{ email: import.meta.env.EMAIL_RECEIVER }], // Pour que vous receviez l'événement
                 },
             });
             console.log("✅ Événement ajouté au Google Calendar.");
