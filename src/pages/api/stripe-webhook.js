@@ -13,7 +13,7 @@ const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
 const transporter = nodemailer.createTransport({
     host: import.meta.env.EMAIL_HOST,
     port: parseInt(import.meta.env.EMAIL_PORT || '465', 10), // Assurez-vous que le port est un nombre
-    secure: import.meta.env.EMAIL_SECURE === 'true' || false, // true pour le port 465 (Gmail), false pour les autres (ex: 587)
+    secure: import.meta.env.EMAIL_SECURE === 'true', // true pour le port 465 (Gmail), false pour les autres (ex: 587)
     auth: {
         user: import.meta.env.EMAIL_USER,
         pass: import.meta.env.EMAIL_PASSWORD, // Utilisez EMAIL_PASSWORD si c'est ce que vous avez configuré
