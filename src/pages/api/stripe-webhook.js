@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
     logger: true,   // Active les logs internes de Nodemailer
     debug: true,    // Affiche des informations de débogage supplémentaires
 
-});
+})
 
 
 // Configuration de Google Auth pour Calendar

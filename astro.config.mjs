@@ -3,7 +3,10 @@ import { defineConfig } from 'astro/config';
 
 import vercel from '@astrojs/vercel';
 
+import sitemap from '@astrojs/sitemap';
+
 export default defineConfig({
+  site: 'https://transfert-aeroport-grenoble.fr',
   // Autres intégrations (React, etc.)
   i18n: {
     defaultLocale: 'fr',
@@ -14,4 +17,5 @@ export default defineConfig({
   },
 
   adapter: vercel(),
+  integrations: [sitemap()],
 });
