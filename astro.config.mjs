@@ -4,8 +4,7 @@ import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel';
 
 import sitemap from '@astrojs/sitemap';
-import vercelAnalytics from '@vercel/analytics/astro';
-import vercelSpeedInsights from '@vercel/speed-insights/astro';
+
 
 export default defineConfig({
   site: 'https://transfert-aeroport-grenoble.fr',
