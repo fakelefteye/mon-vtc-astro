@@ -1,0 +1,17 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+<Layout title="Booking Request Sent">
+    <div class="container">
+        <h2>Thank you for your request!</h2>
+        <p>Your booking voucher has been sent to you by email.</p>
+        <p class="confirmation-message">
+            <strong>Next Step:</strong> I will personally contact you by phone or email shortly to finalize the details and <strong>definitively confirm your ride</strong>.
+        </p>
+        <a href="/" class="cta-button">Back to Home</a>
+    </div>
+</Layout>
+<style>
+    .container { text-align: center; padding: 4rem 1rem; }
+    .confirmation-message { font-size: 1.2em; margin: 2rem auto; max-width: 600px; padding: 1.5rem; border: 2px solid var(--accent); border-radius: 8px; }
+</style>
