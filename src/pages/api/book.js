@@ -8,7 +8,7 @@ export const prerender = false;
 const transporter = nodemailer.createTransport({
     host: import.meta.env.EMAIL_HOST,
     port: 465,
-    secure: import.meta.env.EMAIL_SECURE === 'false',
+    secure: import.meta.env.EMAIL_SECURE === 'true',
     auth: {
         user: import.meta.env.EMAIL_USER,
         pass: import.meta.env.EMAIL_PASSWORD,
