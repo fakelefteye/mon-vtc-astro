@@ -1,12 +1,21 @@
 ---
-import Analytics from '@vercel/analytics/astro'
-import  SpeedInsights  from "@vercel/speed-insights/astro"
+// src/layouts/Layout.astro
+// --- PARTIE FRONTMATTER ASTRO ---
+// Ces imports doivent rester ici pour les composants que vous utilisez directement
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+
+// Pour Vercel Analytics et Speed Insights, nous allons les gérer via astro.config.mjs
+// Donc, retirez ces imports d'ici :
+// import { Analytics } from '@vercel/analytics/astro';
+// import { SpeedInsights } from "@vercel/speed-insights/astro";
+
+
 export interface Props {
     title: string;
     description: string;
 }
+
 const { title, description } = Astro.props;
 const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 ---
@@ -21,6 +30,8 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+
     <script src="https://js.stripe.com/v3/" async defer onload="window.dispatchEvent(new CustomEvent('stripe-loaded'))"></script>
 
     <script define:vars={{ googleMapsApiKey }}>
@@ -29,20 +40,89 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
         }
         window.initMap = initMap;
     </script>
-    <script 
+    <script
         async defer
         src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&callback=initMap`}
     ></script>
-    
+
     <style>
-        :root { --accent: #007bff; --dark-bg: #1a1a1a; --text-color: #333; }
+        :root {
+            /* Couleurs harmonisées avec le logo */
+            --accent: #35c2b5; /* Votre bleu turquoise (pour les éléments d'accent, boutons) */
+            --dark-bg: #2d3a4c; /* Votre bleu marine foncé (pour le fond du header, footer) */
+            --text-color: #333; /* Couleur de texte générale */
+            --header-bg: var(--dark-bg); /* Fond de l'en-tête, harmonisé avec le logo */
+            --header-text: #ffffff; /* Couleur du texte dans l'en-tête */
+        }
         html { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
         body { margin: 0; }
+        /* Styles de base pour le header et la nav si non déjà définis ailleurs */
+        header { background-color: var(--header-bg); color: var(--header-text); padding: 1rem 0; }
+        header a { color: var(--header-text); text-decoration: none; }
+        header a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <Header />
     <main><slot /></main>
     <Footer />
+
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+    <script type="text/javascript">
+        window.addEventListener("load", function(){
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": { "background": "#2d3a4c", "text": "#ffffff" }, // Fond bleu marine, texte blanc
+                    "button": { "background": "#35c2b5", "text": "#ffffff" }  // Bouton turquoise, texte blanc
+                },
+                "theme": "edgeless", // ou "classic", "block"
+                "position": "bottom-right", // Position de la bannière
+                "type": "opt-in", // Obligatoire pour RGPD: demande un consentement actif
+                "content": {
+                    "header": "Gestion de vos cookies",
+                    "message": "Nous utilisons des cookies pour assurer le bon fonctionnement de notre site (services de réservation et paiement) et pour analyser son trafic. Cliquez sur 'Accepter tout' pour une expérience complète.",
+                    "dismiss": "J'ai compris !",
+                    "allow": "Accepter tout",
+                    "deny": "Refuser les cookies non essentiels", // Option pour refuser uniquement les non essentiels
+                    "link": "En savoir plus",
+                    "href": "/politique-de-cookies", // LIEN VERS VOTRE PAGE DE POLITIQUE DE COOKIES (À CRÉER !)
+                    "close": "✕",
+                    "target": "_blank",
+                    "policy": "Politique de Cookies",
+                    "always_on": "Toujours activé" // Peut être utilisé pour les cookies essentiels dans l'interface de préférences si vous en faites une
+                },
+                "cookie": {
+                    "name": "cookieconsent_status",
+                    "expiryDays": 365,
+                },
+                "revokable": true, // Permettre à l'utilisateur de modifier son consentement
+                "onStatusChange": function(status, chosenBefore) {
+                    console.log('Cookie consent status changed:', status);
+                    if (status === 'allow') {
+                        // L'utilisateur a accepté tous les cookies.
+                        // Ici, vous activeriez des scripts comme Google Analytics si vous les aviez bloqués.
+                        // Comme Stripe/Maps sont déjà chargés, pas besoin de les réactiver ici.
+                        // S'il y avait un Google Analytics bloqué: activateScriptsByCookieCategory('analytics');
+                    } else if (status === 'deny') {
+                        // L'utilisateur a refusé. Vous devrez ajouter ici une logique pour
+                        // désactiver/supprimer les cookies non-essentiels qui auraient été installés
+                        // par d'autres scripts si vous les chargiez AVANT le consentement (ce qu'on évite).
+                        console.log('User denied non-essential cookies. No analytical/tracking cookies loaded.');
+                    }
+                },
+                "onInitialise": function(status) {
+                    console.log('Cookie consent initialised:', status);
+                    // Si l'utilisateur avait déjà accepté, pas besoin de faire quelque chose pour Stripe/Maps ici
+                    // car ils sont chargés directement.
+                }
+            });
+        });
+
+        // NOTE: La fonction `activateScriptsByCookieCategory` n'est plus nécessaire ici
+        // car Stripe et Google Maps sont chargés directement.
+        // Si vous ajoutez des scripts analytiques (ex: Google Analytics) plus tard
+        // et que vous voulez les bloquer, il faudra la réintroduire pour eux spécifiquement.
+
+    </script>
 </body>
 </html>
