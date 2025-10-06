@@ -19,9 +19,5 @@ export default defineConfig({
   },
 
   adapter: vercel(),
-  integrations:  [
-    sitemap(),
-    vercelAnalytics(), // Active l'intégration Analytics
-    vercelSpeedInsights(), // Active l'intégration Speed Insights
-  ],
-});
+  integrations:  [ sitemap() ]
+})

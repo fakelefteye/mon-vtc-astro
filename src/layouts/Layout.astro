@@ -7,8 +7,8 @@ import Footer from '@/components/Footer.astro';
 
 // Pour Vercel Analytics et Speed Insights, nous allons les gérer via astro.config.mjs
 // Donc, retirez ces imports d'ici :
-// import { Analytics } from '@vercel/analytics/astro';
-// import { SpeedInsights } from "@vercel/speed-insights/astro";
+import  Analytics  from '@vercel/analytics/astro';
+import  SpeedInsights  from "@vercel/speed-insights/astro";
 
 
 export interface Props {
@@ -117,6 +117,7 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
                 }
             });
         });
+        
 
         // NOTE: La fonction `activateScriptsByCookieCategory` n'est plus nécessaire ici
         // car Stripe et Google Maps sont chargés directement.
