@@ -1,111 +1,137 @@
 // src/pages/api/book.js
-export const prerender = false; // Important pour les fonctions serveur
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
 
-// --- Configuration du transporteur d'email ---
+export const prerender = false;
+
+// Configuration de Nodemailer (connexion au serveur d'e-mails)
 const transporter = nodemailer.createTransport({
     host: import.meta.env.EMAIL_HOST,
-    port: import.meta.env.EMAIL_PORT,
-    secure: true, // true pour le port 465 (Gmail), false pour les autres
+    port: 465,
+    secure: import.meta.env.EMAIL_SECURE === 'true',
     auth: {
         user: import.meta.env.EMAIL_USER,
         pass: import.meta.env.EMAIL_PASSWORD,
     },
+    tls: {
+        rejectUnauthorized: false
+    },
+    logger: true,
+    debug: true,
 });
 
+// Configuration de l'API Google (connexion à l'agenda)
+const auth = new google.auth.GoogleAuth({
+    credentials: {
+        client_email: import.meta.env.GOOGLE_CLIENT_EMAIL,
+        private_key: import.meta.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    },
+    scopes: ['https://www.googleapis.com/auth/calendar.events'],
+});
+const calendar = google.calendar({ version: 'v3', auth });
 
-export const POST = async ({ request }) => {
+// --- GESTIONNAIRE DE LA REQUÊTE ---
+export async function POST({ request }) {
+    const data = await request.json();
+
+    console.log("Données de la réservation (Payer en véhicule) :", data);
+
     try {
-        const data = await request.json();
-        if (!data.name || !data.email || !data.bookingTime || !data.price) {
-            return new Response(JSON.stringify({ message: "Données de réservation incomplètes." }), { status: 400 });
-        }
+        // ##########################################
+        // # GOOGLE CALENDAR (CORRECTION DE FUSEAU HORAIRE) #
+        // ##########################################
 
-        // --- AUTHENTIFICATION GOOGLE CALENDAR ---
-        const auth = new google.auth.GoogleAuth({
-            credentials: {
-                client_email: import.meta.env.GOOGLE_CLIENT_EMAIL,
-                private_key: import.meta.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-            },
-            scopes: ['https://www.googleapis.com/auth/calendar.events'],
-        });
+        const bookingTimeLocalString = data.bookingTime; // Ex: "2023-10-27T21:30"
+        console.log(`[Débogage Fuseau Horaire - BOOK.JS] Heure brute du formulaire: ${bookingTimeLocalString}`);
+
+        // 1. Parser les composants de la date et de l'heure
+        const [datePart, timePart] = bookingTimeLocalString.split('T');
+        const [year, month, day] = datePart.split('-').map(Number);
+        const [hours, minutes] = timePart.split(':').map(Number);
+
+        // 2. Créer une date temporaire pour calculer l'offset
+        const tempDateWithUserLocalTime = new Date(year, month - 1, day, hours, minutes); // Cette date est dans le fuseau horaire du serveur (UTC sur Vercel)
+
+        // 3. Calculer le décalage (offset) de 'Europe/Paris' par rapport à UTC pour cette date spécifique
+        const parisTime = tempDateWithUserLocalTime.toLocaleString('en-US', { timeZone: 'Europe/Paris', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const utcTime = tempDateWithUserLocalTime.toLocaleString('en-US', { timeZone: 'UTC', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        const offsetHours = (new Date(parisTime).getTime() - new Date(utcTime).getTime()) / (1000 * 60 * 60);
+
+        // 4. Construire la date de début de l'événement en UTC, en soustrayant l'offset de Paris
+        //    (Si l'utilisateur a entré 21h30 (Paris, UTC+2), alors l'heure UTC correcte est 19h30 UTC.
+        //     Les composants saisis sont (21h30), on soustrait l'offset (2h) pour obtenir 19h30 UTC.)
+        let eventStartTimeAdjusted = new Date(Date.UTC(year, month - 1, day, hours - offsetHours, minutes));
         
-        const calendar = google.calendar({ version: 'v3', auth });
-        
-        // --- Création de l'événement ---
-        const eventStartTime = new Date(data.bookingTime);
-        const eventEndTime = new Date(eventStartTime.getTime() + (data.durationValue || 3600) * 1000);
-        const bookingId = `SC-${Date.now().toString().slice(-6)}`;
-        
-        const eventDescription = `
-            Client: ${data.name} (${data.email}, ${data.phone})
-            Passagers: ${data.passengers}
-            Départ: ${data.pickup}
-            Arrivée: ${data.dropoff}
-            Prix: ${data.price.toFixed(2)} €
-            Demandes: ${data.specialRequests || 'Aucune'}
-            Réservation N°: ${bookingId}
-        `;
+        console.log(`[Débogage Fuseau Horaire - BOOK.JS] Offset de Paris calculé pour cette date: ${offsetHours} heures`);
+        console.log(`[Débogage Fuseau Horaire - BOOK.JS] Heure de début ajustée (UTC correcte): ${eventStartTimeAdjusted.toISOString()}`);
+
+        const durationSeconds = parseInt(data.durationValue || '3600', 10); 
+        const eventEndTimeAdjusted = new Date(eventStartTimeAdjusted.getTime() + durationSeconds * 1000);
         
         await calendar.events.insert({
             calendarId: import.meta.env.GOOGLE_CALENDAR_ID,
             resource: {
-                summary: `Course VTC - ${data.name}`,
-                description: eventDescription,
-                start: { dateTime: eventStartTime.toISOString(), timeZone: 'Europe/Paris' },
-                end: { dateTime: eventEndTime.toISOString(), timeZone: 'Europe/Paris' },
+                summary: `Course VTC - ${data.name || 'Client inconnu'} (À Payer)`,
+                description: `Client: ${data.name || 'N/A'} (${data.email || 'N/A'}, ${data.phone || 'N/A'})\n\nDe: ${data.pickup || 'N/A'}\nÀ: ${data.dropoff || 'N/A'}\n\nPrix estimé: ${data.price ? data.price.toFixed(2) : 'N/A'} € (Paiement en véhicule)\nStatut: Réservé (À Payer).\nRequêtes spéciales: ${data.specialRequests || 'Aucune'}`,
+                start: { dateTime: eventStartTimeAdjusted.toISOString(), timeZone: 'Europe/Paris' },
+                end: { dateTime: eventEndTimeAdjusted.toISOString(), timeZone: 'Europe/Paris' },
             },
         });
+        console.log("✅ Événement ajouté au Google Calendar pour paiement en véhicule.");
 
-        // --- Création du bon de réservation HTML ---
+        // ##########################################
+        // # FIN CORRECTION FUSEAU HORAIRE CALENDAR #
+        // ##########################################
+
+
+        // --- ENVOI DE L'E-MAIL DE CONFIRMATION ---
         const bookingVoucherHtml = `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd;">
-                <div style="background-color: #1a1a1a; color: white; padding: 20px; text-align: center;">
-                    <h1>Bon de Réservation VTC</h1>
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+                <div style="background-color: #2d3a4c; color: white; padding: 20px; text-align: center;">
+                    <h1>Confirmation de Réservation (Paiement en Véhicule)</h1>
                 </div>
                 <div style="padding: 20px;">
-                    <h2>Réservation N° : ${bookingId}</h2>
-                    <p>Bonjour ${data.name}, merci pour votre confiance. Voici le récapitulatif de votre réservation.</p>
-                    
-                    <h3>Informations sur la Prestation</h3>
-                    <p><strong>Date et Heure de Prise en Charge :</strong> ${new Date(data.bookingTime).toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' })}</p>
-                    <p><strong>Lieu de Prise en Charge :</strong> ${data.pickup}</p>
-                    <p><strong>Lieu de Destination :</strong> ${data.dropoff}</p>
-                    
-                    <h3>Détails</h3>
-                    <p><strong>Nombre de Passagers :</strong> ${data.passengers}</p>
-                    <p><strong>Demandes Particulières :</strong> ${data.specialRequests || 'Aucune'}</p>
-                    
-                    <h3 style="margin-top: 30px; color: #007bff;">Coût Total de la Course : ${data.price.toFixed(2)} € TTC</h3>
-                    <p><i>Méthode de Paiement : Paiement à bord par carte bancaire ou espèces.</i></p>
-                </div>
-                <div style="background-color: #f4f4f4; padding: 20px; font-size: 12px; color: #555;">
-                    <p><strong>Votre Chauffeure :</strong> ${import.meta.env.DRIVER_NAME}</p>
-                    <hr>
+                    <p>Bonjour ${data.name || 'cher client'},</p>
+                    <p>Votre réservation a bien été prise en compte et le paiement se fera directement dans le véhicule.</p>
+                    <h3 style="color: #c5a47e;">Détails du trajet</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><strong>Départ :</strong> ${data.pickup || 'Non spécifié'}</li>
+                        <li><strong>Arrivée :</strong> ${data.dropoff || 'Non spécifié'}</li>
+                        <li><strong>Date & Heure :</strong> ${new Date(data.bookingTime).toLocaleString('fr-FR', { timeZone: 'Europe/Paris', dateStyle: 'full', timeStyle: 'short' })}</li>
+                        <li><strong>Passagers :</strong> ${data.passengers || '1'}</li>
+                    </ul>
+                    <h3 style="color: #c5a47e;">Détails du paiement</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><strong>Prix estimé :</strong> ${data.price ? data.price.toFixed(2) : 'N/A'} €</li>
+                        <li><strong>Méthode :</strong> Paiement directement au chauffeur</li>
+                    </ul>
+                    <p style="margin-top: 20px;">Un chauffeur vous contactera prochainement.</p>
+                    <p>Merci de votre confiance.</p>
                     <p><strong>${import.meta.env.COMPANY_NAME}</strong></p>
-                    <p>${import.meta.env.COMPANY_CONTACT}</p>
-                    <p><strong>N° d'inscription au registre VTC :</strong> ${import.meta.env.VTC_REGISTER_NUMBER}</p>
-                    <p><i>Ce document fait office de bon de réservation. Merci de le conserver.</i></p>
                 </div>
             </div>
         `;
-
-        // --- Envoi de l'e-mail ---
-        // DÉPLACÉ ICI, À L'INTÉRIEUR DU 'TRY'
+        
         await transporter.sendMail({
             from: `"${import.meta.env.COMPANY_NAME}" <${import.meta.env.EMAIL_USER}>`,
-            to: data.email, // E-mail du client
-            cc: import.meta.env.EMAIL_RECEIVER, // Vous en copie
-            subject: `Confirmation de votre réservation VTC N° ${bookingId}`,
+            to: data.email,
+            cc: import.meta.env.EMAIL_RECEIVER,
+            subject: `✅ Votre réservation VTC est confirmée (Paiement en véhicule) - ${data.name}`,
             html: bookingVoucherHtml,
         });
+        console.log("✅ Email de confirmation envoyé pour paiement en véhicule à :", data.email);
 
-        // La fonction se termine SEULEMENT APRÈS que tout a réussi.
-        return new Response(JSON.stringify({ message: "Réservation réussie !" }), { status: 200 });
+        return new Response(JSON.stringify({ success: true }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
 
     } catch (error) {
-        console.error("API Book Error:", error); 
-        return new Response(JSON.stringify({ message: "Erreur serveur lors de la réservation." }), { status: 500 });
+        console.error("❌ Erreur lors de la réservation (Payer en véhicule) :", error);
+        return new Response(JSON.stringify({ message: 'Erreur lors de la réservation.', error: error.message }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
     }
-};
+}
