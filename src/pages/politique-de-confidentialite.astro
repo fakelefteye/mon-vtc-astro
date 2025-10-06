@@ -1,0 +1,109 @@
+---
+// src/pages/politique-confidentialite.astro
+import Layout from '@/layouts/Layout.astro'; // Utilisation de l'alias pour plus de robustesse
+---
+
+<Layout 
+    title="Politique de Confidentialité - ShipCars VTC Grenoble"
+    description="Consultez notre politique de confidentialité pour savoir comment ShipCars collecte, utilise et protège vos données personnelles conformément au RGPD.">
+
+  <main class="legal-page">
+    <section class="section-hero">
+      <div class="container">
+        <h1>Politique de Confidentialité</h1>
+        <p>Dernière mise à jour : <time datetime="2025-10-06">6 octobre 2025</time></p>
+      </div>
+    </section>
+
+    <section class="section-content container">
+      <p>
+        La présente Politique de Confidentialité décrit comment **ShipCars** (ci-après "nous", "notre", "nos") collecte, utilise et protège les informations personnelles que vous nous fournissez lorsque vous utilisez notre site web `transfert-aeroport-grenoble.fr` et nos services de VTC. Nous nous engageons à protéger votre vie privée et vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD).
+      </p>
+
+      <h2>1. Responsable du traitement</h2>
+      <p>Le responsable du traitement de vos données est **ShipCars**, dont les coordonnées sont disponibles sur la page des mentions légales.</p>
+
+      <h2>2. Informations que nous collectons</h2>
+      <p>Nous collectons les types d'informations personnelles suivants :</p>
+      <ul>
+        <li>
+          <strong>Informations d'identification et de contact :</strong> Nom, prénom, adresse e-mail, numéro de téléphone, adresse de prise en charge et de destination, informations professionnelles (raison sociale, SIRET, N° TVA) si fournies.
+        </li>
+        <li>
+          <strong>Informations de paiement :</strong> Les transactions sont traitées par notre prestataire de services de paiement sécurisé (Stripe). Nous ne stockons pas vos numéros de carte de crédit. Nous accédons uniquement à une confirmation de paiement.
+        </li>
+        <li>
+          <strong>Informations techniques :</strong> Adresse IP, type de navigateur, via des outils d'analyse de trafic (Vercel Analytics), pour assurer la sécurité et l'amélioration de notre service.
+        </li>
+      </ul>
+
+      <h2>3. Finalités du traitement de vos données</h2>
+      <p>Vos données sont utilisées pour les finalités suivantes :</p>
+      <ul>
+        <li>Fourniture de nos services de transport (gestion des réservations, communication).</li>
+        <li>Traitement des paiements.</li>
+        <li>Envoi des confirmations de réservation et factures.</li>
+        <li>Respect de nos obligations légales et comptables.</li>
+        <li>Amélioration de notre site et de nos services.</li>
+      </ul>
+
+      <h2>4. Partage de vos informations</h2>
+      <p>Nous ne vendons ni ne louons vos données. Elles sont partagées uniquement avec les tiers nécessaires à l'exécution de nos services :</p>
+      <ul>
+        <li>Nos chauffeurs, pour la réalisation de la course.</li>
+        <li>Nos prestataires techniques : Stripe (paiement), Google (agenda), notre fournisseur d'e-mails (pour les confirmations), Vercel (hébergement).</li>
+      </ul>
+
+      <h2>5. Durée de conservation</h2>
+      <p>Vos données de réservation sont conservées pour la durée nécessaire à l'exécution du contrat et pour respecter nos obligations légales (notamment en matière de comptabilité), généralement pour une durée de 10 ans après la prestation.</p>
+
+      <h2>6. Vos droits</h2>
+      <p>Conformément au RGPD, vous disposez des droits suivants sur vos données :</p>
+      <ul>
+        <li>Droit d'accès.</li>
+        <li>Droit de rectification.</li>
+        <li>Droit à l'effacement (droit à l'oubli).</li>
+        <li>Droit à la limitation du traitement.</li>
+        <li>Droit à la portabilité.</li>
+      </ul>
+      <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse e-mail indiquée dans nos mentions légales.</p>
+      
+      <h2>7. Cookies</h2>
+      <p>Notre site utilise des cookies. Pour plus d'informations sur les cookies que nous utilisons et sur la manière de les gérer, veuillez consulter notre <a href="/politique-de-cookies">Politique de Cookies</a>.</p>
+    </section>
+  </main>
+</Layout>
+
+<style>
+    .legal-page .section-hero {
+        background-color: var(--dark-bg, #2d3a4c);
+        color: white;
+        padding: 3rem 1.5rem;
+        text-align: center;
+    }
+    .legal-page .section-hero h1 {
+        margin: 0;
+        font-size: 2.5em;
+    }
+    .legal-page .section-content {
+        padding: 2rem 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+    .legal-page h2 {
+        font-size: 1.8em;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid var(--accent, #35c2b5);
+        padding-bottom: 0.5rem;
+    }
+    .legal-page ul {
+        list-style: disc;
+        padding-left: 20px;
+    }
+    .legal-page a {
+        color: var(--accent, #35c2b5);
+        text-decoration: underline;
+    }
+</style>
