@@ -57,41 +57,80 @@ export async function POST({ request }) {
 
         try {
             // ##########################################
-            // # GOOGLE CALENDAR (CORRECTION SIMPLE -2 HEURES) #
+            // # GOOGLE CALENDAR (CORRECTION AVEC FORCAGE DU FUSEAU HORAIRE PARIS) #
             // ##########################################
 
             const bookingTimeLocalString = data.bookingTime; // Ex: "2023-10-27T21:30"
-            let eventStartTime = new Date(bookingTimeLocalString); 
-
             console.log(`[Débogage Fuseau Horaire] Heure brute du formulaire: ${bookingTimeLocalString}`);
-            console.log(`[Débogage Fuseau Horaire] Heure interprétée par Vercel (avant ajustement): ${eventStartTime.toISOString()}`);
 
-            // === CORRECTION SIMPLE ET DIRECTE : RETIRER 2 HEURES ===
-            // Cela suppose que Vercel interprète la chaîne comme UTC, et que l'heure locale (Paris) est UTC+2.
-            // Si l'utilisateur a entré 21h30 (Paris, UTC+2), Vercel l'a interprété comme 21h30 UTC.
-            // Pour que ce soit 21h30 Paris dans Google Calendar, il faut envoyer 19h30 UTC.
-            // Donc, on retire 2 heures à la date "21h30 UTC" pour obtenir "19h30 UTC".
-            eventStartTime.setHours(eventStartTime.getHours() - 2); 
-            // =======================================================
+            // === CRÉATION DE LA DATE DANS LE FUSEAU HORAIRE DE PARIS ===
+            // 1. On parse les composants de la date et de l'heure
+            const [datePart, timePart] = bookingTimeLocalString.split('T');
+            const [year, month, day] = datePart.split('-').map(Number);
+            const [hours, minutes] = timePart.split(':').map(Number);
+
+            // 2. On construit une date avec les composants saisis par l'utilisateur.
+            //    On va ensuite la formater comme une date ISO DANS le fuseau horaire de Paris.
+            //    Ceci est une étape intermédiaire pour bien représenter l'heure voulue.
+            const userDesiredDate = new Date(year, month - 1, day, hours, minutes); // Cette date est dans le TZ du serveur (UTC sur Vercel)
+
+            // 3. On formate cette date en une chaîne ISO 8601 qui inclut le décalage de Paris
+            //    Ceci assure que l'heure envoyée est explicitement "2023-10-27T21:30:00+02:00" ou "+01:00"
+            //    Cette chaîne est ce que Google Calendar attend si vous voulez une heure spécifique dans un fuseau horaire.
+            const eventStartTimeISO = userDesiredDate.toLocaleString('en-CA', { // 'en-CA' pour le format YYYY-MM-DD
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZone: 'Europe/Paris',
+                hourCycle: 'h23',
+                fractionalSecondDigits: 3, // pour avoir les ms
+                timeZoneName: 'longOffset' // Pour inclure le "+02:00" ou "+01:00"
+            }).replace(',', ''); // Supprime la virgule si elle est présente
+
+
+            // On doit re-parser cette chaîne pour obtenir un objet Date correct pour .toISOString()
+            // et s'assurer que l'offset est bien pris en compte.
+            // Le format généré est comme "2023-10-27 21:30:00.000 GMT+2". Google préfère "2023-10-27T21:30:00+02:00".
+            // Nous devons ajuster le format.
+
+            // Solution la plus fiable: utiliser l'objet Date et son timeZoneOffset
+            // Construire une date string qui sera interprétée comme locale Paris
+            const dt = new Date(year, month - 1, day, hours, minutes); // Ceci est l'heure locale du serveur (UTC)
+
+            // Obtenir le décalage actuel pour Paris à cette date
+            const parisTime = dt.toLocaleString('en-US', { timeZone: 'Europe/Paris', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const utcTime = dt.toLocaleString('en-US', { timeZone: 'UTC', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            const offsetHours = (new Date(parisTime).getTime() - new Date(utcTime).getTime()) / (1000 * 60 * 60);
+
+            // Créer la date de début en UTC en soustrayant le décalage de Paris
+            // Si l'utilisateur a entré 21:30, et Paris est UTC+2, alors l'heure UTC doit être 19:30.
+            let eventStartTimeAdjusted = new Date(Date.UTC(year, month - 1, day, hours - offsetHours, minutes));
             
-            console.log(`[Débogage Fuseau Horaire] Heure de début ajustée (après soustraction de 2h): ${eventStartTime.toISOString()}`);
+            console.log(`[Débogage Fuseau Horaire] Heure utilisateur (parseé en UTC): ${new Date(Date.UTC(year, month - 1, day, hours, minutes)).toISOString()}`);
+            console.log(`[Débogage Fuseau Horaire] Offset de Paris calculé pour cette date: ${offsetHours} heures`);
+            console.log(`[Débogage Fuseau Horaire] Heure de début ajustée (UTC correcte): ${eventStartTimeAdjusted.toISOString()}`);
+
 
             const durationSeconds = parseInt(data.durationValue || '3600', 10); 
-            const eventEndTime = new Date(eventStartTime.getTime() + durationSeconds * 1000);
+            const eventEndTimeAdjusted = new Date(eventStartTimeAdjusted.getTime() + durationSeconds * 1000);
             
             await calendar.events.insert({
                 calendarId: import.meta.env.GOOGLE_CALENDAR_ID,
                 resource: {
                     summary: `Course VTC - ${data.name || 'Client inconnu'}`,
                     description: `Client: ${data.name || 'N/A'} (${data.email || 'N/A'}, ${data.phone || 'N/A'})\n\nDe: ${data.pickup || 'N/A'}\nÀ: ${data.dropoff || 'N/A'}\n\nPrix payé: ${(session.amount_total / 100).toFixed(2)} € (via Stripe)\nStatut: Payé en ligne.\nRequêtes spéciales: ${data.specialRequests || 'Aucune'}`,
-                    start: { dateTime: eventStartTime.toISOString(), timeZone: 'Europe/Paris' },
-                    end: { dateTime: eventEndTime.toISOString(), timeZone: 'Europe/Paris' },
+                    start: { dateTime: eventStartTimeAdjusted.toISOString(), timeZone: 'Europe/Paris' },
+                    end: { dateTime: eventEndTimeAdjusted.toISOString(), timeZone: 'Europe/Paris' },
                 },
             });
             console.log("✅ Événement ajouté au Google Calendar.");
 
             // ##########################################
-            // # FIN CORRECTION SIMPLE -2 HEURES #
+            // # FIN CORRECTION FUSEAU HORAIRE CALENDAR #
             // ##########################################
 
 
