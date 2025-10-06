@@ -1,12 +1,15 @@
 ---
-import Analytics from '@vercel/analytics/astro'
-import  SpeedInsights  from "@vercel/speed-insights/astro"
+// src/layouts/Layout.astro
+import { Analytics } from '@vercel/analytics/astro';
+import { SpeedInsights } from "@vercel/speed-insights/astro";
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+
 export interface Props {
     title: string;
     description: string;
 }
+
 const { title, description } = Astro.props;
 const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 ---
@@ -21,28 +24,134 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
-    <script src="https://js.stripe.com/v3/" async defer onload="window.dispatchEvent(new CustomEvent('stripe-loaded'))"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
-    <script define:vars={{ googleMapsApiKey }}>
-        function initMap() {
-            window.dispatchEvent(new CustomEvent('maps-loaded'));
-        }
-        window.initMap = initMap;
-    </script>
-    <script 
-        async defer
-        src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&callback=initMap`}
-    ></script>
-    
     <style>
-        :root { --accent: #007bff; --dark-bg: #2d3a4c; --text-color: #333; }
+        :root { 
+            --accent: #35c2b5; /* Votre bleu turquoise */
+            --dark-bg: #2d3a4c; /* Votre bleu marine foncé */
+            --text-color: #333; /* Couleur de texte générale */
+            --header-bg: var(--dark-bg); /* Couleur de fond de l'en-tête, harmonisé avec le logo */
+            --header-text: #ffffff; /* Couleur du texte dans l'en-tête */
+        }
         html { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
         body { margin: 0; }
+        /* Style pour les liens de navigation dans l'en-tête */
+        header a { color: var(--header-text); text-decoration: none; }
+        header a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <Header />
     <main><slot /></main>
     <Footer />
+
+    <Analytics />
+    <SpeedInsights />
+
+    <script type="text/plain" data-cookiecategory="functional" id="stripe-script">
+        window.stripeLoadedCallback = () => {
+            window.dispatchEvent(new CustomEvent('stripe-loaded'));
+        };
+    </script>
+    <script async defer src="https://js.stripe.com/v3/" onload="window.stripeLoadedCallback()"></script>
+
+
+    <script type="text/plain" data-cookiecategory="functional" id="maps-script" define:vars={{ googleMapsApiKey }}>
+        function initMap() {
+            window.dispatchEvent(new CustomEvent('maps-loaded'));
+        }
+        window.initMap = initMap; // Rendre initMap global pour le callback de Google Maps
+        // Note: Le script de chargement de Google Maps est déclenché par CookieConsent
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+    <script type="text/javascript">
+        window.addEventListener("load", function(){
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": { "background": "#2d3a4c", "text": "#ffffff" }, // Fond bleu marine, texte blanc
+                    "button": { "background": "#35c2b5", "text": "#ffffff" }  // Bouton turquoise, texte blanc
+                },
+                "theme": "edgeless",
+                "position": "bottom-right",
+                "type": "opt-in", // Obligatoire pour RGPD: pas de cookies avant acceptation
+                "content": {
+                    "header": "Gestion de vos cookies",
+                    "message": "Nous utilisons des cookies pour assurer le bon fonctionnement de notre site et analyser son trafic. En poursuivant votre navigation, vous acceptez l'utilisation de ces cookies.",
+                    "dismiss": "J'ai compris !",
+                    "allow": "Accepter tout",
+                    "deny": "Refuser",
+                    "link": "En savoir plus",
+                    "href": "/politique-de-cookies", // LIEN À CRÉER !
+                    "close": "✕",
+                    "target": "_blank",
+                    "policy": "Politique de Cookies",
+                    "always_on": "Toujours activé"
+                },
+                "cookie": {
+                    "name": "cookieconsent_status",
+                    "expiryDays": 365, // Durée de vie du cookie de consentement
+                },
+                "revokable": true, // Permettre à l'utilisateur de modifier son consentement
+                "onStatusChange": function(status, chosenBefore) {
+                    console.log('Cookie consent status changed:', status);
+                    if (this.has
+                        'allow') {
+                        // L'utilisateur a accepté, charger tous les scripts marqués
+                        activateScriptsByCookieCategory('functional');
+                        activateScriptsByCookieCategory('analytics'); // Si vous avez Google Analytics
+                    } else if (status === 'deny') {
+                        // L'utilisateur a refusé, s'assurer que les scripts sont désactivés
+                        console.log('User denied cookies.');
+                        // Vous pourriez ajouter ici une logique pour supprimer les cookies existants si nécessaire
+                    }
+                },
+                "onInitialise": function(status) {
+                    console.log('Cookie consent initialised:', status);
+                    if (this.has
+                        'allow') {
+                        // Si l'utilisateur avait déjà accepté, activer les scripts
+                        activateScriptsByCookieCategory('functional');
+                        activateScriptsByCookieCategory('analytics');
+                    }
+                }
+            });
+        });
+
+        // Fonction pour activer les scripts basés sur leur catégorie de cookies
+        function activateScriptsByCookieCategory(category) {
+            const scriptsToActivate = document.querySelectorAll(`script[type="text/plain"][data-cookiecategory="${category}"]`);
+            scriptsToActivate.forEach(originalScript => {
+                // Créer un nouveau script pour qu'il soit exécuté par le navigateur
+                const newScript = document.createElement('script');
+                // Copier les attributs importants
+                if (originalScript.id) newScript.id = originalScript.id;
+                if (originalScript.src) newScript.src = originalScript.src;
+                if (originalScript.textContent) newScript.textContent = originalScript.textContent;
+                if (originalScript.async) newScript.async = originalScript.async;
+                if (originalScript.defer) newScript.defer = originalScript.defer;
+                
+                // Si c'est le script Google Maps, ajouter le callback
+                if (originalScript.id === 'maps-script' && !newScript.src) { // C'est le bloc JS interne de initMap
+                    const mapsScriptLoader = document.createElement('script');
+                    mapsScriptLoader.async = true;
+                    mapsScriptLoader.defer = true;
+                    mapsScriptLoader.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&callback=initMap`;
+                    document.head.appendChild(mapsScriptLoader);
+                } else if (originalScript.id === 'stripe-script' && !newScript.src) { // C'est le bloc JS interne de Stripe
+                    // Le script Stripe est déjà chargé avec src="https://js.stripe.com/v3/"
+                    // Il suffit de déclencher le callback
+                    window.dispatchEvent(new CustomEvent('stripe-loaded'));
+                } else if (newScript.src) { // Si c'est un script externe avec src
+                    document.head.appendChild(newScript);
+                } else { // Si c'est un script interne sans src
+                    document.head.appendChild(newScript);
+                }
+
+                // Supprimer l'ancien script type="text/plain" une fois activé
+                originalScript.remove();
+            });
+        }
+    </script>
 </body>
 </html>
