@@ -77,7 +77,7 @@ export const POST = async ({ request }) => {
                     <p><strong>Nombre de Passagers :</strong> ${data.passengers}</p>
                     <p><strong>Demandes Particulières :</strong> ${data.specialRequests || 'Aucune'}</p>
                     
-                    <h3 style="margin-top: 30px; color: #c5a47e;">Coût Total de la Course : ${data.price.toFixed(2)} € TTC</h3>
+                    <h3 style="margin-top: 30px; color: #007bff;">Coût Total de la Course : ${data.price.toFixed(2)} € TTC</h3>
                     <p><i>Méthode de Paiement : Paiement à bord par carte bancaire ou espèces.</i></p>
                 </div>
                 <div style="background-color: #f4f4f4; padding: 20px; font-size: 12px; color: #555;">
