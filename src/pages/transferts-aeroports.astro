@@ -1,9 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 
-// --- VOS DONNÉES DE TARIFS ---
-
-// ✅ NOUVEAU : Forfaits Aéroports <-> Grenoble mis en avant
+// --- VOS DONNÉES DE TARIFS (INCHANGÉES) ---
 const forfaitsAeroportVille = [
     { origin: "Aéroport de Lyon-Saint Exupéry", to: "Grenoble", prix: 239 },
     { origin: "Grenoble", to: "Aéroport de Lyon-Saint Exupéry", prix: 239 },
@@ -13,57 +11,92 @@ const forfaitsAeroportVille = [
     { origin: "Grenoble", to: "Aéroport de Genève", prix: 365 },
 ];
 
-// ✅ RESTAURÉ : Vos listes de stations complètes
-const newStations = [
-    { destination: "Alpe d'Huez", cp: "38750", lyonPrix: 350, gnbPrix: 250 },
-    { destination: "Les Deux Alpes", cp: "38520", lyonPrix: 380, gnbPrix: 280 },
-    { destination: "Tignes / Val d'Isère", cp: "73320", lyonPrix: 480, gnbPrix: 520 },
-    { destination: "Les Menuires / St. Martin de Belleville", cp: "73440", lyonPrix: 420, gnbPrix: 460 },
-    { destination: "Val Thorens / Orelle", cp: "73440", lyonPrix: 450, gnbPrix: 490 },
-    { destination: "Méribel / Courchevel", cp: "73120", lyonPrix: 450, gnbPrix: 490 },
-    { destination: "Val Cenis", cp: "73480", lyonPrix: 490, gnbPrix: 530 },
-    { destination: "La Plagne / Les Arcs", cp: "73700", lyonPrix: 450, gnbPrix: 490 },
-    { destination: "Serre Chevalier (Briançon)", cp: "05240", lyonPrix: 450, gnbPrix: 390 },
-    { destination: "Montgenèvre", cp: "05100", lyonPrix: 550, gnbPrix: 490 },
-    { destination: "Risoul / Vars", cp: "05600", lyonPrix: 550, gnbPrix: 490 },
-    { destination: "Chamrousse", cp: "38410", lyonPrix: 250, gnbPrix: 150 },
-    { destination: "Saint-François-Longchamp", cp: "73130", lyonPrix: 350, gnbPrix: 390 },
-    { destination: "Puy Saint Vincent", cp: "05290", lyonPrix: 490, gnbPrix: 450 },
-    { destination: "Les Orres", cp: "05200", lyonPrix: 520, gnbPrix: 490 },
-];
+const stationsAlps = [
+    { destination: "Alpe d'Huez", cp: "38750", lyonPrix: 345, gnbPrix: 175 },
+    { destination: "Autrans", cp: "38880", lyonPrix: 305, gnbPrix: 120 },
+    { destination: "Avoriaz", cp: "74110", lyonPrix: 425, gnbPrix: 350 },
+    { destination: "Chamonix", cp: "74400", lyonPrix: 450, gnbPrix: 375 },
+    { destination: "Chamrousse", cp: "38410", lyonPrix: 280, gnbPrix: 100 },
+    { destination: "Courchevel", cp: "73120", lyonPrix: 420, gnbPrix: 320 },
+    { destination: "Dévoluy (Superdévoluy)", cp: "05250", lyonPrix: 430, gnbPrix: 255 },
+    { destination: "Flaine", cp: "74300", lyonPrix: 440, gnbPrix: 365 },
+    { destination: "Gresse-en-Vercors", cp: "38650", lyonPrix: 325, gnbPrix: 135 },
+    { destination: "La Clusaz", cp: "74220", lyonPrix: 385, gnbPrix: 310 },
+    { destination: "La Plagne", cp: "73210", lyonPrix: 445, gnbPrix: 345 },
+    { destination: "La Rosière", cp: "73700", lyonPrix: 480, gnbPrix: 380 },
+    { destination: "Le Grand Bornand", cp: "74450", lyonPrix: 380, gnbPrix: 305 },
+    { destination: "Les Arcs", cp: "73700", lyonPrix: 460, gnbPrix: 360 },
+    { destination: "Les Deux Alpes", cp: "38520", lyonPrix: 355, gnbPrix: 185 },
+    { destination: "Les Gets", cp: "74260", lyonPrix: 400, gnbPrix: 325 },
+    { destination: "Les Menuires", cp: "73440", lyonPrix: 430, gnbPrix: 330 },
+    { destination: "Méribel", cp: "73550", lyonPrix: 415, gnbPrix: 315 },
+    { destination: "Morzine", cp: "74110", lyonPrix: 410, gnbPrix: 335 },
+    { destination: "Mottaret", cp: "73550", lyonPrix: 425, gnbPrix: 325 },
+    { destination: "Sainte Foy Tarentaise", cp: "73640", lyonPrix: 465, gnbPrix: 365 },
+    { destination: "Saint-Martin-de-Belleville", cp: "73440", lyonPrix: 420, gnbPrix: 320 },
+    { destination: "Samoëns", cp: "74340", lyonPrix: 430, gnbPrix: 355 },
+    { destination: "Serre Chevalier", cp: "05240", lyonPrix: 450, gnbPrix: 285 },
+    { destination: "Tignes", cp: "73320", lyonPrix: 490, gnbPrix: 390 },
+    { destination: "Val d'Isère", cp: "73150", lyonPrix: 500, gnbPrix: 400 },
+    { destination: "Val Thorens", cp: "73440", lyonPrix: 450, gnbPrix: 350 },
+    { destination: "Villard-de-Lans", cp: "38250", lyonPrix: 295, gnbPrix: 110 }
+].sort((a, b) => a.destination.localeCompare(b.destination)); 
+;
 
 const trievesStations = [
-    { destination: "Monestier-de-Clermont", cp: "38650", lyonPrix: 320, gnbPrix: 190 },
-    { destination: "Sinard", cp: "38650", lyonPrix: 330, gnbPrix: 200 },
-    { destination: "Roissard", cp: "38650", lyonPrix: 310, gnbPrix: 180 },
+    { destination: "Chichilianne", cp: "38930", lyonPrix: 355, gnbPrix: 220 },
     { destination: "Clelles", cp: "38930", lyonPrix: 340, gnbPrix: 210 },
-];
+    { destination: "Lalley", cp: "38930", lyonPrix: 360, gnbPrix: 230 },
+    { destination: "Le Percy", cp: "38930", lyonPrix: 345, gnbPrix: 215 },
+    { destination: "Mens", cp: "38710", lyonPrix: 350, gnbPrix: 220 },
+    { destination: "Monestier-de-Clermont", cp: "38650", lyonPrix: 320, gnbPrix: 190 },
+    { destination: "Roissard", cp: "38650", lyonPrix: 310, gnbPrix: 180 },
+    { destination: "Saint-Baudille-et-Pipet", cp: "38710", lyonPrix: 365, gnbPrix: 235 },
+    { destination: "Saint-Maurice-en-Trièves", cp: "38930", lyonPrix: 350, gnbPrix: 220 },
+    { destination: "Sinard", cp: "38650", lyonPrix: 300, gnbPrix: 170 },
+    { destination: "Treffort", cp: "38650", lyonPrix: 305, gnbPrix: 175 },
+    { destination: "Tréminis", cp: "38710", lyonPrix: 375, gnbPrix: 245 }
+].sort((a, b) => a.destination.localeCompare(b.destination));
 
 const forfaitsGrenoble = [
-    { destination: "La Grave", cp: "05320", prixBerline: 207 }, { destination: "Orcières", cp: "05170", prixBerline: 350 },
-    { destination: "Serre Chevalier", cp: "05240", prixBerline: 390 }, { destination: "Alpe d'Huez", cp: "38750", prixBerline: 170 },
-    { destination: "Alpe du Grand Serre", cp: "38350", prixBerline: 150 }, { destination: "Auris-en-Oisans", cp: "38142", prixBerline: 185 },
-    { destination: "Autrans", cp: "38880", prixBerline: 116 }, { destination: "Chamrousse", cp: "38410", prixBerline: 99 },
-    { destination: "Col d'Ornon", cp: "38520", prixBerline: 163 }, { destination: "Col de porte", cp: "38700", prixBerline: 90 },
-    { destination: "Gresse-en-Vercors", cp: "38650", prixBerline: 134 }, { destination: "Lans-en-Vercors", cp: "38250", prixBerline: 87 },
-    { destination: "Le Collet D'Allevard", cp: "38580", prixBerline: 147 }, { destination: "Le Sappey-en-Chartreuse", cp: "38700", prixBerline: 50 },
-    { destination: "Les 7 Laux - Prapoutel", cp: "38190", prixBerline: 106 }, { destination: "Les Deux Alpes", cp: "38520", prixBerline: 180 },
-    { destination: "Méaudre", cp: "38112", prixBerline: 120 }, { destination: "Oz-en-Oisans", cp: "38114", prixBerline: 150 },
-    { destination: "Saint-Hilaire-du-Touvet", cp: "38660", prixBerline: 76 }, { destination: "Saint-Pierre-de-Chartreuse", cp: "38380", prixBerline: 79 },
-    { destination: "Sanctuaire Notre-Dame de la Salette", cp: "38970", prixBerline: 221 }, { destination: "Vaujany", cp: "38114", prixBerline: 154 },
-    { destination: "Villard-Reculas", cp: "38114", prixBerline: 160 }, { destination: "Villard-de-Lans", cp: "38250", prixBerline: 108 },
-    { destination: "Courchevel", cp: "73120", prixBerline: 317 }
-];
+    { destination: "Alpe d'Huez", cp: "38750", prixBerline: 175 },
+    { destination: "Autrans", cp: "38880", prixBerline: 120 },
+    { destination: "Avoriaz", cp: "74110", prixBerline: 350 },
+    { destination: "Chamonix", cp: "74400", prixBerline: 375 },
+    { destination: "Chamrousse", cp: "38410", prixBerline: 100 },
+    { destination: "Courchevel", cp: "73120", prixBerline: 320 },
+    { destination: "Dévoluy (Superdévoluy)", cp: "05250", prixBerline: 255 },
+    { destination: "Flaine", cp: "74300", prixBerline: 365 },
+    { destination: "Gresse-en-Vercors", cp: "38650", prixBerline: 135 },
+    { destination: "La Clusaz", cp: "74220", prixBerline: 310 },
+    { destination: "La Plagne", cp: "73210", prixBerline: 345 },
+    { destination: "La Rosière", cp: "73700", prixBerline: 380 },
+    { destination: "Le Grand Bornand", cp: "74450", prixBerline: 305 },
+    { destination: "Les Arcs", cp: "73700", prixBerline: 360 },
+    { destination: "Les Deux Alpes", cp: "38520", prixBerline: 185 },
+    { destination: "Les Gets", cp: "74260", prixBerline: 325 },
+    { destination: "Les Menuires", cp: "73440", prixBerline: 330 },
+    { destination: "Méribel", cp: "73550", prixBerline: 315 },
+    { destination: "Morzine", cp: "74110", prixBerline: 335 },
+    { destination: "Mottaret", cp: "73550", prixBerline: 325 },
+    { destination: "Sainte Foy Tarentaise", cp: "73640", prixBerline: 365 },
+    { destination: "Saint-Martin-de-Belleville", cp: "73440", prixBerline: 320 },
+    { destination: "Samoëns", cp: "74340", prixBerline: 355 },
+    { destination: "Serre Chevalier", cp: "05240", prixBerline: 285 },
+    { destination: "Tignes", cp: "73320", prixBerline: 390 },
+    { destination: "Val d'Isère", cp: "73150", prixBerline: 400 },
+    { destination: "Val Thorens", cp: "73440", prixBerline: 350 },
+    { destination: "Villard-de-Lans", cp: "38250", prixBerline: 110 }
+].sort((a, b) => a.destination.localeCompare(b.destination));
 
-// --- TRANSFORMATION DES DONNÉES POUR L'AFFICHAGE ET LE SEO ---
-const allAirportStations = [...newStations, ...trievesStations];
-
-// On transforme chaque liste en un format unifié { origin, to, prix }
+// --- LOGIQUE DE GÉNÉRATION DU SCHEMA.ORG (INCHANGÉE) ---
+// On fusionne tout pour le schema.org, c'est parfait comme ça.
+const allAirportStations = [...stationsAlps, ...trievesStations];
 const forfaitsAeroLyonStations = allAirportStations.map(s => ({ origin: "Aéroport de Lyon-Saint Exupéry", to: s.destination, prix: s.lyonPrix }));
 const forfaitsAeroGrenobleStations = allAirportStations.map(s => ({ origin: "Aéroport de Grenoble-Isère", to: s.destination, prix: s.gnbPrix }));
 const forfaitsGrenobleVilleStations = forfaitsGrenoble.map(s => ({ origin: "Grenoble", to: s.destination, prix: s.prixBerline }));
+const forfaitsGrenobleVilleTrieves = trievesStations.map(s => ({ origin: "Grenoble", to: s.destination, prix: s.gnbPrix }));
 
-// On fusionne toutes les listes pour le tableau et le SEO
 const allForfaits = [
     ...forfaitsAeroportVille, 
     ...forfaitsAeroLyonStations, 
@@ -71,14 +104,12 @@ const allForfaits = [
     ...forfaitsGrenobleVilleStations
 ].sort((a,b) => `${a.origin} ${a.to}`.localeCompare(`${b.origin} ${b.to}`));
 
-
-// --- GÉNÉRATION DES MÉTADONNÉES SEO ---
 const generateSchema = (forfaits) => {
   return forfaits.map(forfait => ({
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": `Transfert VTC ${forfait.origin} ↔ ${forfait.to}`,
-    "description": `Trajet en VTC électrique entre ${forfait.origin} et ${forfait.to}. Réservez votre chauffeure privée.`,
+    "name": `Transfert Chauffeur Privé ${forfait.origin} ↔ ${forfait.to}`,
+    "description": `Trajet en voiture avec chauffeur entre ${forfait.origin} et ${forfait.to}. Réservez votre transport privé.`,
     "provider": { "@type": "Organization", "name": "ShipCars VTC Grenoble" },
     "offers": {
       "@type": "Offer",
@@ -91,50 +122,83 @@ const generateSchema = (forfaits) => {
 const schemaData = generateSchema(allForfaits);
 ---
 
----
-// Importation de votre composant Layout, etc.
-import Layout from '~/layouts/Layout.astro';
-// ...
-// Vous devrez probablement filtrer vos forfaits en deux listes ici
-// const allForfaits = ...
-// const airportForfaits = allForfaits.filter(f => f.type === 'airport');
-// const stationForfaits = allForfaits.filter(f => f.type === 'station');
----
-<Layout
-    title="Transferts VTC Aéroport & Stations de Ski | Chauffeur Grenoble"
-    description="Service de VTC et chauffeur privé à Grenoble pour vos transferts vers les aéroports (Lyon, Genève) et les stations de ski des Alpes. Fiabilité et confort garantis.">
+<Layout 
+    title="Alternative au taxi Grenoble | Transfert Aéroport & Stations de Ski"
+    description="Votre chauffeur privé à Grenoble pour tous vos transferts vers les aéroports de Lyon, Genève et les stations de ski des Alpes. Service fiable, prix fixe.">
 
     <section class="page-hero">
         <div class="container">
-            <h1>Transferts Aéroports & Stations de Ski</h1>
-            <p class="subtitle">Voyagez sereinement avec notre service de chauffeur VTC depuis Grenoble. Ponctualité et confort pour toutes vos destinations.</p>
+            <h1>Votre Chauffeure privé pour Aéroports et Stations de Ski</h1>
+            <p class="subtitle">Des trajets sereins et sur mesure au départ de Grenoble, avec un service professionnel et des tarifs fixes.</p>
         </div>
     </section>
 
     <section class="content-section">
+        <div class="container text-container">
+            <h2>Un service de transport fiable, une alternative confortable au taxi</h2>
+            <p>Découvrez une nouvelle manière de voyager à Grenoble et dans la région. Notre service de chauffeur privé est la solution idéale pour vos déplacements. Nous mettons un point d'honneur à vous offrir un transport alliant ponctualité, confort et discrétion, pour que chaque trajet soit une expérience relaxante.</p>
+        </div>
+    </section>
+
+    <section id="aeroport-stations" class="content-section pt-0">
+    <div class="container">
+        <h2>Transferts Aéroports vers Stations de Ski</h2>
+        <p>
+            Voyagez directement depuis les aéroports de Lyon ou Grenoble vers votre station de ski. Nos chauffeurs vous attendent à votre arrivée pour un transfert direct et confortable.
+        </p>
+        
+        <div class="table-container">
+            <table class="tarifs-table">
+                <thead>
+                    <tr>
+                        <th>Destination (Station de Ski)</th>
+                        <th>Tarif depuis Aéroport Lyon-St Exupéry</th>
+                        <th>Tarif depuis Aéropport Grenoble-Isère</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {stationsAlps.map((station) => (
+                        <tr>
+                            <td data-label="Station"><strong>{station.destination}</strong></td>
+                            <td data-label="Prix Lyon" class="prix-cell">
+                                {station.lyonPrix > 0 ? `${station.lyonPrix} €` : 'Sur devis'}
+                            </td>
+                            <td data-label="Prix Grenoble" class="prix-cell">
+                                {station.gnbPrix > 0 ? `${station.gnbPrix} €` : 'Sur devis'}
+                            </td>
+                            <td data-label="Réserver">
+                                <a href={`/#booking`} class="table-cta">Réserver</a>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+    <section id="aeroports" class="content-section bg-light">
         <div class="container">
-            <h2>Alternative au taxi vers les Aéroports de Lyon et Genève</h2>
-            <p>
-                Évitez le stress des départs et des arrivées. Notre service de <strong>transfert vers les aéroport</strong> vous garantit une prise en charge ponctuelle à Grenoble pour vous conduire à <strong>Lyon-Saint Exupéry (LYS) ou Genève (GVA)</strong>. Nous suivons votre vol en temps réel pour nous ajuster à tout retard et votre chauffeur vous aidera avec vos bagages.
-            </p>
+            <h2>Transferts avec les Aéroports (Lyon, Grenoble)</h2>
+            <p>Évitez le stress des départs et arrivées. Nous assurons votre prise en charge ponctuelle pour vous conduire aux aéroports de Lyon-Saint Exupéry (LYS) et Genève (GVA). Le tarif est fixe, sans surprise.</p>
             
             <div class="table-container">
                 <table class="tarifs-table">
                     <thead>
                         <tr>
-                            <th>Trajet VTC (Départ ↔ Aéroport)</th>
-                            <th>Prix Indicatif (Berline)</th>
-                            <th>Réserver</th>
+                            <th>Navette aéroport (Départ ↔ Arrivée)</th>
+                            <th>Prix (Berline Électrique)</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Affichez ici uniquement les forfaits aéroports */}
-                        {airportForfaits.map((forfait) => (
+                        {forfaitsAeroportVille.map((forfait) => (
                             <tr>
                                 <td data-label="Trajet"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
                                 <td data-label="Prix" class="prix-cell">{forfait.prix} €</td>
                                 <td data-label="Réserver">
-                                    <a href="/#booking" class="table-cta">Réserver</a>
+                                    <a href={`/#booking`} class="table-cta">Réserver</a>
                                 </td>
                             </tr>
                         ))}
@@ -143,44 +207,74 @@ import Layout from '~/layouts/Layout.astro';
             </div>
         </div>
     </section>
-
-    <section class="content-section bg-light"> <div class="container">
-            <h2>Votre Chauffeur pour les Stations de Ski des Alpes</h2>
-            <p>
-                Rejoignez les pistes en toute sécurité et confort. Nos chauffeurs connaissent parfaitement les routes de montagne et nos véhicules sont équipés pour l'hiver. Nous assurons vos **transferts depuis Grenoble** vers les plus grandes stations des Alpes comme l'Alpe d'Huez, Les Deux Alpes, ou encore Chamrousse, avec suffisamment d'espace pour votre matériel.
-            </p>
-
-            <div class="table-container">
-                 <table class="tarifs-table">
-                    <thead>
-                        <tr>
-                            <th>Trajet VTC (Départ ↔ Station)</th>
-                            <th>Prix Indicatif (Berline)</th>
-                            <th>Réserver</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Affichez ici uniquement les forfaits stations de ski */}
-                        {stationForfaits.map((forfait) => (
-                            <tr>
-                                <td data-label="Trajet"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
-                                <td data-label="Prix" class="prix-cell">{forfait.prix} €</td>
-                                <td data-label="Réserver">
-                                    <a href="/#booking" class="table-cta">Réserver</a>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-     <section class="cta-section">
+    
+    <section id="stations" class="content-section">
         <div class="container">
-            <h2>Une autre destination dans les Alpes ?</h2>
-            <p>Nos tarifs sont sur mesure. Utilisez notre module de réservation pour obtenir un devis instantané pour n'importe quel trajet.</p>
-            <a href="/#booking" class="button-primary">Obtenir mon tarif personnalisé</a>
+            <h2>Navettes Privées vers les Stations de Ski</h2>
+            <p>Rejoignez les pistes des Alpes en toute sécurité. Nos chauffeurs connaissent les routes de montagne et nos véhicules sont équipés pour l'hiver, avec l'espace nécessaire pour votre matériel.</p>
+            
+            <div class="table-container">
+                <table class="tarifs-table">
+                     <thead>
+                        <tr>
+                            <th>Navette Stations de ski Alpes (Départ de Grenoble)</th>
+                            <th>Prix (Berline Électrique)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {forfaitsGrenobleVilleStations.map((forfait) => (
+                            <tr>
+                                <td data-label="Trajet"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
+                                <td data-label="Prix" class="prix-cell">{forfait.prix} €</td>
+                                <td data-label="Réserver">
+                                    <a href={`/#booking`} class="table-cta">Réserver</a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="trieves" class="content-section bg-light">
+        <div class="container">
+            <h2>Nos dessertes dans le Trièves</h2>
+            <p>
+                Nous assurons également vos déplacements sur demande vers les communes du Trièves. Profitez d'un transport confortable pour rejoindre Monestier-de-Clermont, Clelles et les villages environnants.
+            </p>
+            
+            <div class="table-container">
+                <table class="tarifs-table">
+                     <thead>
+                        <tr>
+                            <th>Transfert dans le Trièves (Départ de Grenoble)</th>
+                            <th>Prix (Berline Électrique)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {forfaitsGrenobleVilleTrieves.map((forfait) => (
+                            <tr>
+                                <td data-label="Trajet"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
+                                <td data-label="Prix" class="prix-cell">{forfait.prix} €</td>
+                                <td data-label="Réserver">
+                                    <a href={`/#booking`} class="table-cta">Réserver</a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prêt à voyager l'esprit tranquille ?</h2>
+            <p>Pour toute autre destination ou pour un devis personnalisé, notre module de réservation est à votre disposition.</p>
+            <a href="/#booking" class="button-primary">Réserver mon chauffeur</a>
         </div>
     </section>
 
@@ -188,30 +282,48 @@ import Layout from '~/layouts/Layout.astro';
 </Layout>
 
 <style>
-    /* ... Vos styles existants ... */
     :root { --accent: #007bff; --light-bg: #f8f9fa; }
     .page-hero { background: var(--accent); color: white; padding: 4rem 2rem; text-align: center; }
     .content-section { padding: 4rem 2rem; }
-    .bg-light { background-color: var(--light-bg); } /* Style pour alterner les sections */
-
+    .bg-light { background-color: var(--light-bg); }
     .container { max-width: 1200px; margin: 0 auto; }
-    .container h2 { margin-bottom: 1rem; } /* Amélioration espacement */
-    .container p { max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 2rem; line-height: 1.6; } /* Amélioration lisibilité */
+    .text-container { max-width: 800px; text-align: center; } /* Pour les textes d'intro */
+    .text-container h2 { margin-bottom: 1rem; }
+    .text-container p { line-height: 1.6; }
     
-    /* ... Vos styles de tableau existants ... */
+    section.content-section .container > h2,
+    section.content-section .container > p {
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+    }
 
-    /* Nouveaux styles pour la section CTA finale */
-    .cta-section { 
-        background-color: var(--accent);
+    .table-container { overflow-x: auto; margin-top: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; }
+    .tarifs-table { width: 100%; border-collapse: collapse; text-align: left; background: white; }
+    .tarifs-table th, .tarifs-table td { padding: 15px; border-bottom: 1px solid #eee; }
+    .tarifs-table th { background-color: var(--accent); color: white; }
+    .prix-cell { font-weight: bold; color: var(--accent); font-size: 1.1em; }
+    .table-cta { display: inline-block; padding: 5px 12px; background-color: #f0f0f0; color: var(--accent); text-decoration: none; border-radius: 4px; font-weight: 600; transition: all 0.2s; }
+    .table-cta:hover { background-color: var(--accent); color: white; }
+
+    .cta-section {
+        background-color: #2d3a4c; /* Une couleur plus foncée pour contraster */
         color: white;
         text-align: center;
-        padding: 4rem 2rem;
+        padding: 2rem 2rem;
+    
     }
+    .content-section + .content-section {
+    padding-top: 0;
+    }
+    .cta-section h2 { margin-bottom: 1rem; }
     .button-primary {
         display: inline-block;
-        background-color: white;
-        color: var(--accent);
-        padding: 12px 28px;
+        background-color: var(--accent);
+        color: white;
+        padding: 14px 32px;
         border-radius: 8px;
         text-decoration: none;
         font-weight: bold;
@@ -220,5 +332,14 @@ import Layout from '~/layouts/Layout.astro';
     }
     .button-primary:hover {
         transform: scale(1.05);
+        filter: brightness(1.1);
+    }
+    
+    @media (max-width: 768px) {
+        .tarifs-table thead { display: none; }
+        .tarifs-table, .tarifs-table tbody, .tarifs-table tr, .tarifs-table td { display: block; }
+        .tarifs-table tr { border: 1px solid #ddd; margin-bottom: 1rem; }
+        .tarifs-table td { padding-left: 50%; text-align: right; position: relative; }
+        .tarifs-table td:before { content: attr(data-label); position: absolute; left: 15px; width: 45%; text-align: left; font-weight: bold; }
     }
 </style>
