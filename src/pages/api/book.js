@@ -7,7 +7,7 @@ export const prerender = false;
 // Configuration de Nodemailer (connexion au serveur d'e-mails)
 const transporter = nodemailer.createTransport({
     host: import.meta.env.EMAIL_HOST,
-    port: 25,
+    port: 465,
     secure: import.meta.env.EMAIL_SECURE === 'true',
     auth: {
         user: import.meta.env.EMAIL_USER,
