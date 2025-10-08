@@ -91,40 +91,50 @@ const generateSchema = (forfaits) => {
 const schemaData = generateSchema(allForfaits);
 ---
 
-<Layout 
-    title="Nos Forfaits VTC | Tarifs Stations de Ski et Aéroports"
-    description="Consultez nos tarifs VTC forfaitaires pour les Alpes, le Trièves et les transferts aéroport (Lyon, Genève, Grenoble).">
+---
+// Importation de votre composant Layout, etc.
+import Layout from '~/layouts/Layout.astro';
+// ...
+// Vous devrez probablement filtrer vos forfaits en deux listes ici
+// const allForfaits = ...
+// const airportForfaits = allForfaits.filter(f => f.type === 'airport');
+// const stationForfaits = allForfaits.filter(f => f.type === 'station');
+---
+<Layout
+    title="Transferts VTC Aéroport & Stations de Ski | Chauffeur Grenoble"
+    description="Service de VTC et chauffeur privé à Grenoble pour vos transferts vers les aéroports (Lyon, Genève) et les stations de ski des Alpes. Fiabilité et confort garantis.">
 
     <section class="page-hero">
         <div class="container">
-            <h1>Nos Tarifs Indicatifs</h1>
-            <p class="subtitle">Des prix fixes et transparents pour vos destinations les plus fréquentes.</p>
+            <h1>Transferts Aéroports & Stations de Ski</h1>
+            <p class="subtitle">Voyagez sereinement avec notre service de chauffeur VTC depuis Grenoble. Ponctualité et confort pour toutes vos destinations.</p>
         </div>
     </section>
 
     <section class="content-section">
         <div class="container">
-            <h2>Transferts Aéroports & Stations</h2>
-            <p>Les tarifs ci-dessous sont fixes pour un trajet en berline. Pour toute autre destination ou pour un horaire spécifique, utilisez notre outil de réservation pour un devis instantané.</p>
+            <h2>Alternative au taxi vers les Aéroports de Lyon et Genève</h2>
+            <p>
+                Évitez le stress des départs et des arrivées. Notre service de <strong>transfert vers les aéroport</strong> vous garantit une prise en charge ponctuelle à Grenoble pour vous conduire à <strong>Lyon-Saint Exupéry (LYS) ou Genève (GVA)</strong>. Nous suivons votre vol en temps réel pour nous ajuster à tout retard et votre chauffeur vous aidera avec vos bagages.
+            </p>
             
             <div class="table-container">
                 <table class="tarifs-table">
                     <thead>
                         <tr>
-                            <th>Trajet VTC (Départ ↔ Arrivée)</th>
-                            <th>Prix (Berline Électrique)</th>
-                            <th>Action</th>
+                            <th>Trajet VTC (Départ ↔ Aéroport)</th>
+                            <th>Prix Indicatif (Berline)</th>
+                            <th>Réserver</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {allForfaits.map((forfait) => (
+                        {/* Affichez ici uniquement les forfaits aéroports */}
+                        {airportForfaits.map((forfait) => (
                             <tr>
                                 <td data-label="Trajet"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
                                 <td data-label="Prix" class="prix-cell">{forfait.prix} €</td>
                                 <td data-label="Réserver">
-                                    <a href={`/#booking`} class="table-cta">
-                                        Réserver
-                                    </a>
+                                    <a href="/#booking" class="table-cta">Réserver</a>
                                 </td>
                             </tr>
                         ))}
@@ -134,26 +144,81 @@ const schemaData = generateSchema(allForfaits);
         </div>
     </section>
 
+    <section class="content-section bg-light"> <div class="container">
+            <h2>Votre Chauffeur pour les Stations de Ski des Alpes</h2>
+            <p>
+                Rejoignez les pistes en toute sécurité et confort. Nos chauffeurs connaissent parfaitement les routes de montagne et nos véhicules sont équipés pour l'hiver. Nous assurons vos **transferts depuis Grenoble** vers les plus grandes stations des Alpes comme l'Alpe d'Huez, Les Deux Alpes, ou encore Chamrousse, avec suffisamment d'espace pour votre matériel.
+            </p>
+
+            <div class="table-container">
+                 <table class="tarifs-table">
+                    <thead>
+                        <tr>
+                            <th>Trajet VTC (Départ ↔ Station)</th>
+                            <th>Prix Indicatif (Berline)</th>
+                            <th>Réserver</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* Affichez ici uniquement les forfaits stations de ski */}
+                        {stationForfaits.map((forfait) => (
+                            <tr>
+                                <td data-label="Trajet"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
+                                <td data-label="Prix" class="prix-cell">{forfait.prix} €</td>
+                                <td data-label="Réserver">
+                                    <a href="/#booking" class="table-cta">Réserver</a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+     <section class="cta-section">
+        <div class="container">
+            <h2>Une autre destination dans les Alpes ?</h2>
+            <p>Nos tarifs sont sur mesure. Utilisez notre module de réservation pour obtenir un devis instantané pour n'importe quel trajet.</p>
+            <a href="/#booking" class="button-primary">Obtenir mon tarif personnalisé</a>
+        </div>
+    </section>
+
     <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
 </Layout>
 
 <style>
-    :root { --accent: #007bff; }
+    /* ... Vos styles existants ... */
+    :root { --accent: #007bff; --light-bg: #f8f9fa; }
     .page-hero { background: var(--accent); color: white; padding: 4rem 2rem; text-align: center; }
     .content-section { padding: 4rem 2rem; }
+    .bg-light { background-color: var(--light-bg); } /* Style pour alterner les sections */
+
     .container { max-width: 1200px; margin: 0 auto; }
-    .table-container { overflow-x: auto; margin-top: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border-radius: 8px; }
-    .tarifs-table { width: 100%; border-collapse: collapse; text-align: left; background: white; }
-    .tarifs-table th, .tarifs-table td { padding: 15px; border-bottom: 1px solid #eee; }
-    .tarifs-table th { background-color: var(--accent); color: white; }
-    .prix-cell { font-weight: bold; color: var(--accent); font-size: 1.1em; }
-    .table-cta { display: inline-block; padding: 5px 12px; background-color: #f0f0f0; color: var(--accent); text-decoration: none; border-radius: 4px; font-weight: 600; transition: all 0.2s; }
-    .table-cta:hover { background-color: var(--accent); color: white; }
-     @media (max-width: 768px) {
-        .tarifs-table thead { display: none; }
-        .tarifs-table, .tarifs-table tbody, .tarifs-table tr, .tarifs-table td { display: block; }
-        .tarifs-table tr { border: 1px solid #ddd; margin-bottom: 1rem; }
-        .tarifs-table td { padding-left: 50%; text-align: right; position: relative; }
-        .tarifs-table td:before { content: attr(data-label); position: absolute; left: 15px; width: 45%; text-align: left; font-weight: bold; }
+    .container h2 { margin-bottom: 1rem; } /* Amélioration espacement */
+    .container p { max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 2rem; line-height: 1.6; } /* Amélioration lisibilité */
+    
+    /* ... Vos styles de tableau existants ... */
+
+    /* Nouveaux styles pour la section CTA finale */
+    .cta-section { 
+        background-color: var(--accent);
+        color: white;
+        text-align: center;
+        padding: 4rem 2rem;
+    }
+    .button-primary {
+        display: inline-block;
+        background-color: white;
+        color: var(--accent);
+        padding: 12px 28px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 1rem;
+        transition: transform 0.2s;
+    }
+    .button-primary:hover {
+        transform: scale(1.05);
     }
 </style>
