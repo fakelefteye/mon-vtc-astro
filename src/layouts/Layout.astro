@@ -69,9 +69,10 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     </style>
 </head>
 <body>
-    <Header />
+    <Header currentPath={Astro.url.pathname} />
     <main><slot /></main>
-    <Footer />
+
+    <Footer currentPath={Astro.url.pathname} />
 
     <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
     <script type="text/javascript">

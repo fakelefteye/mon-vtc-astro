@@ -1,42 +1,140 @@
 ---
 // src/components/Header.astro
+const { currentPath = '/' } = Astro.props;
 
-const { currentPath: rawPath = '' } = Astro.props;
-const currentPath = typeof rawPath === 'string' ? rawPath : '';
+// Détermine la langue active basée sur le chemin actuel
+const lang = currentPath.startsWith('/en/') ? 'en' : (currentPath.startsWith('/es/') ? 'es' : 'fr');
 
-const isActive = (pathPrefix: string) => {
-    // Si c'est la racine et pas un préfixe de langue connu, c'est le français par défaut
-    if (pathPrefix === '/') {
-        return currentPath === '/' || (!currentPath.startsWith('/en') && !currentPath.startsWith('/es') && currentPath !== '');
+// --- Textes de navigation par langue ---
+const navTexts = {
+    fr: {
+        home: 'Accueil',
+        services: 'Nos Prestations',
+        vehicles: 'Nos Véhicules', 
+        contact: 'Contact',
+        book: 'Réserver',
+    },
+    en: {
+        home: 'Home',
+        services: 'Our Services',
+        vehicles: 'Our Vehicles', 
+        contact: 'Contact',
+        book: 'Book Now',
+    },
+    es: {
+        home: 'Inicio',
+        services: 'Nuestros Servicios',
+        vehicles: 'Nuestros Vehículos', 
+        contact: 'Contacto',
+        book: 'Reservar Ahora',
+    },
+};
+
+// --- Mappage des chemins de base vers leurs noms de fichiers (sans préfixe de langue) ---
+// Ceci est crucial pour construire les URLs localisées correctement.
+const basePaths = {
+    '/': '/',
+    '/nos-prestations': '/nos-prestations',
+    '/vehicule': '/vehicule', // Nom de fichier FR pour les véhicules
+    '/contact': '/contact',
+    // Ajoutez d'autres pages ici si nécessaire (ex: '/politique-confidentialite')
+};
+
+// Détermine le chemin de base actuel sans la partie langue.
+// Ex: '/en/our-services' -> '/nos-prestations' (si mappé)
+let currentBasePath = '/';
+for (const [key, value] of Object.entries(basePaths)) {
+    // On doit faire attention aux pages d'accueil et s'assurer que /en ne matche pas /
+    if (lang === 'en' && currentPath.startsWith('/en') && currentPath.replace('/en', '') === value) {
+        currentBasePath = key;
+        break;
     }
-    // Pour les autres langues
-    return currentPath.startsWith(pathPrefix);
+    if (lang === 'es' && currentPath.startsWith('/es') && currentPath.replace('/es', '') === value) {
+        currentBasePath = key;
+        break;
+    }
+    if (lang === 'fr' && (currentPath === value || currentPath.startsWith(`/fr${value}`))) { // Gère /fr/page aussi
+        currentBasePath = key;
+        break;
+    }
+    if (lang === 'fr' && currentPath === '/' && value === '/') { // Cas spécifique pour la page d'accueil FR
+        currentBasePath = key;
+        break;
+    }
+}
+// Pour les pages non mappées ou quand le chemin est juste la langue (ex: /en), on reste sur la racine.
+if (!Object.values(basePaths).includes(currentBasePath)) {
+     currentBasePath = '/'; // Fallback si le chemin ne correspond à aucune page de base connue
+}
+if (currentPath === '/en' || currentPath === '/en/' || currentPath === '/es' || currentPath === '/es/') {
+    currentBasePath = '/'; // Si on est juste sur le préfixe de langue, on considère que c'est l'accueil
+}
+
+
+// --- Fonctions pour générer les liens dynamiques ---
+const getLocalizedLink = (basePath: string, targetLang: string) => {
+    // Si la page est l'accueil, les liens sont '/' ou '/en/' ou '/es/'
+    if (basePath === '/') {
+        return targetLang === 'fr' ? '/' : `/${targetLang}/`;
+    }
+    
+    // Pour les autres pages, on utilise le chemin de base FR et on le préfixe
+    const localizedPaths: Record<string, string> = {
+        fr: basePath,
+        en: basePath.replace('/nos-prestations', '/our-services').replace('/vehicule', '/vehicle'),
+        es: basePath.replace('/nos-prestations', '/nuestros-servicios').replace('/vehicule', '/vehiculo'),
+    };
+    
+    const path = localizedPaths[targetLang] || basePath; // Utilise la version traduite du chemin
+    return targetLang === 'fr' ? path : `/${targetLang}${path}`;
+};
+
+
+// Génère les chemins d'URL complets pour la navigation
+const homeLink = getLocalizedLink('/', lang);
+const servicesLink = getLocalizedLink('/nos-prestations', lang);
+const vehiclesLink = getLocalizedLink('/vehicule', lang); // Important: '/vehicule' est le chemin de base FR
+const contactLink = getLocalizedLink('/contact', lang);
+const bookingAnchor = getLocalizedLink('/#booking', lang);
+
+// Fonction pour déterminer si un lien de navigation est actif
+const isNavLinkActive = (basePathKey: string) => {
+    return currentBasePath === basePathKey;
 };
 ---
 
 <header class="header">
     <div class="header-main">
-        <a href="/" class="logo">
+        <a href={homeLink} class="logo">
             <img src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/logo_ship_cars.png" alt="ShipCars Logo">
         </a>
-        <nav class="nav">
-            <a href="/">Accueil</a>
-            <a href="/nos-prestations">Nos Prestations</a>
-            <a href="/contact">Contact</a>
-        </nav>
         
-        <div class="language-picker"> 
-            <a href="/" class={isActive('/') ? 'active' : ''} aria-label="Choisir le Français">FR</a> 
-            <a href="/en/" class={isActive('/en') ? 'active' : ''} aria-label="Choose English">EN</a> 
-            <a href="/es/" class={isActive('/es') ? 'active' : ''} aria-label="Elegir Español">ES</a> 
+        <div class="header-actions">
+            <nav class="nav">
+                <a href={homeLink} class:list={{ active: isNavLinkActive('/') }}>{navTexts[lang].home}</a>
+                <a href={servicesLink} class:list={{ active: isNavLinkActive('/nos-prestations') }}>{navTexts[lang].services}</a>
+                <a href={vehiclesLink} class:list={{ active: isNavLinkActive('/vehicule') }}>{navTexts[lang].vehicles}</a>
+                <a href={contactLink} class:list={{ active: isNavLinkActive('/contact') }}>{navTexts[lang].contact}</a>
+            </nav>
+            
+            <div class="language-picker"> 
+                <a href={getLocalizedLink(currentBasePath, 'fr')} class:list={{ active: lang === 'fr' }} aria-label="Choisir le Français">FR</a> 
+                <a href={getLocalizedLink(currentBasePath, 'en')} class:list={{ active: lang === 'en' }} aria-label="Choose English">EN</a> 
+                <a href={getLocalizedLink(currentBasePath, 'es')} class:list={{ active: lang === 'es' }} aria-label="Elegir Español">ES</a> 
+            </div>
+
+            <a href={bookingAnchor} class="header-cta">
+                {navTexts[lang].book}
+            </a>
         </div>
     </div>
 </header>
 
 <style>
+    /* Vos styles CSS existants, inchangés */
     .header {
         background-color: var(--dark-bg);
-        padding: 1rem 0;
+        padding: 0.75rem 0;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         z-index: 1000;
         position: sticky;
@@ -55,6 +153,13 @@ const isActive = (pathPrefix: string) => {
     .logo img {
         height: 50px;
         width: auto;
+        display: block;
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
     }
 
     .nav {
@@ -72,60 +177,78 @@ const isActive = (pathPrefix: string) => {
     .nav a:hover {
         color: var(--accent);
     }
+    
+    .nav a.active {
+        color: var(--accent); /* Met en surbrillance le lien actif */
+        border-bottom: 2px solid var(--accent);
+        padding-bottom: 3px;
+    }
 
-    /* Styles pour le sélecteur de langue (version texte) */
     .language-picker {
         display: flex;
-        gap: 0.5rem; /* Réduire l'espacement entre les éléments */
+        gap: 0.5rem;
         align-items: center;
-        margin-left: 2rem;
     }
 
     .language-picker a {
-        color: white; /* Couleur du texte par défaut */
-        background-color: transparent; /* Fond transparent par défaut */
-        border: 1px solid rgba(255, 255, 255, 0.4); /* Bordure légère */
+        color: white;
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.4);
         padding: 0.3rem 0.6rem;
         border-radius: 5px;
         text-decoration: none;
         font-size: 0.9em;
         font-weight: bold;
-        opacity: 0.7; /* Moins opaque par défaut */
+        opacity: 0.7;
         transition: all 0.3s ease;
-        min-width: 35px; /* S'assurer qu'ils ont une taille minimale */
-        text-align: center;
     }
 
     .language-picker a:hover {
         opacity: 1;
-        background-color: rgba(255, 255, 255, 0.1); /* Fond légèrement plus visible au survol */
-        transform: translateY(-1px);
+        background-color: rgba(255, 255, 255, 0.1);
     }
 
     .language-picker a.active {
         opacity: 1;
-        background-color: var(--accent, #35c2b5); /* Fond de couleur accent pour la langue active */
-        border-color: var(--accent, #35c2b5); /* Bordure de la même couleur */
-        color: white; /* Texte blanc sur le fond coloré */
-        transform: scale(1.05); /* Légèrement plus grand si actif */
-        box-shadow: 0 0 10px rgba(53, 194, 181, 0.5); /* Ombre pour l'actif */
+        background-color: var(--accent);
+        border-color: var(--accent);
+        color: white;
     }
 
-    /* Média queries pour la responsivité */
-    @media (max-width: 768px) {
+    .header-cta {
+        background-color: var(--accent);
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap; 
+    }
+    .header-cta:hover {
+        background-color: #fff;
+        color: var(--dark-bg);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 850px) {
         .header-main {
             flex-direction: column;
             gap: 1.5rem;
         }
+        .header-actions {
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+        }
         .nav {
-            order: 2;
+            justify-content: center;
+            width: 100%;
+            flex-wrap: wrap; 
         }
-        .language-picker {
-            order: 1;
-            margin-left: 0;
-        }
-        .logo {
-            order: 0;
+        .nav a {
+            padding: 0.5rem 0.75rem; 
         }
     }
 </style>

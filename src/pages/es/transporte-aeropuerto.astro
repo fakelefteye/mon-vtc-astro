@@ -1,0 +1,372 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+// --- TUS DATOS DE TARIFAS (SIN CAMBIOS) ---
+const forfaitsAeroportVille = [
+    { origin: "Aeropuerto de Lyon-Saint Exupéry", to: "Grenoble", prix: 239 },
+    { origin: "Grenoble", to: "Aeropuerto de Lyon-Saint Exupéry", prix: 239 },
+    { origin: "Aeropuerto de Grenoble-Isère", to: "Grenoble", prix: 120 },
+    { origin: "Grenoble", to: "Aeropuerto de Grenoble-Isère", prix: 120 },
+    { origin: "Aeropuerto de Ginebra", to: "Grenoble", prix: 365 },
+    { origin: "Grenoble", to: "Aeropuerto de Ginebra", prix: 365 },
+];
+
+const stationsAlps = [
+    { destination: "Alpe d'Huez", cp: "38750", lyonPrix: 345, gnbPrix: 175 },
+    { destination: "Autrans", cp: "38880", lyonPrix: 305, gnbPrix: 120 },
+    { destination: "Avoriaz", cp: "74110", lyonPrix: 425, gnbPrix: 350 },
+    { destination: "Chamonix", cp: "74400", lyonPrix: 450, gnbPrix: 375 },
+    { destination: "Chamrousse", cp: "38410", lyonPrix: 280, gnbPrix: 100 },
+    { destination: "Courchevel", cp: "73120", lyonPrix: 420, gnbPrix: 320 },
+    { destination: "Dévoluy (Superdévoluy)", cp: "05250", lyonPrix: 430, gnbPrix: 255 },
+    { destination: "Flaine", cp: "74300", lyonPrix: 440, gnbPrix: 365 },
+    { destination: "Gresse-en-Vercors", cp: "38650", lyonPrix: 325, gnbPrix: 135 },
+    { destination: "La Clusaz", cp: "74220", lyonPrix: 385, gnbPrix: 310 },
+    { destination: "La Plagne", cp: "73210", lyonPrix: 445, gnbPrix: 345 },
+    { destination: "La Rosière", cp: "73700", lyonPrix: 480, gnbPrix: 380 },
+    { destination: "Le Grand Bornand", cp: "74450", lyonPrix: 380, gnbPrix: 305 },
+    { destination: "Les Arcs", cp: "73700", lyonPrix: 460, gnbPrix: 360 },
+    { destination: "Les Deux Alpes", cp: "38520", lyonPrix: 355, gnbPrix: 185 },
+    { destination: "Les Gets", cp: "74260", lyonPrix: 400, gnbPrix: 325 },
+    { destination: "Les Menuires", cp: "73440", lyonPrix: 430, gnbPrix: 330 },
+    { destination: "Méribel", cp: "73550", lyonPrix: 415, gnbPrix: 315 },
+    { destination: "Morzine", cp: "74110", lyonPrix: 410, gnbPrix: 335 },
+    { destination: "Mottaret", cp: "73550", lyonPrix: 425, gnbPrix: 325 },
+    { destination: "Sainte Foy Tarentaise", cp: "73640", lyonPrix: 465, gnbPrix: 365 },
+    { destination: "Saint-Martin-de-Belleville", cp: "73440", lyonPrix: 420, gnbPrix: 320 },
+    { destination: "Samoëns", cp: "74340", lyonPrix: 430, gnbPrix: 355 },
+    { destination: "Serre Chevalier", cp: "05240", lyonPrix: 450, gnbPrix: 285 },
+    { destination: "Tignes", cp: "73320", lyonPrix: 490, gnbPrix: 390 },
+    { destination: "Val d'Isère", cp: "73150", lyonPrix: 500, gnbPrix: 400 },
+    { destination: "Val Thorens", cp: "73440", lyonPrix: 450, gnbPrix: 350 },
+    { destination: "Villard-de-Lans", cp: "38250", lyonPrix: 295, gnbPrix: 110 }
+].sort((a, b) => a.destination.localeCompare(b.destination)); 
+;
+
+const trievesStations = [
+    { destination: "Chichilianne", cp: "38930", lyonPrix: 355, gnbPrix: 220 },
+    { destination: "Clelles", cp: "38930", lyonPrix: 340, gnbPrix: 210 },
+    { destination: "Lalley", cp: "38930", lyonPrix: 360, gnbPrix: 230 },
+    { destination: "Le Percy", cp: "38930", lyonPrix: 345, gnbPrix: 215 },
+    { destination: "Mens", cp: "38710", lyonPrix: 350, gnbPrix: 220 },
+    { destination: "Monestier-de-Clermont", cp: "38650", lyonPrix: 320, gnbPrix: 190 },
+    { destination: "Roissard", cp: "38650", lyonPrix: 310, gnbPrix: 180 },
+    { destination: "Saint-Baudille-et-Pipet", cp: "38710", lyonPrix: 365, gnbPrix: 235 },
+    { destination: "Saint-Maurice-en-Trièves", cp: "38930", lyonPrix: 350, gnbPrix: 220 },
+    { destination: "Sinard", cp: "38650", lyonPrix: 300, gnbPrix: 170 },
+    { destination: "Treffort", cp: "38650", lyonPrix: 305, gnbPrix: 175 },
+    { destination: "Tréminis", cp: "38710", lyonPrix: 375, gnbPrix: 245 }
+].sort((a, b) => a.destination.localeCompare(b.destination));
+
+const forfaitsGrenoble = [
+    { destination: "Alpe d'Huez", cp: "38750", prixBerline: 175 },
+    { destination: "Autrans", cp: "38880", prixBerline: 120 },
+    { destination: "Avoriaz", cp: "74110", prixBerline: 350 },
+    { destination: "Chamonix", cp: "74400", prixBerline: 375 },
+    { destination: "Chamrousse", cp: "38410", prixBerline: 100 },
+    { destination: "Courchevel", cp: "73120", prixBerline: 320 },
+    { destination: "Dévoluy (Superdévoluy)", cp: "05250", prixBerline: 255 },
+    { destination: "Flaine", cp: "74300", prixBerline: 365 },
+    { destination: "Gresse-en-Vercors", cp: "38650", prixBerline: 135 },
+    { destination: "La Clusaz", cp: "74220", prixBerline: 310 },
+    { destination: "La Plagne", cp: "73210", prixBerline: 345 },
+    { destination: "La Rosière", cp: "73700", prixBerline: 380 },
+    { destination: "Le Grand Bornand", cp: "74450", prixBerline: 305 },
+    { destination: "Les Arcs", cp: "73700", prixBerline: 360 },
+    { destination: "Les Deux Alpes", cp: "38520", prixBerline: 185 },
+    { destination: "Les Gets", cp: "74260", prixBerline: 325 },
+    { destination: "Les Menuires", cp: "73440", prixBerline: 330 },
+    { destination: "Méribel", cp: "73550", prixBerline: 315 },
+    { destination: "Morzine", cp: "74110", prixBerline: 335 },
+    { destination: "Mottaret", cp: "73550", prixBerline: 325 },
+    { destination: "Sainte Foy Tarentaise", cp: "73640", prixBerline: 365 },
+    { destination: "Saint-Martin-de-Belleville", cp: "73440", prixBerline: 320 },
+    { destination: "Samoëns", cp: "74340", prixBerline: 355 },
+    { destination: "Serre Chevalier", cp: "05240", prixBerline: 285 },
+    { destination: "Tignes", cp: "73320", prixBerline: 390 },
+    { destination: "Val d'Isère", cp: "73150", prixBerline: 400 },
+    { destination: "Val Thorens", cp: "73440", prixBerline: 350 },
+    { destination: "Villard-de-Lans", cp: "38250", prixBerline: 110 }
+].sort((a, b) => a.destination.localeCompare(b.destination));
+
+// --- LÓGICA DE GENERACIÓN DE SCHEMA.ORG (SIN CAMBIOS) ---
+// Se fusiona todo para el schema.org, está perfecto así.
+const allAirportStations = [...stationsAlps, ...trievesStations];
+const forfaitsAeroLyonStations = allAirportStations.map(s => ({ origin: "Aeropuerto de Lyon-Saint Exupéry", to: s.destination, prix: s.lyonPrix }));
+const forfaitsAeroGrenobleStations = allAirportStations.map(s => ({ origin: "Aeropuerto de Grenoble-Isère", to: s.destination, prix: s.gnbPrix }));
+const forfaitsGrenobleVilleStations = forfaitsGrenoble.map(s => ({ origin: "Grenoble", to: s.destination, prix: s.prixBerline }));
+const forfaitsGrenobleVilleTrieves = trievesStations.map(s => ({ origin: "Grenoble", to: s.destination, prix: s.gnbPrix }));
+
+const allForfaits = [
+    ...forfaitsAeroportVille, 
+    ...forfaitsAeroLyonStations, 
+    ...forfaitsAeroGrenobleStations, 
+    ...forfaitsGrenobleVilleStations
+].sort((a,b) => `${a.origin} ${a.to}`.localeCompare(`${b.origin} ${b.to}`));
+
+const generateSchema = (forfaits) => {
+    return forfaits.map(forfait => ({
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": `Traslado con Chófer Privado ${forfait.origin} ↔ ${forfait.to}`,
+        "description": `Viaje en coche con chófer entre ${forfait.origin} y ${forfait.to}. Reserve su transporte privado.`,
+        "provider": { "@type": "Organization", "name": "ShipCars VTC Grenoble" },
+        "offers": {
+            "@type": "Offer",
+            "priceCurrency": "EUR",
+            "price": forfait.prix.toFixed(2),
+            "url": `/#booking?pickup=${encodeURIComponent(forfait.origin)}&dropoff=${encodeURIComponent(forfait.to)}`
+        }
+    }));
+};
+const schemaData = generateSchema(allForfaits);
+---
+
+<Layout 
+    title="Alternativa al taxi Grenoble | Traslado Aeropuerto & Estaciones de Esquí"
+    description="Tu chófer privado en Grenoble para todos tus traslados a los aeropuertos de Lyon, Ginebra y las estaciones de esquí de los Alpes. Servicio fiable, precio fijo."
+>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>Tu Chófer privado para Aeropuertos y Estaciones de Esquí</h1>
+            <p class="subtitle">Viajes serenos y a medida desde Grenoble, con un servicio profesional y tarifas fijas.</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Un servicio de transporte fiable, una alternativa cómoda al taxi</h2>
+            <p>Descubre una nueva forma de viajar en Grenoble y la región. Nuestro servicio de chófer privado es la solución ideal para tus desplazamientos. Nos esforzamos por ofrecerte un transporte que combina puntualidad, comodidad y discreción, para que cada trayecto sea una experiencia relajante.</p>
+        </div>
+    </section>
+
+    <section class="content-section" style="padding-top: 0; padding-bottom: 0;">
+        <div class="container">
+            <div class="notice-box">
+                <p><strong>Atención:</strong> Las tarifas que se muestran a continuación son precios fijos indicativos. Todas las reservas deben realizarse y confirmarse a través de nuestro formulario de reserva oficial para garantizar su trayecto y la tarifa final.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="aeroport-stations" class="content-section pt-0">
+        <div class="container">
+            <h2>Traslados de Aeropuertos a Estaciones de Esquí</h2>
+            <p>
+                Viaja directamente desde los aeropuertos de Lyon o Grenoble a tu estación de esquí. Nuestros chóferes te esperan a tu llegada para un traslado directo y cómodo.
+            </p>
+            
+            <div class="table-container">
+                <table class="tarifs-table">
+                    <thead>
+                        <tr>
+                            <th>Destino (Estación de Esquí)</th>
+                            <th>Tarifa desde Aeropuerto Lyon-St Exupéry</th>
+                            <th>Tarifa desde Aeropuerto Grenoble-Isère</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {stationsAlps.map((station) => (
+                            <tr>
+                                <td data-label="Estación"><strong>{station.destination}</strong></td>
+                                <td data-label="Precio Lyon" class="prix-cell">
+                                    {station.lyonPrix > 0 ? `${station.lyonPrix} €` : 'Bajo presupuesto'}
+                                </td>
+                                <td data-label="Precio Grenoble" class="prix-cell">
+                                    {station.gnbPrix > 0 ? `${station.gnbPrix} €` : 'Bajo presupuesto'}
+                                </td>
+                                <td data-label="Reservar">
+                                    <a href={`/#booking`} class="table-cta">Reservar</a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="aeroports" class="content-section bg-light">
+        <div class="container">
+            <h2>Traslados con Aeropuertos (Lyon, Grenoble)</h2>
+            <p>Evita el estrés de las salidas y llegadas. Nos encargamos de tu recogida puntual para llevarte a los aeropuertos de Lyon-Saint Exupéry (LYS) y Ginebra (GVA). La tarifa es fija, sin sorpresas.</p>
+            
+            <div class="table-container">
+                <table class="tarifs-table">
+                    <thead>
+                        <tr>
+                            <th>Servicio de transporte al aeropuerto (Salida ↔ Llegada)</th>
+                            <th>Precio (Sedán Eléctrico)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {forfaitsAeroportVille.map((forfait) => (
+                            <tr>
+                                <td data-label="Trayecto"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
+                                <td data-label="Precio" class="prix-cell">{forfait.prix} €</td>
+                                <td data-label="Reservar">
+                                    <a href={`/#booking`} class="table-cta">Reservar</a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    
+    <section id="stations" class="content-section">
+        <div class="container">
+            <h2>Servicios de Transporte Privado a Estaciones de Esquí</h2>
+            <p>Llega a las pistas de los Alpes con total seguridad. Nuestros chóferes conocen las carreteras de montaña y nuestros vehículos están equipados para el invierno, con espacio suficiente para tu equipo.</p>
+            
+            <div class="table-container">
+                <table class="tarifs-table">
+                    <thead>
+                        <tr>
+                            <th>Servicio de transporte Estaciones de esquí Alpes (Salida desde Grenoble)</th>
+                            <th>Precio (Sedán Eléctrico)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {forfaitsGrenobleVilleStations.map((forfait) => (
+                            <tr>
+                                <td data-label="Trayecto"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
+                                <td data-label="Precio" class="prix-cell">{forfait.prix} €</td>
+                                <td data-label="Reservar">
+                                    <a href={`/#booking`} class="table-cta">Reservar</a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="trieves" class="content-section bg-light">
+        <div class="container">
+            <h2>Nuestros servicios en el Trièves</h2>
+            <p>
+                También realizamos tus desplazamientos bajo demanda a los municipios del Trièves. Disfruta de un transporte cómodo para llegar a Monestier-de-Clermont, Clelles y los pueblos de los alrededores.
+            </p>
+            
+            <div class="table-container">
+                <table class="tarifs-table">
+                    <thead>
+                        <tr>
+                            <th>Traslado en el Trièves (Salida desde Grenoble)</th>
+                            <th>Precio (Sedán Eléctrico)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {forfaitsGrenobleVilleTrieves.map((forfait) => (
+                            <tr>
+                                <td data-label="Trayecto"><strong>{forfait.origin}</strong> ↔ {forfait.to}</td>
+                                <td data-label="Precio" class="prix-cell">{forfait.prix} €</td>
+                                <td data-label="Reservar">
+                                    <a href={`/#booking`} class="table-cta">Reservar</a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>¿Listo para viajar con tranquilidad?</h2>
+            <p>Para cualquier otro destino o para un presupuesto personalizado, nuestro módulo de reserva está a tu disposición.</p>
+            <a href="/#booking" class="button-primary">Reservar mi chófer</a>
+        </div>
+    </section>
+
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+</Layout>
+
+<style>
+    /* Los estilos CSS son idénticos a los de la versión francesa y se mantienen sin cambios. */
+    :root { --accent: #007bff; --light-bg: #f8f9fa; }
+    .page-hero { background: var(--accent); color: white; padding: 4rem 2rem; text-align: center; }
+    .content-section { padding: 4rem 2rem; }
+    .bg-light { background-color: var(--light-bg); }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .text-container { max-width: 800px; text-align: center; } /* Para los textos de introducción */
+    .text-container h2 { margin-bottom: 1rem; }
+    .text-container p { line-height: 1.6; }
+    
+    section.content-section .container > h2,
+    section.content-section .container > p {
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+    }
+
+    .table-container { overflow-x: auto; margin-top: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; }
+    .tarifs-table { width: 100%; border-collapse: collapse; text-align: left; background: white; }
+    .tarifs-table th, .tarifs-table td { padding: 15px; border-bottom: 1px solid #eee; }
+    .tarifs-table th { background-color: var(--accent); color: white; }
+    .prix-cell { font-weight: bold; color: var(--accent); font-size: 1.1em; }
+    .table-cta { display: inline-block; padding: 5px 12px; background-color: #f0f0f0; color: var(--accent); text-decoration: none; border-radius: 4px; font-weight: 600; transition: all 0.2s; }
+    .table-cta:hover { background-color: var(--accent); color: white; }
+
+    .cta-section {
+        background-color: #2d3a4c; /* Un color más oscuro para contrastar */
+        color: white;
+        text-align: center;
+        padding: 2rem 2rem;
+    
+    }
+    .content-section + .content-section {
+    padding-top: 0;
+    }
+    .cta-section h2 { margin-bottom: 1rem; }
+    .button-primary {
+        display: inline-block;
+        background-color: var(--accent);
+        color: white;
+        padding: 14px 32px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 1rem;
+        transition: transform 0.2s;
+    }
+    .button-primary:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+    }
+    
+    @media (max-width: 768px) {
+        .tarifs-table thead { display: none; }
+        .tarifs-table, .tarifs-table tbody, .tarifs-table tr, .tarifs-table td { display: block; }
+        .tarifs-table tr { border: 1px solid #ddd; margin-bottom: 1rem; }
+        .tarifs-table td { padding-left: 50%; text-align: right; position: relative; }
+        .tarifs-table td:before { content: attr(data-label); position: absolute; left: 15px; width: 45%; text-align: left; font-weight: bold; }
+    }
+    /* Estilos para la caja de información */
+.notice-box {
+    background-color: #eef6ff; /* Fondo azul claro */
+    border-left: 5px solid #3b82f6; /* Borde de acentuación azul */
+    padding: 1rem 1.5rem;
+    margin: 0 auto; /* Centra la caja */
+    max-width: 100%;
+    border-radius: 8px;
+}
+.notice-box p {
+    margin: 0;
+    line-height: 1.6;
+    color: #1e3a8a; /* Texto azul oscuro para la legibilidad */
+}
+.notice-box strong {
+    color: #1d4ed8;
+}
+</style>
