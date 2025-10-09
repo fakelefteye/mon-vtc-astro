@@ -1,0 +1,341 @@
+---
+import Layout from '@/layouts/Layout.astro';
+// URLs proporcionadas por el usuario (Cloudflare R2)
+const baseR2Url = "https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/";
+
+const mainCarPhoto = baseR2Url + "grenoble leaf.png";
+const rearSeatsPhoto = baseR2Url + "Nissan-Leaf-inside.jpg.webp"; 
+const luggagePhoto = baseR2Url + "nissan bagage.jpg";
+const foldPhoto = baseR2Url + "nissan fold.jpg"; 
+
+// Se mantiene para el detalle de los asientos calefactables, o reemplazar por una foto real si tienes una
+const heatedSeatButtonPhoto = "https://placeholder.com/300x200/000000/FFFFFF?text=Bot%C3%B3n+Asientos+Calefactables"; 
+---
+<Layout
+    title="Nuestro Vehículo VTC: Nissan Leaf 62 kWh - Alternativa al Taxi en Grenoble"
+    description="Descubre nuestro Nissan Leaf e+ 62 kWh, una alternativa cómoda, segura y ecológica a los taxis tradicionales en Grenoble. Conductora VTC. Ideal para traslados a estaciones, aeropuertos y estaciones de esquí en los Alpes (Alpe d'Huez, Les Deux Alpes, Courchevel, etc.). Próximamente estarán disponibles vehículos VTC de alta gama adicionales."
+    keywords="VTC Grenoble, alternativa taxi Grenoble, VTC conductora Grenoble, Nissan Leaf VTC, coche eléctrico VTC, traslado aeropuerto Grenoble, traslado estación Grenoble, VTC Alpe d'Huez, VTC Les Deux Alpes, VTC Courchevel, chófer privado Grenoble, transporte privado Grenoble"
+>
+    
+    <section class="page-hero">
+        <div class="container">
+            <h1>Nuestro Vehículo: Nissan Leaf e+ 62 kWh</h1>
+            <p class="subtitle">La elección para una experiencia de viaje <strong>premium</strong>, <strong>segura</strong> y <strong>respetuosa con el medio ambiente</strong>.</p>
+        </div>
+    </section>
+
+    <section class="car-presentation">
+        <div class="container vehicle-grid">
+            
+            <div class="car-image">
+                <img 
+                    src={mainCarPhoto} 
+                    alt="Lise, conductora VTC de Ship Cars, con su Nissan Leaf negro en Grenoble"
+                    class="main-car-photo"
+                >
+            </div>
+            
+            <div class="features-list">
+                <h2>Confort, Seguridad y Espacio: Viaja Sin Compromisos - Tu Alternativa al Taxi en Grenoble</h2>
+                
+                <p>A bordo de nuestro <strong>Nissan Leaf e+ (62 kWh)</strong>, cada detalle está pensado para tu bienestar y tranquilidad. Como <strong>alternativa VTC a los taxis tradicionales en Grenoble</strong>, te ofrecemos una solución de transporte privada, fiable y cómoda. Nuestra <strong>conductora VTC</strong> garantiza un servicio profesional y personalizado.</p>
+
+                <ul class="key-features">
+                    <li>
+                        <strong>Capacidad de Equipaje:</strong> Un maletero generoso de <strong>435 Litros</strong>, ideal para maletas o equipos de esquí de cuatro pasajeros. Asientos traseros abatibles 60/40 para necesidades específicas.
+                    </li>
+                    <li>
+                        <strong>Máxima Seguridad:</strong> El modelo obtuvo <strong>5 estrellas en las pruebas de choque Euro NCAP</strong>, una de las mejores calificaciones del mercado. Tu seguridad es nuestra prioridad absoluta.
+                    </li>
+                    <li>
+                        <strong>Confort Invernal Garantizado:</strong> Disfruta de <strong>asientos calefactables</strong> tanto en la parte delantera como en la trasera. Incluso en climas fríos, tu viaje será de lo más placentero.
+                    </li>
+                    <li>
+                        <strong>Silencio y Discreción:</strong> La propulsión eléctrica ofrece una conducción <strong>ultra silenciosa</strong>. Ideal para trabajar, descansar o disfrutar del paisaje discretamente.
+                    </li>
+                    <li>
+                        <strong>Impacto Ecológico Reducido:</strong> Transporte <strong>100% eléctrico</strong> para minimizar nuestra huella de carbono, una elección responsable para tus viajes en Grenoble y hacia los Alpes.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section class="interior-details">
+        <div class="container interior-showcase">
+            
+            <div class="details-text-seating">
+                <h3>Un Interior Pensado para el Viaje</h3>
+                <p>El espacioso habitáculo del Nissan Leaf garantiza un confort óptimo para 4 pasajeros. Encontrarás un generoso espacio para las piernas, tomas de carga para tus dispositivos y un ambiente de berlina de alta gama, perfecto para tus viajes de negocios o personales.</p>
+                
+                <h4>Confort de los Asientos Traseros y Detalles Calefactables</h4>
+                <p>Sabemos que los traslados a las estaciones de esquí exigen un confort impecable. Por eso destacamos nuestros <strong>asientos calefactables</strong> en la parte delantera y trasera. Un pequeño lujo que marca la diferencia después de un día en las pistas o en climas muy fríos, asegurando tu bienestar durante todo el trayecto con tu <strong>VTC Grenoble</strong>.</p>
+            </div>
+
+            <img 
+                src={rearSeatsPhoto} 
+                alt="Vista de los asientos traseros del Nissan Leaf, espaciosos y calefactables para tu confort."
+                class="photo-large"
+            >
+            
+            <img 
+                src={heatedSeatButtonPhoto} 
+                alt="Botón de control de los asientos calefactables del Nissan Leaf"
+                class="photo-small"
+            >
+        </div>
+    </section>
+
+    <section class="luggage-details">
+        <div class="container interior-showcase reverse-grid">
+            
+            <div class="details-text-luggage">
+                <h3>Capacidad de Carga: 435 L de Flexibilidad</h3>
+                <p>Con su generoso maletero de <strong>435 Litros</strong>, el Nissan Leaf es una de las berlinas eléctricas que ofrece la mejor capacidad de carga. Maletas, bolsas de viaje o equipo de senderismo... todo encuentra su lugar sin dificultad para 4 pasajeros, convirtiéndonos en una <strong>excelente alternativa a los taxis</strong> para tus traslados voluminosos.</p>
+                
+                <h4>Asientos Abatibles 60/40 para Esquís</h4>
+                <p>Para el equipo más voluminoso, como los esquís largos, la parte trasera está equipada con <strong>asientos abatibles 60/40</strong>, lo que permite liberar espacio manteniendo uno o dos asientos traseros. Tu <strong>conductora VTC en Grenoble</strong> se adapta a todas tus necesidades de transporte.</p>
+            </div>
+            
+            <img 
+                src={luggagePhoto} 
+                alt="Maletero del Nissan Leaf lleno de equipaje y maletas para un traslado VTC."
+                class="photo-large"
+            >
+
+            <img 
+                src={foldPhoto} 
+                alt="Detalle del abatimiento 60/40 de los asientos traseros para objetos largos en el Nissan Leaf."
+                class="photo-small"
+            >
+            
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <section class="autonomy-assurance">
+        <div class="container">
+            <h2>Autonomía: Olvídate de la Ansiedad, Disfruta del Viaje</h2>
+            
+            <div class="assurance-box">
+                <p>Con su batería de <strong>62 kWh</strong> de última generación, el Nissan Leaf e+ es perfectamente adecuado para viajes de larga distancia, incluso en la montaña. Te garantizamos un servicio <strong>sin interrupciones</strong> ni esperas para la recarga.</p>
+                
+                <h3>Autonomía garantizada a todas las estaciones de los Alpes:</h3>
+                
+                <p>Gracias a la batería de alta capacidad y a la gestión optimizada de la energía (incluida la recuperación de energía en el frenado cuesta abajo), realizamos todos los traslados clásicos de la región <strong>sin necesidad de parar para recargar</strong>. Un servicio eficiente y ecológico, una verdadera <strong>alternativa a los taxis</strong> para tus viajes.</p>
+                
+                <ul class="destinations-list">
+                    <li>Traslados aeropuerto Grenoble GNB ↔ <strong>Alpe d'Huez</strong>, Les Deux Alpes, Chamrousse.</li>
+                    <li>Traslados aeropuerto Lyon LYS ↔ Tignes, Val d'Isère, <strong>Courchevel</strong>, Méribel, Val Thorens.</li>
+                </ul>
+
+                <p>Nuestro vehículo está preparado y cargado al <strong>100%</strong> antes de cada salida importante. Subes, llegas a tu destino, sin preocupaciones por la autonomía con tu <strong>VTC eléctrico en Grenoble</strong>.</p>
+            </div>
+        </div>
+    </section>
+
+    {/* Sección añadida para futuros vehículos */}
+    <section class="future-vehicles">
+        <div class="container">
+            <h2>Nuestra Flota se Ampliará Pronto \!</h2>
+            <p>Para satisfacer mejor tus demandas y ofrecer aún más opciones y confort, ShipCars tiene previsto integrar próximamente **nuevos vehículos VTC de alta gama** en su flota. Ya sea que busques una berlina de lujo, una furgoneta espaciosa para grupos o opciones específicamente adaptadas a tus necesidades, nos comprometemos a diversificar nuestra oferta.</p>
+            <p>Mantente atento para descubrir nuestras futuras incorporaciones, siempre con el espíritu de un **servicio VTC premium en Grenoble**, una **alternativa fiable a los taxis**, con especial atención a la calidad, el confort y la seguridad de nuestros pasajeros. Seguimos priorizando vehículos modernos y bien equipados para todos tus destinos.</p>
+            <div class="coming-soon-image">
+                
+            </div>
+        </div>
+    </section>
+
+</Layout>
+
+<style>
+    /*
+     * Los estilos CSS permanecen iguales para todos los idiomas,
+     * ya que no contienen texto específico a traducir.
+     * Solo asegúrate de que estos estilos estén incluidos o vinculados
+     * en tus respectivos archivos de página.
+     */
+    :root {
+        --accent: #007bff; 
+        --primary-text: #333;
+        --secondary-bg: #f5f5f5;
+        --car-details-bg: #e6f0ff; 
+    }
+    .page-hero {
+        background: var(--accent);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    .page-hero h1 {
+        font-size: clamp(2em, 4vw, 3em);
+        margin-bottom: 0.5rem;
+    }
+    .subtitle {
+        font-size: 1.2em;
+        opacity: 0.9;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .car-presentation {
+        padding: 4rem 0;
+    }
+
+    .vehicle-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+    @media (min-width: 900px) {
+        .vehicle-grid {
+            grid-template-columns: 1.2fr 1.5fr;
+        }
+    }
+
+    .main-car-photo {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        object-fit: cover;
+    }
+    .key-features {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+    .key-features li {
+        background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23007bff" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.53a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.08z"/></svg>') no-repeat left center;
+        background-size: 1em;
+        padding-left: 1.8em;
+        margin-bottom: 1em;
+        line-height: 1.4;
+    }
+    .key-features strong {
+        color: var(--accent);
+    }
+
+    .interior-details, .luggage-details {
+        padding: 2rem 0;
+    }
+    .interior-details {
+        background-color: var(--secondary-bg);
+    }
+    .interior-showcase {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: center;
+    }
+    @media (min-width: 900px) {
+        .interior-showcase {
+            grid-template-columns: 1.5fr 1fr;
+            grid-template-areas: 
+                "text photo-large"
+                "text photo-small";
+        }
+        .details-text-seating, .details-text-luggage { grid-area: text; }
+        .photo-large { grid-area: photo-large; }
+        .photo-small { grid-area: photo-small; }
+        
+        .reverse-grid {
+            grid-template-areas: 
+                "photo-large text"
+                "photo-small text";
+        }
+    }
+
+    .photo-large {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        object-fit: cover;
+    }
+    .photo-small {
+        max-width: 300px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+        justify-self: center; 
+    }
+
+    .separator {
+        border: none;
+        border-top: 2px solid var(--secondary-bg);
+        margin: 3rem auto;
+        width: 80%;
+    }
+    .autonomy-assurance {
+        padding-bottom: 5rem;
+    }
+    .autonomy-assurance h2 {
+        text-align: center;
+        color: var(--accent);
+        margin-bottom: 2rem;
+    }
+    .assurance-box {
+        background-color: var(--car-details-bg);
+        padding: 2.5rem;
+        border-radius: 12px;
+        border-left: 5px solid var(--accent);
+    }
+    .assurance-box h3 {
+        color: var(--primary-text);
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .destinations-list {
+        list-style-type: '⚡'; 
+        padding-left: 1.5rem;
+        font-size: 1.1em;
+    }
+    .destinations-list li {
+        margin-bottom: 0.5rem;
+    }
+
+    .future-vehicles {
+        padding: 4rem 0;
+        text-align: center;
+        background-color: var(--dark-bg);
+        color: white;
+    }
+
+    .future-vehicles h2 {
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        font-size: clamp(1.8em, 3vw, 2.5em);
+    }
+
+    .future-vehicles p {
+        max-width: 800px;
+        margin: 0 auto 1.5rem auto;
+        line-height: 1.7;
+        font-size: 1.1em;
+    }
+    
+    .future-vehicles strong {
+        color: var(--accent);
+    }
+
+    .coming-soon-image {
+        margin-top: 2rem;
+        background-image: url('https://img.freepik.com/premium-vector/coming-soon-banner-coming-soon-template_491410-44.jpg?w=1480');
+        background-size: cover;
+        background-position: center;
+        height: 250px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid var(--accent);
+    }
+</style>

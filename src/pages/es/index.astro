@@ -1,0 +1,287 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import BookingForm from '@/components/BookingForm.astro';
+---
+<Layout 
+    title="VTC Grenoble | Chófer Privado | Traslado Aeropuerto & Estaciones de Esquí | Conductora mujer Grenoble | Alternativa taxi aeropuerto Grenoble"
+    description="Servicio de chófer VTC en Grenoble con Nissan Leaf 100% eléctrico. Tarifas fijas para el aeropuerto de Lyon, Ginebra y las estaciones de esquí. Alternativa al taxi."
+>
+
+    <section class="hero">
+        <video playsinline autoplay muted loop poster="">
+            <source src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/nissan.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1>Tu Conductora Privada en Grenoble y Aeropuerto de Lyon</h1>
+            <p>Viajes de negocios, traslados al aeropuerto o escapadas a los Alpes en vehículo 100% eléctrico.</p>
+            <a href="#booking" class="cta-button">Estimar y Reservar Tu Trayecto</a>
+        </div>
+    </section>
+
+    <section id="forfaits" class="content-section">
+        <h2>Nuestras Tarifas Exclusivas</h2>
+        <div class="forfaits-grid">
+            
+            <div class="forfait-card special-card">
+                <i class="icon-plane"></i>
+                <h3>Grenoble ↔ Aeropuerto Lyon St-Exupéry</h3>
+                <p class="prix">220€</p>
+                <p><strong>Tarifa Sedán.</strong> El traslado al aeropuerto más cómodo, una alternativa al taxi.</p>
+            </div>
+            
+            <div class="forfait-card">
+                <i class="icon-mountains"></i>
+                <h3>Aeropuerto Lyon (LYS) ↔ Alpe d'Huez</h3>
+                <p class="prix">360€</p>
+                <p>Traslado directo y rápido a la estación. Servicio Sedán Premium.</p>
+            </div>
+            
+            <div class="forfait-card special-card">
+                <i class="icon-plane"></i>
+                <h3>Aeropuerto Grenoble (GNB) ↔ Alpe d'Huez</h3>
+                <p class="prix">260€</p>
+                <p>Traslado optimizado para tu llegada a Isère.</p>
+            </div>
+
+            <div class="forfait-card">
+                <i class="icon-global"></i>
+                <h3>Grenoble ↔ Aeropuerto de Ginebra</h3>
+                <p class="prix">350€</p>
+                <p><strong>Tarifa Sedán.</strong> Viaje internacional sin estrés. Trayecto directo a GVA.</p>
+            </div>
+
+            <div class="forfait-card special-card">
+                <i class="icon-mountains"></i>
+                <h3>Grenoble ↔ Estaciones de Esquí</h3>
+                <p class="prix">Desde 99€</p>
+                <p>Traslados a Les 2 Alpes, Chamrousse, Courchevel, etc. Llega a pie de pista.</p>
+            </div>
+            
+            <div class="forfait-card">
+                <i class="icon-clock"></i>
+                <h3>Disposición por Horas</h3>
+                <p class="prix">60€/hora</p>
+                <p>Para tus citas profesionales, seminarios o eventos privados. Presupuesto para el día completo.</p>
+            </div>
+            
+        </div>
+        <a href="/es/nuestras-tarifas" class="secondary-button">Ver todas nuestras tarifas y paquetes</a>
+    </section>
+
+    <section id="booking" class="booking-section">
+        <h2>Estima y Reserva Tu Chófer</h2>
+        <BookingForm />
+    </section>
+
+</Layout>
+<style>
+    /* Los estilos CSS son idénticos a los de la versión francesa y se mantienen sin cambios. */
+    /* ------------------------------------------- */
+    /* Nuevos estilos para el vídeo en pantalla completa */
+    /* ------------------------------------------- */
+    .hero {
+        position: relative; 
+        width: 100%;
+        height: 80vh; 
+        overflow: hidden; 
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+        color: white; 
+        text-align: center;
+    }
+
+    .hero video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: 1; 
+        transform: translate(-50%, -50%);
+        filter: brightness(0.65); 
+    }
+
+    .hero-content {
+        position: relative; 
+        z-index: 10; 
+        padding: 1rem;
+    }
+    
+    .hero-content h1 {
+        font-size: clamp(2em, 5vw, 3.5em);
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    .hero-content p {
+        font-size: clamp(1.1em, 2vw, 1.5em);
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    }
+    
+    /* ------------------------------------------- */
+    /* Estilos para el CTA (Call To Action) - Más visible y atractivo */
+    /* ------------------------------------------- */
+    :root {
+        --accent: #007bff; 
+        --accent-dark: #0056b3; 
+        --primary-text: #333;
+        --secondary-bg: #f5f5f5;
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        font-size: 1.1em;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        border: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cta-button:hover {
+        background-color: var(--accent-dark); 
+        transform: translateY(-2px); 
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ------------------------------------------- */
+    
+    /* Estilos para las secciones de contenido */
+    .content-section, .booking-section { padding: 4rem 2rem; text-align: center; }
+    .booking-section { background: var(--secondary-bg); }
+    .content-section h2 { 
+        font-size: 2.2em; 
+        margin-bottom: 3rem; 
+        color: var(--primary-text);
+        position: relative;
+    }
+    .content-section h2::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: var(--accent);
+        margin: 10px auto 0;
+    }
+
+    /* Estilos de la cuadrícula y las tarjetas */
+    .forfaits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .forfait-card { 
+        border: 1px solid #ddd; 
+        border-radius: 12px; 
+        text-align: center; 
+        padding: 2.5rem 1.5rem; 
+        box-shadow: 0 8px 15px rgba(0,0,0,0.08); 
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: white;
+    }
+    .forfait-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    /* Estilo específico para las tarjetas principales (Aeropuerto) */
+    .special-card {
+        background-color: var(--accent);
+        color: white;
+        border-color: var(--accent);
+    }
+    .special-card .prix {
+        color: white; 
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    .special-card .icon-plane, .special-card .icon-global, .special-card .icon-mountains {
+        color: white;
+        background: rgba(255, 255, 255, 0.2); 
+    }
+
+    /* Estilos del texto en la tarjeta */
+    .forfait-card h3 {
+        font-size: 1.4em;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .prix { 
+        font-size: 2.5em; 
+        color: var(--accent); 
+        font-weight: 700; 
+        margin: 0.2em 0;
+    }
+    .forfait-card p {
+        color: #666;
+        font-size: 0.95em;
+    }
+    .special-card p {
+        color: #eee;
+    }
+    
+    /* Iconos (simulados) */
+    .forfait-card i {
+        display: block;
+        font-size: 2.5em;
+        color: var(--accent);
+        margin-bottom: 1rem;
+        background: var(--secondary-bg);
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        border-radius: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        font-style: normal;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+    }
+
+    .icon-plane::before { content: '✈️'; }
+    .icon-mountains::before { content: '🏔️'; }
+    .icon-global::before { content: '🌍'; }
+    .icon-clock::before { content: '⏱️'; }
+
+    /* Estilos del botón secundario */
+    .secondary-button {
+        display: inline-block;
+        margin-top: 4rem;
+        padding: 0.8rem 1.8rem;
+        border: 2px solid var(--accent);
+        color: var(--accent);
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9em;
+    }
+    .secondary-button:hover {
+        background-color: var(--accent);
+        color: white;
+    }
+
+    /* Media Queries para pantallas pequeñas */
+    @media (max-width: 600px) {
+        .content-section, .booking-section { padding: 3rem 1rem; }
+        .hero { height: 60vh; }
+        .hero-content h1 { font-size: 2em; }
+        .hero-content p { font-size: 1.1em; }
+        .cta-button { padding: 0.8rem 1.5rem; font-size: 1em; }
+    }
+</style>

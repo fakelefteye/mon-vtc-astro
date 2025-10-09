@@ -1,0 +1,101 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+<Layout
+    title="Acerca de - Tu Conductora VTC en Grenoble: Seguridad & Traslados Alpes"
+    description="Descubre la trayectoria de tu conductora privada VTC en Grenoble. De una carrera en informática a un servicio de excelencia, combinando rigor, discreción y seguridad. Especialista en traslados a aeropuertos, estaciones de tren y servicio de transporte a las estaciones de esquí de los Alpes."
+>
+        
+    <div class="container">
+        
+        <header>
+            <h1>Del Rigor de la Informática a la Excelencia en el Servicio</h1>
+            <p class="subtitle">Mi trayectoria, tu garantía de un servicio VTC fiable, discreto y seguro.</p>
+                                
+            <img 
+                src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/lise.jpg" 
+                alt="Foto de Lise, tu conductora VTC en Grenoble" 
+                class="profile-photo" 
+                width="200" 
+                height="200"
+            >
+        </header>
+                            
+        <main class="content">
+            <section aria-labelledby="parcours-pro">
+                <h2 id="parcours-pro" class="sr-only">Mi trayectoria profesional</h2>
+                <p>Después de varios años enriquecedores en el sector de la informática, donde la <strong>precisión</strong>, la <strong>lógica</strong> y la <strong>resolución de problemas</strong> eran mi día a día, decidí reorientarme hacia una profesión de servicio y contacto humano: <strong>conductora privada VTC</strong>.</p>
+                                        
+                <p>Esta experiencia técnica me ha aportado un <strong>rigor</strong> y un <strong>sentido de la organización</strong> que hoy pongo a tu servicio. Para mí, un viaje exitoso no es solo un punto A conectado a un punto B. Es una experiencia completa: <strong>puntualidad absoluta</strong>, anticipación de tus necesidades, <strong>discreción garantizada</strong> y una conducción suave y segura.</p>
+            </section>
+            
+            <hr>
+            
+            <section aria-labelledby="securite-service">
+                <h2>Seguridad, Discreción y Traslados Clave en Grenoble y los Alpes</h2>
+                                        
+                <p>Como <strong>mujer</strong>, soy particularmente sensible a la importancia de sentirse <strong>completamente segura</strong> durante los desplazamientos. Por eso, a bordo de mi vehículo, te aseguro un ambiente de viaje donde la calma y la serenidad son la norma. Mis clientas, ya viajen solas o en grupo, aprecian esta garantía de <strong>tranquilidad adicional</strong>.</p>
+                
+                <p>Estoy especializada en las conexiones clave de la región: <strong>Traslado aeropuerto Grenoble Saint-Geoirs (GNB)</strong>, <strong>Traslado Estación de tren de Grenoble</strong>, y los <strong>Servicios de transporte a las estaciones de esquí de los Alpes</strong>.</p>
+                
+                <p>Apasionada por la región de Grenoble y los magníficos paisajes de los Alpes, estaré encantada de llevarte y aconsejarte. <strong>Hablo inglés y español con fluidez</strong>, lo que me permite atender a una <strong>clientela internacional</strong> con la misma calidad de servicio.</p>
+            </section>
+            
+            <section aria-labelledby="mots-cles-reservation">
+                <h3>Tu alternativa al taxi en Grenoble</h3>
+                <p>¿Buscas una alternativa al <strong>taxi en Grenoble</strong>? Has encontrado mucho más: un <strong>servicio de transporte personalizado</strong>, diseñado para tu tranquilidad. Para encontrar el mejor servicio de <strong>chófer privado Grenoble</strong>, piensa en estas palabras clave: <strong>VTC Grenoble</strong>, <strong>Taxi esquí Alpes</strong>, <strong>Traslado estación de esquí</strong>, <strong>Servicio de transporte aeropuerto Grenoble</strong>, <strong>Transporte privado Grenoble</strong>.</p>
+            </section>
+        </main>
+    </div>
+</Layout>
+
+<style>
+    /* Los estilos CSS son idénticos a los de la versión francesa y se mantienen sin cambios. */
+    .container {         
+        max-width: 900px;         
+        margin: 4rem auto;         
+        padding: 2rem;     
+    }
+    h1 {         
+        text-align: center;         
+        margin-bottom: 0.5rem;     
+    }
+    h2 {         
+        margin-top: 2rem;         
+        font-size: 1.5em;     
+    }
+    h3 {         
+        font-size: 1.2em;     
+    }
+    .subtitle {         
+        text-align: center;         
+        font-size: 1.2em;         
+        color: #777;         
+        margin-top: 0;         
+        margin-bottom: 2rem;     
+    }
+    .content p {         
+        font-size: 1.1em;         
+        line-height: 1.8;     
+    }
+    .profile-photo {
+        display: block;         
+        margin: 0 auto 2rem;         
+        width: 200px;         
+        height: 200px;         
+        border-radius: 50%; /* Para una imagen redonda */
+        object-fit: cover; /* Asegura que la imagen cubra bien el círculo sin deformación */
+        object-position: 50% 30%; /* El primer % es para el eje X (horizontal, 50% = centrado), el segundo % es para el eje Y (vertical). 30% desplaza la imagen hacia arriba. */
+        border: 4px solid #f0f0f0; /* Pequeño borde para que destaque */
+    }
+    .sr-only {         
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+</style>
