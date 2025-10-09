@@ -1,81 +1,81 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 ---
-<Layout title="Contact Us">
-    <h1>Contact Us</h1>
-    <p>For any specific request or a personalized quote, feel free to get in touch. We respond quickly!</p>
+<Layout title="Contáctanos">
+    <h1>Contáctanos</h1>
+    <p>Para cualquier solicitud específica o un presupuesto personalizado, no dudes en ponerte en contacto. ¡Respondemos rápidamente!</p>
     
     <ul>
         <li>
-            <strong>Phone:</strong> 📞 
-            <span id="secure-phone-link">Please enable JavaScript to see the number.</span>
+            <strong>Teléfono:</strong> 📞 
+            <span id="secure-phone-link">Por favor, activa JavaScript para ver el número.</span>
         </li>
         
         <li>
             <strong>WhatsApp:</strong> 🟢 
-            <span id="secure-whatsapp-link">Please enable JavaScript for chat.</span>
+            <span id="secure-whatsapp-link">Por favor, activa JavaScript para chatear.</span>
         </li>
         
         <li>
             <strong>Email:</strong> 📧 
-            <span id="secure-email-link">Please enable JavaScript to see the address.</span>
+            <span id="secure-email-link">Por favor, activa JavaScript para ver la dirección.</span>
         </li>
     </ul>
 
     <script>
-        // --- BASE DATA (Corrected Number: 661691178) ---
+        // --- DATOS BASE (Número corregido: 661691178) ---
         var phone_num = "661691178"; 
-        var phone_display = "06 61 69 11 78"; // Formatted number for display
+        var phone_display = "06 61 69 11 78"; // Número formateado para mostrar
         var country_code = "+33"; 
 
-        // --- 1. PHONE SECURITY (Classic Call) ---
+        // --- 1. SEGURIDAD TELÉFONO (Llamada clásica) ---
         var tel_prefix = "tel:" + country_code;
         
-        // Create the link
+        // Crear el enlace
         var phone_link = document.createElement('a');
         phone_link.href = tel_prefix + phone_num;
         phone_link.textContent = phone_display;
         
-        // Insert into the page
+        // Insertar en la página
         var phone_container = document.getElementById('secure-phone-link');
         if (phone_container) {
             phone_container.textContent = ''; 
             phone_container.appendChild(phone_link);
         }
 
-        // --- 2. WHATSAPP SECURITY ---
-        // WhatsApp link: https://wa.me/fullnumber (without the + sign)
+        // --- 2. SEGURIDAD WHATSAPP ---
+        // Enlace WhatsApp: https://wa.me/fullnumber (sin el signo +)
         var whatsapp_link_url = "https://wa.me/" + country_code.replace('+', '') + phone_num;
 
-        // Create the link
+        // Crear el enlace
         var whatsapp_link = document.createElement('a');
         whatsapp_link.href = whatsapp_link_url;
-        whatsapp_link.textContent = "Start a chat"; // Translated text
-        whatsapp_link.target = "_blank"; // Opens in a new tab
+        whatsapp_link.textContent = "Iniciar chat";
+        whatsapp_link.target = "_blank"; // Abrir en nueva pestaña
         
-        // Insert into the page
+        // Insertar en la página
         var whatsapp_container = document.getElementById('secure-whatsapp-link');
         if (whatsapp_container) {
             whatsapp_container.textContent = ''; 
             whatsapp_container.appendChild(whatsapp_link);
         }
         
-        // --- 3. EMAIL SECURITY ---
+        // --- 3. SEGURIDAD EMAIL ---
         var part1 = "bill";
         var part2 = "shipcars";
         var part3 = "gmail.com";
         var mailto_prefix = "mailto:";
         
-        // Reconstruct the full address
+        // Reconstruir la dirección completa
         var fullAddress = part1 + "." + part2 + "@" + part3;
         var fullLink = mailto_prefix + fullAddress;
         
-        // Create the link
+        // Crear el enlace
         var email_link = document.createElement('a');
         email_link.href = fullLink;
         email_link.textContent = fullAddress;
         
-        // Insert into the page
+        // Insertar en la página
         var email_container = document.getElementById('secure-email-link');
         if (email_container) {
             email_container.textContent = ''; 

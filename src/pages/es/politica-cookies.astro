@@ -1,0 +1,120 @@
+---
+// src/pages/politique-cookies.astro
+import Layout from '@/layouts/Layout.astro'; // Asegúrese de que la ruta es correcta para su Layout
+---
+
+<Layout 
+    title="Política de Cookies - ShipCars VTC Grenoble"
+    description="Consulte nuestra política de cookies para comprender el uso de cookies por parte de ShipCars en nuestro sitio web.">
+
+  <main class="legal-page">
+    <section class="section-hero">
+      <div class="container">
+        <h1>Política de Cookies</h1>
+        <p>Última actualización: <time datetime="2025-10-06">6 de octubre de 2025</time></p>
+      </div>
+    </section>
+
+    <section class="section-content container">
+      <p>
+        Esta política de cookies explica cómo **ShipCars** (en adelante, "nosotros", "nuestro", "nuestros") utiliza cookies y tecnologías similares en su sitio web `transfert-aeroport-grenoble.fr`.
+      </p>
+
+      <h2>1. ¿Qué es una cookie?</h2>
+      <p>
+        Una cookie es un pequeño archivo de texto que se coloca en su ordenador o dispositivo móvil cuando visita un sitio web. Permite que el sitio "recuerde" sus acciones y preferencias (como el inicio de sesión, el idioma, el tamaño de la fuente y otras configuraciones de visualización) durante un período de tiempo, para que no tenga que volver a introducirlas cada vez que regrese al sitio o navegue de una página a otra.
+      </p>
+
+      <h2>2. Tipos de cookies que utilizamos</h2>
+      <p>Nuestro sitio web utiliza principalmente **cookies estrictamente necesarias**:</p>
+      <ul>
+        <li>
+          **Cookies funcionales/técnicas:** Estas cookies son esenciales para el correcto funcionamiento de nuestro sitio web y para permitirle utilizar sus funcionalidades básicas, como la navegación, el acceso a áreas seguras del sitio y la gestión de su sesión de reserva (por ejemplo, para retener la información que ha introducido en el formulario de reserva entre los pasos). Sin estas cookies, el sitio no podría funcionar correctamente. No recopilan ninguna información de identificación personal y no requieren su consentimiento.
+        </li>
+      </ul>
+      <p>
+        <strong>NO utilizamos (salvo indicación futura en contrario con su consentimiento explícito):</strong>
+      </p>
+      <ul>
+        <li>
+          **Cookies de análisis/rendimiento:** Estas cookies recopilan información sobre cómo los visitantes utilizan un sitio web (por ejemplo, las páginas más visitadas, los mensajes de error). Actualmente, no utilizamos servicios de terceros como Google Analytics que requerirían su consentimiento para estas cookies.
+        </li>
+        <li>
+          **Cookies de publicidad/segmentación:** Estas cookies se utilizan para mostrar anuncios más relevantes para usted y sus intereses. No utilizamos este tipo de cookies.
+        </li>
+        <li>
+          **Cookies de redes sociales:** Estas cookies se utilizan para permitirle compartir el contenido de nuestro sitio en redes sociales. No utilizamos este tipo de cookies.
+        </li>
+      </ul>
+
+      <h2>3. Consentimiento</h2>
+      <p>
+        De acuerdo con la legislación vigente (RGPD y directrices CNIL), las cookies estrictamente necesarias para el funcionamiento del servicio que usted solicita no requieren su consentimiento previo. Dado que nuestro sitio solo utiliza cookies de este tipo, no mostramos un banner de consentimiento de cookies.
+      </p>
+      <p>
+        Si decidiéramos utilizar otros tipos de cookies (análisis, publicidad) en el futuro, actualizaríamos esta política e implementaríamos un mecanismo para recabar su consentimiento.
+      </p>
+
+      <h2>4. Gestión de Cookies</h2>
+      <p>
+        Usted tiene el control sobre las cookies. Puede configurar su navegador en cualquier momento para aceptar o rechazar cookies, o para ser notificado cuando se envían cookies. La mayoría de los navegadores web ofrecen opciones para gestionar las cookies en su configuración.
+      </p>
+      <p>
+        Tenga en cuenta que el bloqueo de las cookies estrictamente necesarias podría afectar el correcto funcionamiento de nuestro sitio web e impedirle utilizar algunas de sus funcionalidades.
+      </p>
+
+      <p>Para saber cómo gestionar las cookies en su navegador:</p>
+      <ul>
+        <li><a href="https://support.google.com/chrome/answer/95647?hl=fr" target="_blank" rel="noopener noreferrer">Google Chrome</a></li>
+        <li><a href="https://support.mozilla.org/fr/kb/activer-desactiver-cookies-preferences" target="_blank" rel="noopener noreferrer">Mozilla Firefox</a></li>
+        <li><a href="https://support.microsoft.com/fr-fr/windows/supprimer-et-g%C3%A9rer-les-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank" rel="noopener noreferrer">Microsoft Edge</a></li>
+        <li><a href="https://support.apple.com/fr-fr/HT201265" target="_blank" rel="noopener noreferrer">Apple Safari</a></li>
+      </ul>
+
+      <h2>5. Modificaciones de la Política de Cookies</h2>
+      <p>
+        Podemos actualizar esta política de cookies ocasionalmente para reflejar cambios en nuestras prácticas o por otras razones operativas, legales o reglamentarias. Le recomendamos que revise esta página regularmente para mantenerse informado sobre cómo utilizamos las cookies.
+      </p>
+      <p>Para cualquier pregunta relacionada con nuestra política de cookies, puede contactarnos a través de los datos de contacto indicados en nuestro aviso legal.</p>
+    </section>
+  </main>
+</Layout>
+
+<style>
+    /* Los estilos CSS se mantienen sin cambios */
+    .legal-page .section-hero {
+        background-color: var(--dark-bg, #2d3a4c);
+        color: white;
+        padding: 3rem 1.5rem;
+        text-align: center;
+    }
+    .legal-page .section-hero h1 {
+        margin: 0;
+        font-size: 2.5em;
+    }
+    .legal-page .section-content {
+        padding: 2rem 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+    .legal-page h2 {
+        font-size: 1.8em;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid var(--accent, #35c2b5);
+        padding-bottom: 0.5rem;
+    }
+    .legal-page ul {
+        list-style: disc;
+        padding-left: 20px;
+        margin-bottom: 1em;
+    }
+    .legal-page ul li {
+        margin-bottom: 0.5em;
+    }
+    .legal-page a {
+        color: var(--accent, #35c2b5);
+        text-decoration: underline;
+    }
+</style>

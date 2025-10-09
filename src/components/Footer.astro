@@ -1,42 +1,209 @@
-<footer>
-    <div class="footer-content">
-        <p class="copyright">© {new Date().getFullYear()} Transferts Grenoble by SHIP CARS. Tous droits réservés.</p>
-        
-        <p class="creation-mention">
-            Vous aimez ce site ? Je peux créer le vôtre ! <a href="/contact">Contactez-moi pour un devis.</a>
-        </p>
+---
+// src/components/Footer.astro
+
+// Le code pour la détection de la langue reste tel quel puisque vous confirmez qu'il fonctionne.
+const currentPath = Astro.url.pathname;
+let lang = 'fr'; // Langue par défaut
+
+if (currentPath.startsWith('/en/')) {
+    lang = 'en';
+} else if (currentPath.startsWith('/es/')) {
+    lang = 'es';
+}
+
+// Définir les textes et les URLs pour chaque langue
+const legalLinks = {
+    fr: {
+        mentions: { text: 'Mentions Légales', href: '/mentions-legales' },
+        confidentialite: { text: 'Politique de Confidentialité', href: '/politique-confidentialite' },
+        cookies: { text: 'Politique de Cookies', href: '/politique-cookies' },
+        contact: { text: 'Contact', href: '/contact' } // Ajout du lien contact pour le FR
+    },
+    en: {
+        mentions: { text: 'Legal Notice', href: '/en/legal-notice' },
+        confidentialite: { text: 'Privacy Policy', href: '/en/privacy-policy' },
+        cookies: { text: 'Cookie Policy', href: '/en/cookie-policy' },
+        contact: { text: 'Contact', href: '/en/contact' } // Ajout du lien contact pour l'EN
+    },
+    es: {
+        mentions: { text: 'Aviso Legal', href: '/es/aviso-legal' },
+        confidentialite: { text: 'Política de Privacidad', href: '/es/politica-privacidad' },
+        cookies: { text: 'Política de Cookies', href: '/es/politica-cookies' },
+        contact: { text: 'Contacto', href: '/es/contact' } // Ajout du lien contact pour l'ES
+    }
+};
+
+const currentLegalLinks = legalLinks[lang];
+const year = new Date().getFullYear();
+---
+
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-grid">
+            {/* Colonne principale ShipCars */}
+            <div class="footer-column">
+                <h3>ShipCars</h3>
+                <p>Votre service VTC premium à Grenoble et ses environs.</p>
+                <p>&copy; {year} ShipCars. Tous droits réservés.</p>
+            </div>
+
+            {/* Nouvelle colonne pour le lien Contact (simple lien/bouton) */}
+            <div class="footer-column contact-link-column">
+                <h3>{currentLegalLinks.contact.text}</h3>
+                <p>Besoin de nous contacter pour une question ou une réservation spéciale ?</p>
+                <a href={currentLegalLinks.contact.href} class="contact-button">
+                    {currentLegalLinks.contact.text}
+                </a>
+            </div>
+            
+            {/* Nouvelle colonne pour les liens légaux en ligne (Confidentialité, Cookies, Mentions) */}
+            <div class="footer-column legal-links-inline">
+                <nav aria-label="Liens légaux">
+                    <ul>
+                        <li><a href={currentLegalLinks.mentions.href}>{currentLegalLinks.mentions.text}</a></li>
+                        <li><a href={currentLegalLinks.confidentialite.href}>{currentLegalLinks.confidentialite.text}</a></li>
+                        <li><a href={currentLegalLinks.cookies.href}>{currentLegalLinks.cookies.text}</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
+</footer>
+
 <style>
-    footer { text-align: center; padding: 2rem; margin-top: 3rem; background: #eee; }
-
-    /* ... autres styles du footer et du container ... */
-
-    .footer-content {
-        text-align: center;
-        padding: 2rem 0;
-        border-top: 1px solid #e0e0e0; /* Une petite ligne pour séparer le footer du contenu principal */
-        margin-top: 3rem;
-        font-size: 0.9em;
+    .main-footer {
+        background-color: var(--dark-color, #1a1a1a);
+        color: #f8f8f8;
+        padding: 3rem 1.5rem;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.95em;
     }
 
-    .copyright {
-        color: #777;
-        margin-bottom: 0.5rem;
+    .main-footer .container {
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-    .creation-mention {
-        margin-top: 0.5rem;
-        font-weight: 600; /* Rendre le texte plus visible */
-        color: #333;
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        align-items: flex-start; /* Aligner les colonnes en haut */
     }
 
-    .creation-mention a {
-        color: #007bff; /* Ou la couleur principale de votre charte */
+    .footer-column h3 {
+        color: var(--accent-color, #007bff);
+        font-size: 1.2em;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 0.5rem;
+    }
+
+    .footer-column ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-column ul li {
+        margin-bottom: 0.7rem;
+    }
+
+    .footer-column a {
+        color: #f8f8f8;
         text-decoration: none;
+        transition: color 0.3s ease;
     }
 
-    .creation-mention a:hover {
+    .footer-column a:hover {
+        color: var(--accent-color, #007bff);
         text-decoration: underline;
     }
 
+    .footer-column p {
+        margin-bottom: 0.7rem;
+        line-height: 1.6;
+        color: #ccc;
+    }
+
+    /* Styles spécifiques pour les liens légaux en ligne */
+    .legal-links-inline {
+        /* On retire les styles de titre et de bordure pour cette colonne */
+        /* Positionner cette colonne en dernier sur les grands écrans */
+        order: 3; 
+        text-align: right; /* Aligner les liens à droite */
+        padding-top: 2rem; /* Espace au-dessus pour décaler des autres colonnes */
+    }
+    .legal-links-inline h3 {
+        display: none; /* Cacher le titre si on veut juste les liens */
+    }
+    .legal-links-inline ul {
+        display: flex;
+        flex-wrap: wrap; /* Permettre le passage à la ligne */
+        justify-content: flex-end; /* Aligner les éléments à droite */
+        gap: 0.8rem 1.5rem; /* Espace entre les liens */
+        margin-top: 0; /* Pas de marge excessive */
+    }
+    .legal-links-inline ul li {
+        margin-bottom: 0; /* Pas de marge verticale entre les items */
+    }
+    .legal-links-inline a {
+        font-size: 0.85em; /* Taille plus petite */
+        opacity: 0.8;
+    }
+    .legal-links-inline a:hover {
+        opacity: 1;
+    }
+
+    /* Styles pour la colonne du lien Contact */
+    .contact-link-column {
+        order: 2; /* Positionner après la colonne principale ShipCars sur grands écrans */
+        text-align: center;
+    }
+
+    .contact-link-column p {
+        color: #ccc;
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-button {
+        display: inline-block;
+        background-color: var(--accent-color, #007bff); /* Couleur principale du site */
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .contact-button:hover {
+        background-color: var(--cta-hover, #6f42c1); /* Utilisation d'une couleur de survol existante */
+        transform: translateY(-2px);
+    }
+
+    /* Styles pour la responsabilité mobile */
+    @media (max-width: 768px) {
+        .footer-grid {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        .footer-column h3 {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .footer-column ul {
+            margin-bottom: 1.5rem;
+        }
+        /* Réinitialiser l'ordre et l'alignement pour les mobiles */
+        .legal-links-inline,
+        .contact-link-column {
+            order: initial;
+            text-align: center;
+            padding-top: 0; /* Pas de padding supplémentaire sur mobile */
+        }
+        .legal-links-inline ul {
+            justify-content: center;
+        }
+    }
 </style>

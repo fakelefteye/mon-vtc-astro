@@ -1,11 +1,90 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 ---
-<Layout title="Contactez-nous">
-    <h1>Nous Contacter</h1>
-    <p>Pour toute demande spécifique ou un devis personnalisé, n'hésitez pas à nous joindre.</p>
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="Contact Us">
+    <h1>Contact Us</h1>
+    <p>Pour toute demande spécifique ou un devis personnalisé, n'hésitez pas à nous contacter. Nous répondons rapidement !</p>
+    
     <ul>
-        <li><strong>Téléphone :</strong> <a href='&#109;ailto&#58;&#48;12345678&#57;'>0&#49;234567&#56;&#57;</a></li>
-        <li><strong>Email :</strong> <a href='m&#97;&#105;lt&#111;&#58;bill&#37;2Es&#104;%&#54;9pcar&#115;%4&#48;&#103;m%61&#105;l%2&#69;&#99;om'>b&#105;l&#108;&#46;shipcar&#115;&#64;gm&#97;il&#46;com</a></li>
+        <li>
+            <strong>Téléphone :</strong> 📞 
+            <span id="secure-phone-link">Veuillez activer JavaScript pour voir le numéro.</span>
+        </li>
+        
+        <li>
+            <strong>WhatsApp :</strong> 🟢 
+            <span id="secure-whatsapp-link">Veuillez activer JavaScript pour le chat.</span>
+        </li>
+        
+        <li>
+            <strong>Email :</strong> 📧 
+            <span id="secure-email-link">Veuillez activer JavaScript pour voir l'adresse.</span>
+        </li>
     </ul>
+
+    <script>
+        // --- DONNÉES DE BASE (Numéro corrigé : 661691178) ---
+        var phone_num = "661691178"; 
+        // J'ai mis le format sans le premier 0 pour les liens tel/whatsapp
+        var phone_display = "06 61 69 11 78"; // Numéro formaté pour l'affichage
+        var country_code = "+33"; 
+
+        // --- 1. SÉCURISATION DU TÉLÉPHONE (Appel classique) ---
+        var tel_prefix = "tel:" + country_code;
+        
+        // Création du lien
+        var phone_link = document.createElement('a');
+        phone_link.href = tel_prefix + phone_num;
+        phone_link.textContent = phone_display;
+        
+        // Insertion dans la page
+        var phone_container = document.getElementById('secure-phone-link');
+        if (phone_container) {
+            phone_container.textContent = ''; 
+            phone_container.appendChild(phone_link);
+        }
+
+        // --- 2. SÉCURISATION DE WHATSAPP ---
+        // Lien WhatsApp : https://wa.me/numerocomplet (sans le signe +)
+        var whatsapp_link_url = "https://wa.me/" + country_code.replace('+', '') + phone_num;
+
+        // Création du lien
+        var whatsapp_link = document.createElement('a');
+        whatsapp_link.href = whatsapp_link_url;
+        whatsapp_link.textContent = "Démarrer une conversation";
+        whatsapp_link.target = "_blank"; // Ouvre dans un nouvel onglet
+        
+        // Insertion dans la page
+        var whatsapp_container = document.getElementById('secure-whatsapp-link');
+        if (whatsapp_container) {
+            whatsapp_container.textContent = ''; 
+            whatsapp_container.appendChild(whatsapp_link);
+        }
+        
+        // --- 3. SÉCURISATION DE L'EMAIL ---
+        var part1 = "bill";
+        var part2 = "shipcars";
+        var part3 = "gmail.com";
+        var mailto_prefix = "mailto:";
+        
+        // Reconstruction de l'adresse complète
+        var fullAddress = part1 + "." + part2 + "@" + part3;
+        var fullLink = mailto_prefix + fullAddress;
+        
+        // Création du lien
+        var email_link = document.createElement('a');
+        email_link.href = fullLink;
+        email_link.textContent = fullAddress;
+        
+        // Insertion dans la page
+        var email_container = document.getElementById('secure-email-link');
+        if (email_container) {
+            email_container.textContent = ''; 
+            email_container.appendChild(email_link);
+        }
+    </script>
 </Layout>

@@ -1,0 +1,109 @@
+---
+// src/pages/en/politique-de-confidentialite.astro
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="Privacy Policy - ShipCars VTC Grenoble"
+    description="Read our privacy policy to learn how ShipCars collects, uses, and protects your personal data in accordance with the GDPR.">
+
+  <main class="legal-page">
+    <section class="section-hero">
+      <div class="container">
+        <h1>Privacy Policy</h1>
+        <p>Last updated: <time datetime="2025-10-06">October 6, 2025</time></p>
+      </div>
+    </section>
+
+    <section class="section-content container">
+      <p>
+        This Privacy Policy describes how <strong>Ship Cars</strong> (hereinafter "we", "us", "our") collects, uses, and protects the personal information you provide when using our website `transfert-aeroport-grenoble.fr` and our VTC services. We are committed to protecting your privacy and personal data in accordance with the General Data Protection Regulation (GDPR).
+      </p>
+
+      <h2>1. Data Controller</h2>
+      <p>The data controller for your information is <strong>ShipCars</strong>, whose contact details are available on the legal notice page.</p>
+
+      <h2>2. Information We Collect</h2>
+      <p>We collect the following types of personal information:</p>
+      <ul>
+        <li>
+          <strong>Identification and contact information:</strong> First and last name, email address, phone number, pick-up and destination address, professional information (company name, SIRET, VAT number) if provided.
+        </li>
+        <li>
+          <strong>Payment information:</strong> Transactions are processed by our secure payment service provider (Stripe). We do not store your credit card numbers. We only access payment confirmation.
+        </li>
+        <li>
+          <strong>Technical information:</strong> IP address, browser type, via traffic analysis tools (Vercel Analytics), to ensure the security and improvement of our service.
+        </li>
+      </ul>
+
+      <h2>3. Purposes of Data Processing</h2>
+      <p>Your data is used for the following purposes:</p>
+      <ul>
+        <li>Providing our transportation services (booking management, communication).</li>
+        <li>Processing payments.</li>
+        <li>Sending booking confirmations and invoices.</li>
+        <li>Complying with our legal and accounting obligations.</li>
+        <li>Improving our website and services.</li>
+      </ul>
+
+      <h2>4. Sharing Your Information</h2>
+      <p>We do not sell or rent your data. It is only shared with third parties necessary for the performance of our services:</p>
+      <ul>
+        <li>Our drivers, for the completion of the ride.</li>
+        <li>Our technical providers: Stripe (payment), Google (calendar), our email provider (for confirmations), Vercel (hosting).</li>
+      </ul>
+
+      <h2>5. Data Retention Period</h2>
+      <p>Your booking data is kept for the time necessary to fulfill the contract and to comply with our legal obligations (especially accounting), generally for 10 years after the service.</p>
+
+      <h2>6. Your Rights</h2>
+      <p>In accordance with the GDPR, you have the following rights regarding your data:</p>
+      <ul>
+        <li>Right of access.</li>
+        <li>Right to rectification.</li>
+        <li>Right to erasure (right to be forgotten).</li>
+        <li>Right to restriction of processing.</li>
+        <li>Right to data portability.</li>
+      </ul>
+      <p>To exercise these rights, you can contact us at the email address provided in our legal notice.</p>
+      
+      <h2>7. Cookies</h2>
+      <p>Our website uses cookies. For more information about the cookies we use and how to manage them, please see our <a href="/en/cookie-policy">Cookie Policy</a>.</p>
+    </section>
+  </main>
+</Layout>
+
+<style>
+    .legal-page .section-hero {
+        background-color: var(--dark-bg, #2d3a4c);
+        color: white;
+        padding: 3rem 1.5rem;
+        text-align: center;
+    }
+    .legal-page .section-hero h1 {
+        margin: 0;
+        font-size: 2.5em;
+    }
+    .legal-page .section-content {
+        padding: 2rem 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+    .legal-page h2 {
+        font-size: 1.8em;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid var(--accent, #35c2b5);
+        padding-bottom: 0.5rem;
+    }
+    .legal-page ul {
+        list-style: disc;
+        padding-left: 20px;
+    }
+    .legal-page a {
+        color: var(--accent, #35c2b5);
+        text-decoration: underline;
+    }
+</style>
