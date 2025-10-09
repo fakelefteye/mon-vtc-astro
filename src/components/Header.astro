@@ -1,214 +1,131 @@
 ---
 // src/components/Header.astro
 
-// Logique pour le sélecteur de langue
-const { pathname } = Astro.url;
-const currentPath = pathname.startsWith('/en') || pathname.startsWith('/es')
-  ? pathname.substring(3) || '/'
-  : pathname;
+const { currentPath: rawPath = '' } = Astro.props;
+const currentPath = typeof rawPath === 'string' ? rawPath : '';
+
+const isActive = (pathPrefix: string) => {
+    // Si c'est la racine et pas un préfixe de langue connu, c'est le français par défaut
+    if (pathPrefix === '/') {
+        return currentPath === '/' || (!currentPath.startsWith('/en') && !currentPath.startsWith('/es') && currentPath !== '');
+    }
+    // Pour les autres langues
+    return currentPath.startsWith(pathPrefix);
+};
 ---
-<header>
-    <nav>
+
+<header class="header">
+    <div class="header-main">
         <a href="/" class="logo">
-            <img 
-                src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/logo_ship_cars.png" 
-                alt="Logo Ship Cars VTC Grenoble" 
-                width="150" height="45" />
+            <img src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/logo_ship_cars.png" alt="ShipCars Logo">
         </a>
-
-        <div class="nav-container" id="nav-container">
-            <div class="nav-links">
-                <a href="/">Accueil</a>
-                <a href="/a-propos">À Propos</a>
-                <a href="/transferts-aeroports">Nos Tarifs</a>
-                <a href="/contact">Contact</a>
-            </div>
-            
-            <div class="language-picker">
-                <a href={currentPath} class:list={{ active: !pathname.startsWith('/en') && !pathname.startsWith('/es') }}>🇫🇷</a>
-                <a href={`/en${currentPath}`} class:list={{ active: pathname.startsWith('/en') }}>🇬🇧</a>
-                <a href={`/es${currentPath}`} class:list={{ active: pathname.startsWith('/es') }}>🇪🇸</a>
-            </div>
-
-            <a href="/#booking" class="cta-button">Réserver</a>
+        <nav class="nav">
+            <a href="/">Accueil</a>
+            <a href="/nos-prestations">Nos Prestations</a>
+            <a href="/contact">Contact</a>
+        </nav>
+        
+        <div class="language-picker"> 
+            <a href="/" class={isActive('/') ? 'active' : ''} aria-label="Choisir le Français">FR</a> 
+            <a href="/en/" class={isActive('/en') ? 'active' : ''} aria-label="Choose English">EN</a> 
+            <a href="/es/" class={isActive('/es') ? 'active' : ''} aria-label="Elegir Español">ES</a> 
         </div>
-
-        <button class="hamburger" id="hamburger-button" aria-label="Ouvrir le menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </nav>
+    </div>
 </header>
 
-<script>
-    // Script pour gérer l'ouverture/fermeture du menu mobile
-    const hamburger = document.getElementById('hamburger-button');
-    const navContainer = document.getElementById('nav-container');
-
-    hamburger.addEventListener('click', () => {
-        navContainer.classList.toggle('is-open');
-        hamburger.classList.toggle('is-open');
-    });
-</script>
-
 <style>
-    header {
-        background: var(--dark-bg, #111827);
-        padding: 1rem 2rem;
+    .header {
+        background-color: var(--dark-bg);
+        padding: 1rem 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 1000;
         position: sticky;
         top: 0;
-        z-index: 50;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    nav {
+    .header-main {
+        max-width: 1200px;
+        margin: 0 auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        max-width: 1200px;
-        margin: 0 auto;
+        padding: 0 1.5rem;
     }
 
     .logo img {
-        display: block; /* Évite un petit espace sous l'image */
-        height: 75px; /* Hauteur fixe pour un meilleur contrôle */
+        height: 50px;
         width: auto;
     }
 
-    .nav-container {
+    .nav {
         display: flex;
-        align-items: center;
         gap: 2rem;
     }
 
-    .nav-links {
-        display: flex;
-        gap: 1.5rem;
-    }
-
-    .nav-links a {
+    .nav a {
         color: white;
         text-decoration: none;
-        font-size: 1.1rem; /* ✅ Taille de police augmentée */
         font-weight: 500;
-        padding: 0.5rem 0;
-        position: relative;
-        transition: color 0.2s;
+        transition: color 0.3s ease;
     }
 
-    .nav-links a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: var(--accent,#35C2B5 );
-        transition: width 0.3s ease-in-out;
+    .nav a:hover {
+        color: var(--accent);
     }
 
-    .nav-links a:hover {
-        color: var(--accent, #007bff);
-    }
-    
-    .nav-links a:hover::after {
-        width: 100%;
-    }
-
+    /* Styles pour le sélecteur de langue (version texte) */
     .language-picker {
         display: flex;
-        gap: 0.5rem;
+        gap: 0.5rem; /* Réduire l'espacement entre les éléments */
         align-items: center;
-        border-left: 1px solid rgba(255, 255, 255, 0.2);
-        padding-left: 2rem;
+        margin-left: 2rem;
     }
 
     .language-picker a {
-        font-size: 1.5rem; /* ✅ Taille des drapeaux */
+        color: white; /* Couleur du texte par défaut */
+        background-color: transparent; /* Fond transparent par défaut */
+        border: 1px solid rgba(255, 255, 255, 0.4); /* Bordure légère */
+        padding: 0.3rem 0.6rem;
+        border-radius: 5px;
         text-decoration: none;
-        opacity: 0.6;
-        transition: opacity 0.2s;
+        font-size: 0.9em;
+        font-weight: bold;
+        opacity: 0.7; /* Moins opaque par défaut */
+        transition: all 0.3s ease;
+        min-width: 35px; /* S'assurer qu'ils ont une taille minimale */
+        text-align: center;
     }
 
-    .language-picker a.active,
     .language-picker a:hover {
         opacity: 1;
+        background-color: rgba(255, 255, 255, 0.1); /* Fond légèrement plus visible au survol */
+        transform: translateY(-1px);
     }
 
-    .cta-button {
-        background: #35C2B5;
-        color: white;
-        padding: 0.6rem 1.2rem;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.2s, transform 0.2s;
-    }
-    .cta-button:hover {
-        background: var(--accent-hover, #0056b3);
-        transform: scale(1.05);
+    .language-picker a.active {
+        opacity: 1;
+        background-color: var(--accent, #35c2b5); /* Fond de couleur accent pour la langue active */
+        border-color: var(--accent, #35c2b5); /* Bordure de la même couleur */
+        color: white; /* Texte blanc sur le fond coloré */
+        transform: scale(1.05); /* Légèrement plus grand si actif */
+        box-shadow: 0 0 10px rgba(53, 194, 181, 0.5); /* Ombre pour l'actif */
     }
 
-    .hamburger {
-        display: none; /* Caché sur grand écran */
-        flex-direction: column;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-    .hamburger span {
-        display: block;
-        width: 25px;
-        height: 3px;
-        background: white;
-        transition: transform 0.3s, opacity 0.3s;
-    }
-
-    /* Styles pour le menu mobile */
-    @media (max-width: 900px) {
-        .nav-container {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background: var(--dark-bg, #111827);
+    /* Média queries pour la responsivité */
+    @media (max-width: 768px) {
+        .header-main {
             flex-direction: column;
-            align-items: center;
-            padding: 2rem 0;
-            gap: 2rem;
-            transform: translateY(-150%); /* Caché par défaut */
-            transition: transform 0.4s ease-in-out;
+            gap: 1.5rem;
         }
-
-        .nav-container.is-open {
-            transform: translateY(0); /* Apparaît quand la classe 'is-open' est ajoutée */
+        .nav {
+            order: 2;
         }
-        
-        .nav-links {
-            flex-direction: column;
-            text-align: center;
-        }
-
         .language-picker {
-            padding-left: 0;
-            border-left: none;
+            order: 1;
+            margin-left: 0;
         }
-
-        .hamburger {
-            display: flex; /* Visible sur petit écran */
-        }
-
-        /* Animation du bouton hamburger */
-        .hamburger.is-open span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        .hamburger.is-open span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.is-open span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
+        .logo {
+            order: 0;
         }
     }
 </style>
