@@ -1,65 +1,69 @@
 // src/pages/api/update-driver-location.ts
 import type { APIRoute } from 'astro';
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import { put, list } from '@vercel/blob';
 
-// Chemin où stocker la position du chauffeur
-const DRIVER_LOCATION_FILE = path.resolve(process.cwd(), './driver-location.json');
+// Le nom du fichier qui stockera la position sur le Blob Store
+const LOCATION_FILENAME = 'driver-location.json';
 
-// Assurez-vous que le fichier existe au démarrage du serveur
-// (Ceci est une solution simple, pour une vraie app, utilisez une DB)
-async function ensureDriverLocationFile() {
+// Lit la dernière position connue
+export const GET: APIRoute = async () => {
     try {
-        await fs.access(DRIVER_LOCATION_FILE);
-    } catch (error) {
-        await fs.writeFile(DRIVER_LOCATION_FILE, JSON.stringify({ lat: null, lng: null, timestamp: null }), 'utf-8');
-    }
-}
-ensureDriverLocationFile(); // Exécutez au démarrage du serveur
+        // On cherche le fichier 'driver-location.json' dans le Blob Store
+        const { blobs } = await list({ prefix: LOCATION_FILENAME, limit: 1 });
 
-export const GET: APIRoute = async ({ request }) => {
-    try {
-        const fileContent = await fs.readFile(DRIVER_LOCATION_FILE, 'utf-8');
-        const driverLocation = JSON.parse(fileContent);
+        if (blobs.length === 0) {
+            // Si le fichier n'existe pas encore, on renvoie une position nulle
+            return new Response(JSON.stringify({ lat: null, lng: null, timestamp: null }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+        
+        // Si le fichier existe, on récupère son contenu via son URL publique
+        const blob = blobs[0];
+        const response = await fetch(blob.url);
+        const driverLocation = await response.json();
+
         return new Response(JSON.stringify(driverLocation), {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
         });
+
     } catch (error) {
-        console.error("Failed to read driver location:", error);
-        return new Response(JSON.stringify({ error: "Failed to retrieve driver location" }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        console.error("Erreur lors de la lecture depuis Vercel Blob:", error);
+        return new Response(JSON.stringify({ error: "Impossible de récupérer la position du chauffeur" }), { status: 500 });
     }
 };
 
+// Met à jour la position
 export const POST: APIRoute = async ({ request }) => {
     const driverApiSecret = import.meta.env.DRIVER_API_SECRET;
     const authHeader = request.headers.get('Authorization');
 
     if (!authHeader || authHeader !== `Bearer ${driverApiSecret}`) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+        return new Response(JSON.stringify({ error: "Non autorisé" }), { status: 401 });
     }
 
     try {
         const { lat, lng } = await request.json();
         if (typeof lat !== 'number' || typeof lng !== 'number') {
-            return new Response(JSON.stringify({ error: "Invalid coordinates" }), { status: 400 });
+            return new Response(JSON.stringify({ error: "Coordonnées invalides" }), { status: 400 });
         }
 
         const newLocation = { lat, lng, timestamp: Date.now() };
-        await fs.writeFile(DRIVER_LOCATION_FILE, JSON.stringify(newLocation), 'utf-8');
 
-        return new Response(JSON.stringify({ message: "Driver location updated", location: newLocation }), {
+        // On envoie le nouveau fichier JSON vers Vercel Blob
+        const blob = await put(LOCATION_FILENAME, JSON.stringify(newLocation), {
+            access: 'public', // Le fichier doit être public pour que la fonction GET puisse le lire
+            contentType: 'application/json',
+        });
+
+        return new Response(JSON.stringify({ message: "Position du chauffeur mise à jour", url: blob.url }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {
-        console.error("Failed to update driver location:", error);
-        return new Response(JSON.stringify({ error: "Failed to parse request body or write file" }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        console.error("Erreur lors de l'écriture sur Vercel Blob:", error);
+        return new Response(JSON.stringify({ error: "Impossible de mettre à jour la position" }), { status: 500 });
     }
 };
