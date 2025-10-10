@@ -121,7 +121,13 @@ export async function POST({ request }) {
             html: bookingVoucherHtml,
         });
         console.log("✅ Email de confirmation envoyé pour paiement en véhicule à :", data.email);
-
+        // --- AJOUT : Déclencher l'enregistrement dans Google Sheets ---
+        fetch(new URL('/api/log-trip', request.url), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).catch(e => console.error("Erreur asynchrone log-trip:", e.message));
+        // -----------------------------------------------------------
         return new Response(JSON.stringify({ success: true }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },

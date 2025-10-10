@@ -169,6 +169,15 @@ export async function POST({ request }) {
                 html: bookingVoucherHtml,
             });
             console.log("✅ Email de confirmation envoyé à :", data.email);
+            // --- AJOUT : Déclencher l'enregistrement dans Google Sheets ---
+        // On reconstruit l'URL de base pour l'appel fetch
+        const origin = new URL(request.url).origin;
+        fetch(`${origin}/api/log-trip`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data) // data vient de session.metadata
+        }).catch(e => console.error("Erreur asynchrone log-trip:", e.message));
+        // -----------------------------------------------------------
 
         } catch (error) {
             console.error("❌ Erreur post-paiement (agenda ou email) :", error);
