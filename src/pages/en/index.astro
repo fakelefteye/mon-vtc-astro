@@ -1,6 +1,13 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import BookingForm from '@/components/BookingForm.astro';
+const currentPath = Astro.url.pathname;
+let lang: 'fr' | 'en' | 'es' = 'fr'; // 'fr' par défaut
+if (currentPath.startsWith('/en')) {
+    lang = 'en';
+} else if (currentPath.startsWith('/es')) {
+    lang = 'es';
+}
 ---
 <Layout 
     title="Private Driver Grenoble Airport | Airport & Ski Resort Transfers"
@@ -69,7 +76,7 @@ import BookingForm from '@/components/BookingForm.astro';
 
     <section id="booking" class="booking-section">
         <h2>Estimate and Book Your Driver</h2>
-        <BookingForm />
+           <BookingForm lang={lang} />
     </section>
 
 </Layout>

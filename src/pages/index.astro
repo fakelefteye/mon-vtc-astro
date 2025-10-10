@@ -1,6 +1,13 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import BookingForm from '@/components/BookingForm.astro';
+const currentPath = Astro.url.pathname;
+let lang: 'fr' | 'en' | 'es' = 'fr'; // 'fr' par défaut
+if (currentPath.startsWith('/en')) {
+    lang = 'en';
+} else if (currentPath.startsWith('/es')) {
+    lang = 'es';
+}
 ---
 <Layout 
     title="VTC Grenoble | Chauffeur Privé | Navette Aéroport & Stations de Ski | Chauffeure femme Grenoble | Alternative taxi aéreport Grenoble"
@@ -69,7 +76,7 @@ import BookingForm from '@/components/BookingForm.astro';
 
     <section id="booking" class="booking-section">
         <h2>Estimez et Réservez Votre Chauffeur</h2>
-        <BookingForm />
+           <BookingForm lang={lang} />
     </section>
 
 </Layout>

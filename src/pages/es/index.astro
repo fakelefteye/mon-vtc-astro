@@ -1,7 +1,16 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import BookingForm from '@/components/BookingForm.astro';
+const currentPath = Astro.url.pathname;
+let lang: 'fr' | 'en' | 'es' = 'fr'; // 'fr' par défaut
+if (currentPath.startsWith('/en')) {
+    lang = 'en';
+} else if (currentPath.startsWith('/es')) {
+    lang = 'es';
+}
 ---
+
+
 <Layout 
     title="VTC Grenoble | Chófer Privado | Traslado Aeropuerto & Estaciones de Esquí | Conductora mujer Grenoble | Alternativa taxi aeropuerto Grenoble"
     description="Servicio de chófer VTC en Grenoble con Nissan Leaf 100% eléctrico. Tarifas fijas para el aeropuerto de Lyon, Ginebra y las estaciones de esquí. Alternativa al taxi."
@@ -70,7 +79,7 @@ import BookingForm from '@/components/BookingForm.astro';
 
     <section id="booking" class="booking-section">
         <h2>Estima y Reserva Tu Chófer</h2>
-        <BookingForm />
+           <BookingForm lang={lang} />
     </section>
 
 </Layout>
