@@ -1,0 +1,331 @@
+---
+// src/pages/driver-app.astro
+// Cette page est destinée à être ouverte sur le téléphone du chauffeur VTC.
+import Layout from '../layouts/Layout.astro'; // Utilise le même layout pour le style
+
+// Récupération des variables d'environnement via import.meta.env
+const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+const driverApiSecret = import.meta.env.DRIVER_API_SECRET; // Accès à la variable privée
+
+const driverApiEndpoint = '/api/update-driver-location'; // L'endpoint que nous venons de créer
+const refreshInterval = 30; // Mettre à jour la position toutes les 30 secondes
+---
+
+<Layout title="Chauffeur VTC - Ma Position" description="Application chauffeur pour mettre à jour la position en temps réel.">
+    <div style={{
+        padding: '2rem',
+        maxWidth: '600px',
+        margin: '2rem auto',
+        backgroundColor: '#1a1a1a', /* Fond très sombre */
+        borderRadius: '8px',
+        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)',
+        color: '#f0f0f0', /* Texte clair */
+        textAlign: 'center'
+    }}>
+        <h1 style={{ color: '#35c2b5' }}>Application Chauffeur VTC</h1>
+        <p>Cette page met à jour votre position en temps réel.</p>
+        <p>Assurez-vous que la géolocalisation est activée et que cette page reste ouverte.</p>
+
+        <div id="driver-status">
+            <p>Statut: <span id="status-message" style="font-weight: bold;">Initialisation...</span></p>
+            <p>Dernière position envoyée: <span id="last-location">N/A</span></p>
+            <p>Prochaine mise à jour dans: <span id="countdown">{refreshInterval}</span> secondes</p>
+        </div>
+
+        <button id="start-tracking" style={{
+            backgroundColor: '#35c2b5',
+            color: '#ffffff',
+            border: 'none',
+            padding: '0.8rem 1.5rem',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            marginTop: '1rem',
+            transition: 'background-color 0.3s ease',
+        }}>Démarrer le suivi de ma position</button>
+
+        <button id="stop-tracking" style={{
+            backgroundColor: '#ff6b6b', /* Rouge pour arrêter */
+            color: '#ffffff',
+            border: 'none',
+            padding: '0.8rem 1.5rem',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            marginTop: '1rem',
+            marginLeft: '1rem',
+            transition: 'background-color 0.3s ease',
+            display: 'none' /* Caché par défaut */
+        }}>Arrêter le suivi</button>
+
+        <div id="map-preview" style="height: 300px; width: 100%; margin-top: 20px; border-radius: 8px;"></div>
+    </div>
+
+    <script define:vars={{ driverApiSecret, driverApiEndpoint, refreshInterval, googleMapsApiKey }}>
+        // On attend que le HTML de la page soit entièrement construit avant de lancer le moindre code.
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            console.log("DOM chargé. Lancement du script de la page chauffeur...");
+
+            const statusMessage = document.getElementById('status-message');
+            const lastLocationSpan = document.getElementById('last-location');
+            const countdownSpan = document.getElementById('countdown');
+            const startTrackingButton = document.getElementById('start-tracking');
+            const stopTrackingButton = document.getElementById('stop-tracking');
+            const mapPreview = document.getElementById('map-preview');
+
+            // ✅ TEST CRUCIAL : On vérifie si le bouton a bien été trouvé.
+            console.log("Élément bouton trouvé :", startTrackingButton);
+
+            if (!startTrackingButton || !statusMessage || !lastLocationSpan || !countdownSpan || !stopTrackingButton || !mapPreview) {
+                console.error("ERREUR : Un ou plusieurs éléments HTML n'ont pas été trouvés. Vérifiez les IDs.");
+                return; // On arrête tout si un élément essentiel n'existe pas.
+            }
+
+            let watchId;
+            let intervalId;
+            let map;
+            let marker;
+
+            function updateStatus(message, isError = false) {
+                statusMessage.textContent = message;
+                statusMessage.style.color = isError ? '#ff6b6b' : '#35c2b5';
+            }
+
+            async function sendLocation(lat, lng) {
+                updateStatus("Envoi de la position...", false);
+                try {
+                    const response = await fetch(driverApiEndpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${driverApiSecret}`
+                        },
+                        body: JSON.stringify({ lat, lng })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    lastLocationSpan.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)} (${new Date().toLocaleTimeString()})`;
+                    updateStatus("Position envoyée avec succès.");
+                    if (map && marker) {
+                        const newLatLng = new google.maps.LatLng(lat, lng);
+                        marker.setPosition(newLatLng);
+                        map.setCenter(newLatLng);
+                    }
+                } catch (error) {
+                    updateStatus(`Erreur d'envoi: ${error.message}`, true);
+                    console.error("Error sending location:", error);
+                }
+            }
+
+            function geolocationSuccess(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                updateStatus("Position obtenue.", false);
+                sendLocation(lat, lng);
+            }
+
+            function geolocationError(error) {
+                let message = "Erreur de géolocalisation: ";
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        message += "Permission refusée.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        message += "Position non disponible.";
+                        break;
+                    case error.TIMEOUT:
+                        message += "Délai expiré.";
+                        break;
+                    default:
+                        message += "Erreur inconnue.";
+                        break;
+                }
+                updateStatus(message, true);
+                console.error("Geolocation error:", error);
+            }
+
+            function startTracking() {
+                console.log("✅ La fonction startTracking() est bien appelée !"); // Notre espion
+                if (!navigator.geolocation) {
+                    updateStatus("Géolocalisation non supportée par votre navigateur.", true);
+                    return;
+                }
+
+                updateStatus("Démarrage du suivi...", false);
+                startTrackingButton.style.display = 'none';
+                stopTrackingButton.style.display = 'inline-block';
+
+                geolocationSuccessWrapper(); // Initial get
+
+                // Watch position (best for continuous updates)
+                watchId = navigator.geolocation.watchPosition(
+                    geolocationSuccessWrapper,
+                    geolocationError,
+                    { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 }
+                );
+
+                // Also set an interval for explicit sends
+                let countdown = refreshInterval;
+                countdownSpan.textContent = countdown;
+                intervalId = setInterval(() => {
+                    countdown--;
+                    countdownSpan.textContent = countdown;
+                    if (countdown <= 0) {
+                        geolocationSuccessWrapper();
+                        countdown = refreshInterval;
+                    }
+                }, 1000);
+            }
+
+            function geolocationSuccessWrapper(position) {
+                if (position) { // if called from watchPosition
+                    geolocationSuccess(position);
+                } else { // if called from interval, get current position
+                    navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 });
+                }
+            }
+
+            function stopTracking() {
+                if (watchId) {
+                    navigator.geolocation.clearWatch(watchId);
+                    watchId = null;
+                }
+                if (intervalId) {
+                    clearInterval(intervalId);
+                    intervalId = null;
+                }
+                updateStatus("Suivi arrêté.", false);
+                startTrackingButton.style.display = 'inline-block';
+                stopTrackingButton.style.display = 'none';
+                countdownSpan.textContent = refreshInterval;
+            }
+
+            // --- Google Maps pour la prévisualisation sur la page chauffeur ---
+            function loadGoogleMapsScriptDriver() {
+                if (!window.google || !window.google.maps) {
+                    const script = document.createElement('script');
+                    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&callback=initDriverMap`;
+                    script.async = true;
+                    script.defer = true;
+                    document.head.appendChild(script);
+
+                    return new Promise((resolve, reject) => {
+                        window.initDriverMap = () => resolve();
+                        script.onerror = reject;
+                    });
+                }
+                return Promise.resolve();
+            }
+
+            async function initMapPreview() {
+                await loadGoogleMapsScriptDriver();
+                map = new google.maps.Map(mapPreview, {
+                    center: { lat: 45.1885, lng: 5.7245 }, // Centre par défaut (ex: Grenoble)
+                    zoom: 12,
+                    disableDefaultUI: true,
+                    zoomControl: true,
+                    styles: [ /* Styles de carte sombre si vous voulez, ex: */
+                        { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+                        { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+                        { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+                        {
+                            featureType: "administrative.locality",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#d59563" }],
+                        },
+                        {
+                            featureType: "poi",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#d59563" }],
+                        },
+                        {
+                            featureType: "poi.park",
+                            elementType: "geometry",
+                            stylers: [{ color: "#263c3f" }],
+                        },
+                        {
+                            featureType: "poi.park",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#6b9a76" }],
+                        },
+                        {
+                            featureType: "road",
+                            elementType: "geometry",
+                            stylers: [{ color: "#38414e" }],
+                        },
+                        {
+                            featureType: "road",
+                            elementType: "geometry.stroke",
+                            stylers: [{ color: "#212a37" }],
+                        },
+                        {
+                            featureType: "road",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#9ca5b3" }],
+                        },
+                        {
+                            featureType: "road.highway",
+                            elementType: "geometry",
+                            stylers: [{ color: "#746855" }],
+                        },
+                        {
+                            featureType: "road.highway",
+                            elementType: "geometry.stroke",
+                            stylers: [{ color: "#1f2835" }],
+                        },
+                        {
+                            featureType: "road.highway",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#f3d19c" }],
+                        },
+                        {
+                            featureType: "transit",
+                            elementType: "geometry",
+                            stylers: [{ color: "#2f3948" }],
+                        },
+                        {
+                            featureType: "transit.station",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#d59563" }],
+                        },
+                        {
+                            featureType: "water",
+                            elementType: "geometry",
+                            stylers: [{ color: "#17263c" }],
+                        },
+                        {
+                            featureType: "water",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#515c6d" }],
+                        },
+                        {
+                            featureType: "water",
+                            elementType: "labels.text.stroke",
+                            stylers: [{ color: "#17263c" }],
+                        },
+                    ]
+                });
+                marker = new google.maps.Marker({
+                    map: map,
+                    position: map.getCenter(),
+                    title: 'Ma Position'
+                });
+            }
+
+            // On attache les écouteurs d'événements à la fin
+            initMapPreview();
+            startTrackingButton.addEventListener('click', startTracking);
+            stopTrackingButton.addEventListener('click', stopTracking);
+            
+            console.log("Écouteurs d'événements attachés.");
+        });
+    </script>
+</Layout>

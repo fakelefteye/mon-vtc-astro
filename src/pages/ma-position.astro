@@ -1,0 +1,32 @@
+---
+// src/pages/where-am-i.astro
+import Layout from '../layouts/Layout.astro';
+import GeolocationInfo from '../components/GeolocationInfo.jsx'; // Importez le composant React
+
+// Récupérer les variables d'environnement
+const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+const vtcAddress = import.meta.env.VTC_ADDRESS;
+
+// Déterminer la langue de la page pour le Layout et le composant React
+const currentPath = Astro.url.pathname;
+let lang: 'fr' | 'en' | 'es' = 'fr';
+if (currentPath.startsWith('/en/')) {
+    lang = 'en';
+} else if (currentPath.startsWith('/es/')) {
+    lang = 'es';
+}
+---
+
+<Layout title="Où est mon VTC ?" description="Découvrez à quelle distance votre VTC ShipCars se trouve de votre position actuelle.">
+    <div style={{ padding: '2rem' }}>
+        <h1 style={{ textAlign: 'center', color: '#ffffff' }}>Où est votre VTC ShipCars ?</h1>
+        
+        {/* Intégration du composant React */}
+        <GeolocationInfo 
+            googleMapsApiKey={googleMapsApiKey}
+            vtcAddress={vtcAddress}
+            lang={lang}
+            client:load {/* <-- Très important : Indique à Astro de charger ce composant côté client */}
+        />
+    </div>
+</Layout>
