@@ -248,7 +248,7 @@ const t = {
 
         quoteForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            quoteDetailsEl.innerHTML = {t.calculating};
+            quoteDetailsEl.innerHTML = t.calculating;
             quoteResultEl.className = 'quote-result-visible';
             statusEl.textContent = '';
             
@@ -264,22 +264,22 @@ const t = {
                     }),
                 });
                 const quote = await response.json();
-                if (!response.ok) throw new Error(quote.message || {t.calculationError});
+                if (!response.ok) throw new Error(quote.message || t.calculationError);
                 
                 quoteDetailsEl.innerHTML = `<p class="price">Prix estimé : ${quote.price.toFixed(2)} €</p>`;
                 bookingData = { ...data, ...quote };
             } catch(error) {
-                quoteDetailsEl.innerHTML = `<p class="error">${error instanceof Error ? error.message : {t.unknownError}}</p>`;
+                quoteDetailsEl.innerHTML = `<p class="error">${error instanceof Error ? error.message : t.unknownError}</p>`;
             }
         });
 
         payOnlineBtn.addEventListener('click', async () => {
             if (!stripe) { 
-                statusEl.textContent = {t.stripeNotReady};
+                statusEl.textContent = t.stripeNotReady;
                 statusEl.className = 'status-message error';
                 return;
             }
-            statusEl.textContent = {t.preparingPayment};
+            statusEl.textContent = t.preparingPayment;
             try {
                 const response = await fetch('/api/create-stripe-session', {
                     method: 'POST',
@@ -290,26 +290,26 @@ const t = {
                 if (session.id) {
                     await stripe.redirectToCheckout({ sessionId: session.id });
                 } else {
-                    throw new Error({t.sessionIDMissing});
+                    throw new Error(t.sessionIDMissing);
                 }
             } catch (error) {
-                statusEl.textContent = `Erreur de paiement : ${error instanceof Error ? error.message : {t.unknownError}}`;
+                statusEl.textContent = `Erreur de paiement : ${error instanceof Error ? error.message : t.unknownError}`;
                 statusEl.className = 'status-message error';
             }
         });
 
         bookOnboardBtn.addEventListener('click', async () => {
-            statusEl.textContent = {t.savingBooking};
+            statusEl.textContent = t.savingBooking;
             try {
                 const response = await fetch('/api/book', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(bookingData),
                 });
-                if (!response.ok) throw new Error({t.bookingFailed});
+                if (!response.ok) throw new Error(t.bookingFailed);
                 window.location.href = '/confirmation';
             } catch(error) {
-                statusEl.textContent = `Erreur : ${error instanceof Error ? error.message : {t.unknownError}}`;
+                statusEl.textContent = `Erreur : ${error instanceof Error ? error.message : t.unknownError}`;
                 statusEl.className = 'status-message error';
             }
         });
