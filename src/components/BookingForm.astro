@@ -1,18 +1,18 @@
 ---
 // src/components/BookingForm.astro
 
-// On récupère le chemin actuel transmis par la page ou le layout
+// On récupère le chemin courant (comme ton Header)
 const { currentPath = '/' } = Astro.props;
 
-// Détermine la langue active comme dans Header.astro
+// Même logique que dans Header.astro
 const lang = currentPath.startsWith('/en/')
   ? 'en'
   : currentPath.startsWith('/es/')
   ? 'es'
   : 'fr';
 
-// 💬 Dictionnaire de traduction (identique à ton précédent)
-const t = {
+// 💬 Dictionnaire complet de traduction
+const translations = {
   fr: {
     formTitle: "Demande de Devis et Réservation",
     formSubtitle: "Obtenez une estimation et réservez votre trajet.",
@@ -89,91 +89,66 @@ const t = {
     bookOnboard: "🚗 Reservar y Pagar a Bordo",
   },
 };
+
+// 🧭 Sélectionne directement l’objet pour la langue active
+const t = translations[lang];
 ---
 
 <div id="booking-container" class="booking-wrapper">
-  <h2 class="form-title">{t[lang].formTitle}</h2>
-  <p class="form-subtitle">{t[lang].formSubtitle}</p>
+  <h2 class="form-title">{t.formTitle}</h2>
+  <p class="form-subtitle">{t.formSubtitle}</p>
 
   <form id="quote-form" class="form-grid">
+    <div class="form-group full-width"><h3 class="step-title">{t.step1}</h3></div>
+    
     <div class="form-group full-width">
-      <h3 class="step-title">{t[lang].step1}</h3>
+      <label for="name">{t.name}</label>
+      <input type="text" id="name" name="name" required placeholder={t.namePlaceholder} />
     </div>
 
     <div class="form-group full-width">
-      <label for="name">{t[lang].name}</label>
-      <input type="text" id="name" name="name" required placeholder={t[lang].namePlaceholder} />
-    </div>
-
-    <div class="form-group full-width">
-      <label for="email">{t[lang].email}</label>
-      <input type="email" id="email" name="email" required placeholder={t[lang].emailPlaceholder} />
+      <label for="email">{t.email}</label>
+      <input type="email" id="email" name="email" required placeholder={t.emailPlaceholder} />
     </div>
 
     <div class="form-group">
-      <label for="phone">{t[lang].phone}</label>
-      <input type="tel" id="phone" name="phone" required placeholder={t[lang].phonePlaceholder} />
+      <label for="phone">{t.phone}</label>
+      <input type="tel" id="phone" name="phone" required placeholder={t.phonePlaceholder} />
     </div>
 
     <div class="form-group">
-      <label for="passengers">{t[lang].passengers}</label>
+      <label for="passengers">{t.passengers}</label>
       <input type="number" id="passengers" name="passengers" required min="1" max="4" value="1" />
     </div>
 
-    <div class="form-group full-width">
-      <h3 class="step-title">{t[lang].step2}</h3>
-    </div>
+    <div class="form-group full-width"><h3 class="step-title">{t.step2}</h3></div>
 
-    <div class="form-group">
-      <label for="pickup">{t[lang].pickup}</label>
-      <input type="text" id="pickup" name="pickup" required placeholder={t[lang].addressPlaceholder} />
-    </div>
-
-    <div class="form-group">
-      <label for="dropoff">{t[lang].dropoff}</label>
-      <input type="text" id="dropoff" name="dropoff" required placeholder={t[lang].addressPlaceholder} />
-    </div>
-
-    <div class="form-group full-width">
-      <label for="booking-time">{t[lang].datetime}</label>
-      <input type="datetime-local" id="booking-time" name="bookingTime" required />
-    </div>
-
-    <div class="form-group full-width">
-      <label for="specialRequests">{t[lang].specialRequests}</label>
-      <textarea id="specialRequests" name="specialRequests" rows="3" placeholder={t[lang].specialRequestsPlaceholder}></textarea>
-    </div>
+    <div class="form-group"><label for="pickup">{t.pickup}</label><input type="text" id="pickup" name="pickup" required placeholder={t.addressPlaceholder} /></div>
+    <div class="form-group"><label for="dropoff">{t.dropoff}</label><input type="text" id="dropoff" name="dropoff" required placeholder={t.addressPlaceholder} /></div>
+    <div class="form-group full-width"><label for="booking-time">{t.datetime}</label><input type="datetime-local" id="booking-time" name="bookingTime" required /></div>
+    <div class="form-group full-width"><label for="specialRequests">{t.specialRequests}</label><textarea id="specialRequests" name="specialRequests" rows="3" placeholder={t.specialRequestsPlaceholder}></textarea></div>
 
     <div class="form-group full-width privacy-notice">
-      <p>
-        {t[lang].privacy}
-        <a href="/politique-confidentialite" target="_blank"> {t[lang].privacyLink}</a>.
-      </p>
+      <p>{t.privacy} <a href="/politique-confidentialite" target="_blank">{t.privacyLink}</a>.</p>
     </div>
 
     <div class="form-group full-width">
-      <button type="submit" id="estimate-btn" class="submit-button cta">{t[lang].estimate}</button>
+      <button type="submit" id="estimate-btn" class="submit-button cta">{t.estimate}</button>
     </div>
   </form>
 
   <div id="quote-result" class="quote-result-hidden">
     <div id="quote-details"></div>
-    <h3 class="payment-title">{t[lang].step3}</h3>
+    <h3 class="payment-title">{t.step3}</h3>
     <div class="payment-buttons">
-      <button type="button" id="pay-online-btn" class="submit-button cta">{t[lang].payOnline}</button>
-      <button type="button" id="book-onboard-btn" class="secondary-button">{t[lang].bookOnboard}</button>
+      <button type="button" id="pay-online-btn" class="submit-button cta">{t.payOnline}</button>
+      <button type="button" id="book-onboard-btn" class="secondary-button">{t.bookOnboard}</button>
     </div>
     <p id="form-status" class="status-message"></p>
   </div>
 </div>
 
-<style>
-  /* ton CSS d’origine, inchangé */
-</style>
 
-<script>
-  /* ton JS d’origine, inchangé */
-</script>
 
 
 <style>
