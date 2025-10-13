@@ -203,7 +203,7 @@ const t = {
     @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
 </style>
 
-<script>
+<script define:vars={{ t }}>
     import type { Stripe } from '@stripe/stripe-js';
     
     document.addEventListener('DOMContentLoaded', () => {
