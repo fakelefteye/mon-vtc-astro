@@ -1,51 +1,163 @@
 ---
 // src/components/BookingForm.astro
+// Le composant accepte maintenant une propriété "lang" pour savoir quelle langue afficher
+export interface Props {
+    lang: 'fr' | 'en' | 'es';
+}
+// 'fr' est la langue par défaut si la prop "lang" n'est pas fournie
+const { lang = 'fr' } = Astro.props;
+
+// Dictionnaire de traductions pour tous les textes du formulaire
+const t = {
+    fr: {
+        formTitle: "Demande de Devis et Réservation",
+        formSubtitle: "Obtenez une estimation et réservez votre trajet.",
+        step1Title: "1. Vos Coordonnées",
+        nameLabel: "Nom & Prénom",
+        namePlaceholder: "Ex: Marie Dupont",
+        emailLabel: "Adresse E-mail",
+        emailPlaceholder: "Pour recevoir le bon de réservation",
+        phoneLabel: "Téléphone",
+        phonePlaceholder: "Pour vous contacter si besoin",
+        passengersLabel: "Nombre de passagers",
+        step2Title: "2. Détails du Trajet",
+        pickupLabel: "Adresse de départ",
+        pickupPlaceholder: "Commencez à taper une adresse...",
+        dropoffLabel: "Adresse de destination",
+        dropoffPlaceholder: "Commencez à taper une adresse...",
+        bookingTimeLabel: "Date et heure de la prise en charge",
+        specialRequestsLabel: "Demandes particulières",
+        specialRequestsPlaceholder: "Ex: Siège bébé, bagages volumineux...",
+        privacyNotice: `En soumettant ce formulaire, vous reconnaissez avoir pris connaissance de notre <a href="/politique-confidentialite" target="_blank">politique de confidentialité</a> et vous l'acceptez.`,
+        estimateButton: "Estimer le Prix",
+        calculating: "Calcul en cours...",
+        priceEstimated: "Prix estimé :",
+        step3Title: "3. Confirmez votre réservation",
+        payOnlineButton: "💳 Payer en ligne",
+        bookOnboardButton: "🚗 Réserver & Payer à bord",
+        stripeNotReady: "Le service de paiement n'est pas prêt. Veuillez rafraîchir la page.",
+        bookingFailed: "La réservation a échoué.",
+        sessionIDMissing: "ID de session manquant.",
+        calculationError: "Erreur de calcul.",
+        unknownError: "Erreur inconnue",
+        preparingPayment: "Préparation du paiement...",
+        savingBooking: "Enregistrement de la réservation...",
+    },
+    en: {
+        formTitle: "Quote Request and Booking",
+        formSubtitle: "Get an estimate and book your ride.",
+        step1Title: "1. Your Contact Information",
+        nameLabel: "Full Name",
+        namePlaceholder: "Ex: John Doe",
+        emailLabel: "Email Address",
+        emailPlaceholder: "To receive the booking confirmation",
+        phoneLabel: "Phone",
+        phonePlaceholder: "To contact you if needed",
+        passengersLabel: "Number of passengers",
+        step2Title: "2. Trip Details",
+        pickupLabel: "Pickup address",
+        pickupPlaceholder: "Start typing an address...",
+        dropoffLabel: "Destination address",
+        dropoffPlaceholder: "Start typing an address...",
+        bookingTimeLabel: "Pickup date and time",
+        specialRequestsLabel: "Special requests",
+        specialRequestsPlaceholder: "Ex: Baby seat, bulky luggage...",
+        privacyNotice: `By submitting this form, you acknowledge you have read and agree to our <a href="/en/privacy-policy" target="_blank">privacy policy</a>.`,
+        estimateButton: "Estimate Price",
+        calculating: "Calculating...",
+        priceEstimated: "Estimated price:",
+        step3Title: "3. Confirm your booking",
+        payOnlineButton: "💳 Pay Online",
+        bookOnboardButton: "🚗 Book & Pay Onboard",
+        stripeNotReady: "Payment service is not ready. Please refresh the page.",
+        bookingFailed: "Booking failed.",
+        sessionIDMissing: "Session ID missing.",
+        calculationError: "Calculation error.",
+        unknownError: "Unknown error",
+        preparingPayment: "Preparing payment...",
+        savingBooking: "Saving booking...",
+    },
+    es: {
+        formTitle: "Solicitud de Presupuesto y Reserva",
+        formSubtitle: "Obtenga un presupuesto y reserve su viaje.",
+        step1Title: "1. Sus Datos de Contacto",
+        nameLabel: "Nombre y Apellido",
+        namePlaceholder: "Ej: María García",
+        emailLabel: "Correo Electrónico",
+        emailPlaceholder: "Para recibir el comprobante de reserva",
+        phoneLabel: "Teléfono",
+        phonePlaceholder: "Para contactarle si es necesario",
+        passengersLabel: "Número de pasajeros",
+        step2Title: "2. Detalles del Viaje",
+        pickupLabel: "Dirección de recogida",
+        pickupPlaceholder: "Empiece a escribir una dirección...",
+        dropoffLabel: "Dirección de destino",
+        dropoffPlaceholder: "Empiece a escribir una dirección...",
+        bookingTimeLabel: "Fecha y hora de recogida",
+        specialRequestsLabel: "Solicitudes especiales",
+        specialRequestsPlaceholder: "Ej: Silla de bebé, equipaje voluminoso...",
+        privacyNotice: `Al enviar este formulario, usted reconoce haber leído y aceptado nuestra <a href="/es/politica-privacidad" target="_blank">política de privacidad</a>.`,
+        estimateButton: "Estimar Precio",
+        calculating: "Calculando...",
+        priceEstimated: "Precio estimado:",
+        step3Title: "3. Confirme su reserva",
+        payOnlineButton: "💳 Pagar en línea",
+        bookOnboardButton: "🚗 Reservar y Pagar a bordo",
+        stripeNotReady: "El servicio de pago no está listo. Por favor, actualice la página.",
+        bookingFailed: "La reserva falló.",
+        sessionIDMissing: "ID de sesión faltante.",
+        calculationError: "Error de cálculo.",
+        unknownError: "Error desconocido",
+        preparingPayment: "Preparando pago...",
+        savingBooking: "Guardando reserva...",
+    },
+}[lang];
 ---
 <div id="booking-container" class="booking-wrapper">
-    <h2 class="form-title">Demande de Devis et Réservation</h2>
-    <p class="form-subtitle">Obtenez une estimation et réservez votre trajet.</p>
+    <h2 class="form-title">{t.formTitle}</h2>
+    <p class="form-subtitle">{t.formSubtitle}</p>
 
     <form id="quote-form" class="form-grid">
-        <div class="form-group full-width"><h3 class="step-title">1. Vos Coordonnées</h3></div>
+        <div class="form-group full-width"><h3 class="step-title">{t.step1Title}</h3></div>
         
         <div class="form-group full-width">
-            <label for="name">Nom & Prénom</label>
-            <input type="text" id="name" name="name" required placeholder="Ex: Marie Dupont">
+            <label for="name">{t.nameLabel}</label>
+            <input type="text" id="name" name="name" required placeholder={t.namePlaceholder}>
         </div>
         <div class="form-group full-width">
-            <label for="email">Adresse E-mail</label>
-            <input type="email" id="email" name="email" required placeholder="Pour recevoir le bon de réservation">
+            <label for="email">{t.emailLabel}</label>
+            <input type="email" id="email" name="email" required placeholder={t.emailPlaceholder}>
         </div>
         <div class="form-group">
-            <label for="phone">Téléphone</label>
-            <input type="tel" id="phone" name="phone" required placeholder="Pour vous contacter si besoin">
+            <label for="phone">{t.phoneLabel}</label>
+            <input type="tel" id="phone" name="phone" required placeholder={t.phonePlaceholder}>
         </div>
         <div class="form-group">
-            <label for="passengers">Nombre de passagers</label>
+            <label for="passengers">{t.passengersLabel}</label>
             <input type="number" id="passengers" name="passengers" required min="1" max="4" value="1">
         </div>
 
-        <div class="form-group full-width"><h3 class="step-title">2. Détails du Trajet</h3></div>
-        <div class="form-group"><label for="pickup">Adresse de départ</label><input type="text" id="pickup" name="pickup" required placeholder="Commencez à taper une adresse..."></div>
-        <div class="form-group"><label for="dropoff">Adresse de destination</label><input type="text" id="dropoff" name="dropoff" required placeholder="Commencez à taper une adresse..."></div>
-        <div class="form-group full-width"><label for="booking-time">Date et heure de la prise en charge</label><input type="datetime-local" id="booking-time" name="bookingTime" required></div>
-        <div class="form-group full-width"><label for="specialRequests">Demandes particulières</label><textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Ex: Siège bébé, bagages volumineux..."></textarea></div>
+        <div class="form-group full-width"><h3 class="step-title">{t.step2Title}</h3></div>
+        <div class="form-group"><label for="pickup">{t.pickupLabel}</label><input type="text" id="pickup" name="pickup" required placeholder={t.pickupPlaceholder}></div>
+        <div class="form-group"><label for="dropoff">{t.dropoffLabel}</label><input type="text" id="dropoff" name="dropoff" required placeholder={t.dropoffPlaceholder}></div>
+        <div class="form-group full-width"><label for="booking-time">{t.bookingTimeLabel}</label><input type="datetime-local" id="booking-time" name="bookingTime" required></div>
+        <div class="form-group full-width"><label for="specialRequests">{t.specialRequestsLabel}</label><textarea id="specialRequests" name="specialRequests" rows="3" placeholder={t.specialRequestsPlaceholder}></textarea></div>
 
         <div class="form-group full-width privacy-notice">
-            <p>En soumettant ce formulaire, vous reconnaissez avoir pris connaissance de notre <a href="/politique-confidentialite" target="_blank">politique de confidentialité</a> et vous l'acceptez.</p>
+            <p>E <a href={t.privacyNotice}</p>
         </div>
 
         <div class="form-group full-width">
-            <button type="submit" id="estimate-btn" class="submit-button cta">Estimer le Prix</button>
+            <button type="submit" id="estimate-btn" class="submit-button cta">{t.estimateButton}</button>
         </div>
     </form>
     
     <div id="quote-result" class="quote-result-hidden">
         <div id="quote-details"></div>
-        <h3 class="payment-title">3. Confirmez votre réservation</h3>
+        <h3 class="payment-title">{t.estimateButton}</h3>
         <div class="payment-buttons">
-            <button type="button" id="pay-online-btn" class="submit-button cta">💳 Payer en ligne</button>
-            <button type="button" id="book-onboard-btn" class="secondary-button">🚗 Réserver & Payer à bord</button>
+            <button type="button" id="pay-online-btn" class="submit-button cta">{t.payOnlineButton}</button>
+            <button type="button" id="book-onboard-btn" class="secondary-button">{t.bookOnboardButton}</button>
         </div>
         <p id="form-status" class="status-message"></p>
     </div>
@@ -136,7 +248,7 @@
 
         quoteForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            quoteDetailsEl.innerHTML = 'Calcul en cours...';
+            quoteDetailsEl.innerHTML = {t.calculating};
             quoteResultEl.className = 'quote-result-visible';
             statusEl.textContent = '';
             
@@ -152,22 +264,22 @@
                     }),
                 });
                 const quote = await response.json();
-                if (!response.ok) throw new Error(quote.message || "Erreur de calcul.");
+                if (!response.ok) throw new Error(quote.message || {t.calculationError});
                 
                 quoteDetailsEl.innerHTML = `<p class="price">Prix estimé : ${quote.price.toFixed(2)} €</p>`;
                 bookingData = { ...data, ...quote };
             } catch(error) {
-                quoteDetailsEl.innerHTML = `<p class="error">${error instanceof Error ? error.message : "Erreur inconnue"}</p>`;
+                quoteDetailsEl.innerHTML = `<p class="error">${error instanceof Error ? error.message : {t.unknownError}}</p>`;
             }
         });
 
         payOnlineBtn.addEventListener('click', async () => {
             if (!stripe) { 
-                statusEl.textContent = "Le service de paiement n'est pas prêt. Veuillez rafraîchir la page.";
+                statusEl.textContent = {t.stripeNotReady};
                 statusEl.className = 'status-message error';
                 return;
             }
-            statusEl.textContent = "Préparation du paiement...";
+            statusEl.textContent = {t.preparingPayment};
             try {
                 const response = await fetch('/api/create-stripe-session', {
                     method: 'POST',
@@ -178,26 +290,26 @@
                 if (session.id) {
                     await stripe.redirectToCheckout({ sessionId: session.id });
                 } else {
-                    throw new Error("ID de session manquant.");
+                    throw new Error({t.sessionIDMissing});
                 }
             } catch (error) {
-                statusEl.textContent = `Erreur de paiement : ${error instanceof Error ? error.message : "Inconnue"}`;
+                statusEl.textContent = `Erreur de paiement : ${error instanceof Error ? error.message : {t.unknownError}}`;
                 statusEl.className = 'status-message error';
             }
         });
 
         bookOnboardBtn.addEventListener('click', async () => {
-            statusEl.textContent = 'Enregistrement de la réservation...';
+            statusEl.textContent = {t.savingBooking};
             try {
                 const response = await fetch('/api/book', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(bookingData),
                 });
-                if (!response.ok) throw new Error("La réservation a échoué.");
+                if (!response.ok) throw new Error({t.bookingFailed});
                 window.location.href = '/confirmation';
             } catch(error) {
-                statusEl.textContent = `Erreur : ${error instanceof Error ? error.message : "Inconnue"}`;
+                statusEl.textContent = `Erreur : ${error instanceof Error ? error.message : {t.unknownError}}`;
                 statusEl.className = 'status-message error';
             }
         });
