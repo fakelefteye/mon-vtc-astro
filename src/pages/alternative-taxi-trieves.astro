@@ -1,0 +1,148 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+// Liste des villages clés du Trièves.
+// Pour chaque village où vous créerez une page "grappe", vous ajouterez le lien ici.
+const trievesVillages = [
+    { name: "Monestier-de-Clermont", link: null },
+    { name: "Clelles", link: null },
+    { name: "Mens", link: null },
+    { name: "Sinard", link: null },
+    { name: "Roissard", link: null },
+    { name: "Treffort", link: null },
+    { name: "Lalley", link: null },
+    { name: "Chichilianne", link: null },
+    // Ajoutez d'autres villages au besoin
+].sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<Layout 
+    title="VTC Trièves | Chauffeur Privé Monestier-de-Clermont, Clelles | ShipCars"
+    description="Réservez votre VTC pour le Trièves. Chauffeure privée pour vos transferts depuis Grenoble vers Monestier-de-Clermont, Mens, Clelles et tous les villages du Trièves. Service fiable, tarif fixe.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>Votre <strong>VTC pour le Trièves</strong></h1>
+            <p class="subtitle">Un service de transport <strong>sur mesure</strong> pour tous vos déplacements professionnels, touristiques ou quotidiens dans les villages du Trièves.</p>
+            <a href="/#booking" class="cta-button">Réserver mon VTC pour le Trièves</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Une Alternative Fiable pour se Déplacer dans le Trièves</h2>
+            <p>
+                Le Trièves, avec ses paysages magnifiques au pied du Vercors et du Dévoluy, est un territoire où les transports peuvent être un défi. ShipCars vous propose une solution de <strong>chauffeur privé VTC</strong> comme alternative aux transports en commun limités. Que ce soit pour un rendez-vous professionnel à <strong>Monestier-de-Clermont</strong>, une randonnée au départ de <strong>Clelles</strong>, ou pour rentrer sereinement chez vous, nous vous assurons un trajet confortable et ponctuel.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Les Avantages d'un <strong>Chauffeur Privé</strong> dans le Trièves</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🗺️</div>
+                    <h3>Connaissance des Routes Locales</h3>
+                    <p>
+                        En tant que <strong>chauffeure de la région</strong>, je connais parfaitement les routes du Trièves. Je vous garantis un trajet optimisé et sécurisé, même sur les petites routes de campagne, pour vous amener à destination en toute tranquillité.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🌿</div>
+                    <h3>Un Voyage Panoramique et Silencieux</h3>
+                    <p>
+                        Découvrez la beauté du Trièves dans le silence de notre <a href="/vehicule"><strong>véhicule 100% électrique</strong></a>. Profitez pleinement des paysages, du Mont Aiguille aux contreforts du Vercors, dans un confort absolu.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">✅</div>
+                    <h3><strong>Flexibilité</strong> et Service Porte-à-Porte</h3>
+                    <p>
+                        Nous vous prenons en charge et vous déposons exactement où vous le souhaitez, une flexibilité que les transports en commun ne peuvent offrir. Idéal pour les courses, les rendez-vous médicaux ou les retours de soirée.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Les Communes du Trièves que nous Desservons</h2>
+            <p class="text-container">Nous assurons vos transferts vers l'ensemble des villages du Trièves. Voici une liste non exhaustive de nos destinations fréquentes :</p>
+            <div class="destinations-grid">
+                {trievesVillages.map(village => (
+                    <div class="destination-card">
+                        {village.link ? (
+                            <a href={village.link}><strong>{village.name}</strong></a>
+                        ) : (
+                            <strong>{village.name}</strong>
+                        )}
+                    </div>
+                ))}
+            </div>
+            <div class="text-center mt-4">
+                <a href="/nos-tarifs" class="secondary-button">Consulter nos tarifs indicatifs</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Organisez votre prochain déplacement dans le Trièves</h2>
+            <p>Obtenez un devis instantané et réservez votre <strong>chauffeur privé VTC</strong>.</p>
+            <a href="/#booking" class="cta-button">Estimer mon trajet</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    /* Styles réutilisés pour la cohérence */
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1616334336211-c9b2e235c3cc?q=80&w=2070&auto=format&fit=crop') no-repeat center center; /* Image du Vercors/Trièves */
+        background-size: cover;
+        color: white; padding: 5rem 1.5rem; text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+    
+    .cta-button, .secondary-button, .content-section, .text-container, .section-title, .features-section, .features-grid, .feature-card, .cta-section, .bg-light, .text-center, .mt-4 {
+        /* Ces styles sont identiques aux pages précédentes */
+    }
+
+    /* Styles pour la grille des destinations */
+    .destinations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+        text-align: center;
+    }
+    .destination-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        font-weight: 500;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+    }
+    .destination-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        border-color: var(--accent);
+    }
+    .destination-card a {
+        text-decoration: none;
+        color: var(--dark-bg);
+    }
+    .destination-card a:hover {
+        color: var(--accent);
+    }
+</style>

@@ -1,0 +1,126 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="VTC Grenoble Alpe d'Huez | Transfert Privé | ShipCars"
+    description="Réservez votre transfert VTC entre Grenoble et l'Alpe d'Huez. Chauffeure privée, véhicule électrique 100% équipé pour la montagne. Tarif fixe, confortable et plus fiable qu'un taxi pour rejoindre les pistes.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>VTC <strong>Grenoble ↔ Alpe d'Huez</strong></h1>
+            <p class="subtitle">Votre transfert privé, direct et sécurisé vers le cœur de la station. Voyagez l'esprit libre.</p>
+            <a href="/#booking" class="cta-button">Réserver mon VTC pour l'Alpe d'Huez</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Rejoignez l'Alpe d'Huez depuis Grenoble en Toute Sérénité</h2>
+            <p>
+                La montée vers l'Alpe d'Huez, avec ses 21 virages mythiques, est une expérience en soi. Pour en profiter pleinement, sans le stress de la conduite en montagne ou l'incertitude d'un taxi, optez pour un service de <strong>chauffeur privé VTC</strong>. ShipCars vous garantit un trajet confortable et sécurisé, de votre point de départ à Grenoble jusqu'au pied des pistes de l'Alpe d'Huez.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Les Avantages d'un <strong>Transfert Privé</strong> pour l'Alpe d'Huez</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🏔️</div>
+                    <h3>Sécurité sur les Routes de Montagne</h3>
+                    <p>
+                        Votre <strong>chauffeure expérimentée</strong> connaît parfaitement les routes des Alpes. Notre <a href="/vehicule">véhicule électrique</a> est équipé pour les conditions hivernales, vous assurant un trajet en toute sécurité, quelle que soit la météo.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎿</div>
+                    <h3>Espace pour Votre Matériel de Ski</h3>
+                    <p>
+                        Voyagez sans contrainte. Le coffre de <strong>435 litres</strong> et les sièges rabattables de notre véhicule permettent de transporter facilement vos <strong>skis, snowboards</strong> et bagages. Fini le casse-tête de l'équipement !
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔥</div>
+                    <h3>Le Confort des <strong>Sièges Chauffants</strong></h3>
+                    <p>
+                        Après une longue journée de ski ou un voyage fatigant, appréciez le luxe des <strong>sièges chauffants à l'avant comme à l'arrière</strong>. Une petite attention qui rend votre retour de l'Alpe d'Huez encore plus agréable.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Informations sur le Trajet Grenoble - Alpe d'Huez</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>Temps de Trajet Moyen</h4>
+                    <p>Comptez environ <strong>1h30 de trajet</strong> entre Grenoble et l'Alpe d'Huez, variable selon le trafic et les conditions de route.</p>
+                </div>
+                <div class="info-item">
+                    <h4>Prise en Charge Flexible</h4>
+                    <p>Nous vous récupérons à l'adresse de votre choix à Grenoble : gare, domicile, hôtel... et vous déposons directement à votre hébergement à l'Alpe d'Huez.</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/nos-prestations" class="secondary-button">Voir tous nos transferts stations de ski</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prêt(e) à monter à l'Alpe d'Huez ?</h2>
+            <p>Le ski vous attend. Laissez-nous nous occuper de la route.</p>
+            <a href="/#booking" class="cta-button">Réserver mon VTC Grenoble ↔ Alpe d'Huez</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    /* Les styles sont réutilisés pour la cohérence */
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1549929255-78f915a1a1e9?q=80&w=1974&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white; padding: 5rem 1.5rem; text-align: center;
+    }
+    .page-hero h1, .page-hero .subtitle, .cta-button { /* Styles identiques aux autres pages */ }
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2, .section-title { margin-bottom: 1.5rem; color: var(--dark-bg); text-align: center; font-size: 2.2em; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+    .bg-light { background-color: var(--light-bg); }
+    .features-section { padding: 4rem 1.5rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card { /* ... */ }
+    
+    /* Styles spécifiques à cette page */
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    @media (min-width: 768px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+    .info-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .info-item h4 { font-size: 1.3em; color: var(--accent); }
+    
+    .secondary-button { /* ... */ }
+    .cta-section { background-color: var(--dark-bg); color: white; padding: 4rem 1.5rem; text-align: center; }
+    .text-center { text-align: center; }
+    .mt-4 { margin-top: 2rem; }
+</style>

@@ -9,21 +9,21 @@ const lang = currentPath.startsWith('/en/') ? 'en' : (currentPath.startsWith('/e
 const navTexts = {
     fr: {
         home: 'Accueil',
-        services: 'Nos Prestations', // Le texte reste "Nos Prestations"
+        services: 'Nos Tarifs', // Le texte reste "Nos Prestations"
         vehicles: 'Nos Véhicules', 
         contact: 'Contact',
         book: 'Réserver',
     },
     en: {
         home: 'Home',
-        services: 'Our Services', // Le texte reste "Our Services"
+        services: 'Pricing', // Le texte reste "Our Services"
         vehicles: 'Our Vehicles', 
         contact: 'Contact',
         book: 'Book Now',
     },
     es: {
         home: 'Inicio',
-        services: 'Nuestros Servicios', // Le texte reste "Nuestros Servicios"
+        services: 'Precios', // Le texte reste "Nuestros Servicios"
         vehicles: 'Nuestros Vehículos', 
         contact: 'Contacto',
         book: 'Reservar Ahora',
@@ -34,7 +34,7 @@ const navTexts = {
 // Ceci est crucial pour construire les URLs localisées correctement.
 const basePaths = {
     '/': '/',
-    '/transferts-aeroports': '/transferts-aeroports', // <-- MODIFIÉ : Le chemin de base FR est maintenant 'transferts-aeroports'
+    '/nos-tarifs': '/nos-tarifs', // <-- MODIFIÉ : Le chemin de base FR est maintenant 'nos-tarifs'
     '/vehicule': '/vehicule',
     '/contact': '/contact',
     // Ajoutez d'autres pages ici si nécessaire (ex: '/politique-confidentialite')
@@ -80,12 +80,12 @@ const getLocalizedLink = (basePath: string, targetLang: string) => {
     
     // Pour les autres pages, on utilise le chemin de base FR et on le préfixe
     const localizedPaths: Record<string, string> = {
-        fr: basePath, // ex: '/transferts-aeroports'
+        fr: basePath, // ex: '/nos-tarifs'
         en: basePath
-            .replace('/transferts-aeroports', '/airport-shuttle') // <-- MODIFIÉ : Traduction du chemin pour EN
+            .replace('/nos-tarifs', '/pricing') // <-- MODIFIÉ : Traduction du chemin pour EN
             .replace('/vehicule', '/vehicle'),
         es: basePath
-            .replace('/transferts-aeroports', '/transporte-aeropuerto') // <-- MODIFIÉ : Traduction du chemin pour ES
+            .replace('/nos-tarifs', '/Precios') // <-- MODIFIÉ : Traduction du chemin pour ES
             .replace('/vehicule', '/vehiculo'),
     };
     
@@ -96,7 +96,7 @@ const getLocalizedLink = (basePath: string, targetLang: string) => {
 
 // Génère les chemins d'URL complets pour la navigation
 const homeLink = getLocalizedLink('/', lang);
-const servicesLink = getLocalizedLink('/transferts-aeroports', lang); // <-- MODIFIÉ : Utilise le nouveau chemin de base
+const servicesLink = getLocalizedLink('/nos-tarifs', lang); // <-- MODIFIÉ : Utilise le nouveau chemin de base
 const vehiclesLink = getLocalizedLink('/vehicule', lang);
 const contactLink = getLocalizedLink('/contact', lang);
 const bookingAnchor = getLocalizedLink('/#booking', lang);
@@ -116,7 +116,7 @@ const isNavLinkActive = (basePathKey: string) => {
         <div class="header-actions">
             <nav class="nav">
                 <a href={homeLink} class:list={{ active: isNavLinkActive('/') }}>{navTexts[lang].home}</a>
-                <a href={servicesLink} class:list={{ active: isNavLinkActive('/transferts-aeroports') }}>{navTexts[lang].services}</a> {/* <-- MODIFIÉ : Check d'activité */}
+                <a href={servicesLink} class:list={{ active: isNavLinkActive('/nos-tarifs') }}>{navTexts[lang].services}</a> {/* <-- MODIFIÉ : Check d'activité */}
                 <a href={vehiclesLink} class:list={{ active: isNavLinkActive('/vehicule') }}>{navTexts[lang].vehicles}</a>
                 <a href={contactLink} class:list={{ active: isNavLinkActive('/contact') }}>{navTexts[lang].contact}</a>
             </nav>

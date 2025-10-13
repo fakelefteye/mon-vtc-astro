@@ -1,0 +1,217 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+// Liste complète de vos stations pour l'affichage.
+// Pour chaque station où vous avez une page "grappe", ajoutez le lien correspondant.
+const stations = [
+    { name: "Alpe d'Huez", link: "/vtc-grenoble-alpe-d-huez" },
+    { name: "Les Deux Alpes", link: "/alternative-taxi-les-2-alpes" },
+    { name: "Chamrousse", link: "/vtc-grenoble-chamrousse" },
+    { name: "Courchevel", link: null },
+    { name: "Méribel", link: null },
+    { name: "Val Thorens", link: null },
+    { name: "Tignes", link: "/vtc-grenoble-tignes"  },
+    { name: "Val d'Isère", link: null },
+    { name: "Les Menuires", link: null },
+    { name: "La Plagne", link: null },
+    { name: "Les Arcs", link: null },
+    { name: "Serre Chevalier", link: null },
+    { name: "Villard-de-Lans", link: null },
+    { name: "Autrans", link: null },
+    { name: "Avoriaz", link: null },
+    { name: "Chamonix", link: null },
+].sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<Layout 
+    title="VTC Stations de Ski | Transfert Privé Alpes | ShipCars"
+    description="Réservez votre VTC pour les stations de ski des Alpes. Chauffeure privée pour vos transferts depuis Grenoble, Lyon, Genève vers Alpe d'Huez, Courchevel, Les 2 Alpes... Tarif fixe, véhicule électrique équipé.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>Votre <strong>VTC pour les Stations de Ski</strong> des Alpes</h1>
+            <p class="subtitle">Transferts privés depuis Grenoble, Lyon et Genève. Voyagez en toute <strong>sécurité</strong> avec votre <strong>chauffeure dédiée</strong>.</p>
+            <a href="/#booking" class="cta-button">Réserver ma navette ski</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Commencez vos Vacances au Ski sans Stress</h2>
+            <p>
+                Oubliez la fatigue de la conduite sur les routes enneigées, les chaînes à monter et l'incertitude des navettes collectives. Avec ShipCars, votre trajet vers les pistes devient la première étape de vos vacances. Nous offrons une <strong>alternative au taxi pour les stations de ski</strong> qui privilégie le <strong>confort</strong>, la <strong>sécurité</strong> et la <strong>ponctualité</strong>.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Un Service <strong>Premium</strong> pour les Montagnes</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">❄️</div>
+                    <h3><strong>Sécurité Hivernale</strong> Avant Tout</h3>
+                    <p>
+                        Notre <a href="/vehicule"><strong>véhicule 100% électrique</strong></a> est équipé pour les conditions de montagne les plus exigeantes. Votre <strong>chauffeure expérimentée</strong> assure une conduite souple et sécurisante pour vous amener à destination en toute tranquillité.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎿</div>
+                    <h3>Espace pour <strong>Skis et Bagages</strong></h3>
+                    <p>
+                        Ne faites aucun compromis sur votre équipement. Notre coffre de <strong>435 litres</strong> et nos sièges rabattables permettent de transporter facilement skis, snowboards et valises pour toute la famille, sans surcoût.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">👩‍✈️</div>
+                    <h3>Le Service d'une <strong>Chauffeure à votre Écoute</strong></h3>
+                    <p>
+                        Profitez d'un accueil personnalisé et d'un service discret. En tant que <strong>chauffeure femme</strong>, je m'assure que votre trajet soit une expérience relaxante et parfaitement adaptée à vos besoins. <a href="/a-propos"><strong>En savoir plus</strong></a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Toutes vos Destinations dans les Alpes</h2>
+            <p class="text-container">Nous desservons l'ensemble des stations de ski des Alpes du Nord et du Sud au départ de Grenoble, Lyon, Chambéry et Genève. Voici nos destinations les plus populaires :</p>
+            <div class="destinations-grid">
+                {stations.map(station => (
+                    <div class="destination-card">
+                        {station.link ? (
+                            <a href={station.link}><strong>{station.name}</strong></a>
+                        ) : (
+                            <strong>{station.name}</strong>
+                        )}
+                    </div>
+                ))}
+            </div>
+            <div class="text-center mt-4">
+                <p>Votre station n'est pas dans la liste ? Pas de problème !</p>
+                <a href="/#booking" class="secondary-button">Obtenir un devis personnalisé</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prêt(e) à Rejoindre les Pistes ?</h2>
+            <p>Réservez votre <strong>transfert privé vers les stations de ski</strong> et voyagez l'esprit léger.</p>
+            <a href="/#booking" class="cta-button">Réserver mon VTC Ski</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+        --text-color: #333;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1551694212-085f13b331f2?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 5rem 1.5rem;
+        text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+    
+    .cta-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2, .section-title { margin-bottom: 1.5rem; color: var(--dark-bg); text-align: center; font-size: 2.2em; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+    
+    .features-section { padding: 4rem 1.5rem; }
+    .features-section h2 { text-align: center; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    .feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+    .feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); }
+    .feature-card p { color: #666; line-height: 1.6; }
+    .feature-card a { font-weight: bold; }
+
+    .cta-section {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 4rem 1.5rem;
+        text-align: center;
+    }
+    .cta-section h2, .cta-section p { color: white; }
+    .cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; }
+
+    .bg-light { background-color: var(--light-bg); }
+    .bg-light .text-container p, .bg-light .feature-card p { color: #333; }
+
+    /* NOUVEAUX STYLES AJOUTÉS POUR CETTE PAGE */
+    .destinations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+        text-align: center;
+    }
+    .destination-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        font-weight: 500;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+    }
+    .destination-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        border-color: var(--accent);
+    }
+    .destination-card a {
+        text-decoration: none;
+        color: var(--dark-bg);
+    }
+    .destination-card a:hover {
+        color: var(--accent);
+    }
+    .text-center { text-align: center; }
+    .mt-4 { margin-top: 2.5rem; }
+    .secondary-button {
+        display: inline-block;
+        padding: 0.7rem 1.5rem;
+        border: 2px solid var(--dark-bg);
+        color: var(--dark-bg);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+    }
+    .secondary-button:hover {
+        background-color: var(--dark-bg);
+        color: white;
+    }
+</style>

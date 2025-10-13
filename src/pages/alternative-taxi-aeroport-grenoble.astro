@@ -1,0 +1,133 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="Alternative Taxi Aéroport Grenoble (GNB) | VTC Privé | ShipCars"
+    description="Besoin d'une alternative au taxi à l'aéroport de Grenoble (GNB) ? Réservez votre VTC privé avec chauffeure. Tarif fixe, confort, service premium pour vos transferts vers Grenoble et les stations de ski.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1><strong>Alternative au Taxi</strong> à l'Aéroport de Grenoble (GNB)</h1>
+            <p class="subtitle">Votre service de <strong>chauffeur VTC privé</strong> pour des transferts directs, confortables et à tarif fixe.</p>
+            <a href="/#booking" class="cta-button">Réserver mon VTC depuis GNB</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Un Accueil Personnalisé dès votre Arrivée à Grenoble</h2>
+            <p>
+                L'aéroport de Grenoble Alpes Isère (GNB) est la porte d'entrée idéale pour les stations de l'Oisans et du Vercors. Pour commencer votre séjour sans attendre, notre service de <strong>VTC à l'aéroport de Grenoble</strong> vous offre une prise en charge immédiate. Fini l'attente incertaine : votre <strong>chauffeure privée</strong> vous attend à votre arrivée pour vous conduire directement à votre destination.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Les Avantages d'un <strong>Chauffeur Privé</strong> face au Taxi à GNB</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">⏰</div>
+                    <h3><strong>Ponctualité</strong> et Suivi de Vol</h3>
+                    <p>
+                        Nous suivons votre vol en temps réel. En cas de retard, nous ajustons notre heure d'arrivée <strong>sans frais supplémentaires</strong>. Votre transfert est garanti, peu importe les aléas.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎿</div>
+                    <h3>Spécialiste des <strong>Stations de Ski</strong></h3>
+                    <p>
+                        Depuis GNB, nous assurons des liaisons directes vers les stations phares comme l'<strong>Alpe d'Huez</strong> et <strong>Les Deux Alpes</strong>. Notre <a href="/vehicule"><strong>véhicule spacieux</strong></a> est parfait pour votre matériel de ski.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">✅</div>
+                    <h3>Un <strong>Tarif Connu à l'Avance</strong></h3>
+                    <p>
+                        Le prix de votre trajet est fixé dès la réservation. Profitez d'un transfert serein sans vous soucier du coût final, une <strong>alternative transparente au taxi</strong> à l'aéroport de Grenoble.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Votre <strong>VTC à l'Aéroport de Grenoble</strong> vous attend</h2>
+            <a href="/#booking" class="cta-button">Réserver mon transfert</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+        --text-color: #333;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1599827551004-9359f53856d1?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 5rem 1.5rem;
+        text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+    
+    .cta-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2 { margin-bottom: 1.5rem; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+
+    .features-section { padding: 4rem 1.5rem; }
+    .features-section h2 { text-align: center; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    .feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+    .feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); }
+    .feature-card p { color: #666; line-height: 1.6; }
+    .feature-card a { font-weight: bold; }
+
+    .links-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    @media (min-width: 768px) { .links-grid { grid-template-columns: 1fr 1fr; } }
+    .link-card {
+        border-left: 4px solid var(--accent);
+        padding-left: 1.5rem;
+    }
+    .link-card h4 { font-size: 1.4em; }
+
+    .cta-section {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 4rem 1.5rem;
+        text-align: center;
+    }
+    .cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; }
+
+    .bg-light { background-color: var(--light-bg); }
+    .bg-light .text-container p, .bg-light .feature-card p { color: #333; }
+</style>

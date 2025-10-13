@@ -1,0 +1,91 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="VTC Grenoble Tignes | Transfert Privé Espace Killy | ShipCars"
+    description="Réservez votre VTC pour un transfert direct entre Grenoble et Tignes. Chauffeure privée, véhicule électrique 400km d'autonomie. Tarif fixe pour votre trajet vers l'Espace Killy. L'alternative confort au taxi.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>VTC <strong>Grenoble ↔ Tignes</strong></h1>
+            <p class="subtitle">Votre transfert privé et direct pour un long trajet <strong>confortable</strong> vers le cœur de l'Espace Killy.</p>
+            <a href="/#booking" class="cta-button">Réserver mon VTC pour Tignes</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Un Long Trajet ? Voyagez en Première Classe jusqu'à Tignes</h2>
+            <p>
+                Le trajet entre Grenoble et Tignes est une longue route qui mérite un confort maximal. Oubliez la fatigue de la conduite, le stress des conditions de montagne et les contraintes des transports collectifs. ShipCars vous propose un service de <strong>chauffeur privé VTC</strong> pour faire de ce transfert une expérience relaxante et haut de gamme, une véritable <strong>alternative au bus ou à la location de voiture</strong>.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Les Avantages Uniques de ShipCars pour un <strong>Long Trajet</strong></h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🔋</div>
+                    <h3><strong>400km d'Autonomie</strong> : Zéro Interruption</h3>
+                    <p>
+                        Notre <a href="/vehicule"><strong>véhicule 100% électrique</strong></a> est doté d'une batterie haute capacité de 62 kWh, garantissant le trajet complet jusqu'à Tignes **sans aucune pause pour recharger**. Un gain de temps et une tranquillité d'esprit absolue.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🛋️</div>
+                    <h3>Le <strong>Confort</strong> d'un Salon Roulant</h3>
+                    <p>
+                        Sur un long trajet, le confort est essentiel. Profitez du silence de la motorisation électrique, des <strong>sièges chauffants</strong> et de l'espace pour vous détendre, travailler ou simplement admirer les paysages de la Tarentaise.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">👩‍✈️</div>
+                    <h3>La Sécurité d'une <strong>Chauffeure Expérimentée</strong></h3>
+                    <p>
+                        La sécurité est notre priorité. En tant que <a href="/a-propos"><strong>chauffeure professionnelle</strong></a>, je connais les routes alpines et vous assure une conduite souple et sécurisante jusqu'à votre destination à Tignes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Nos Forfaits et Tarifs</h2>
+            <p>
+                Nous proposons des tarifs fixes et transparents pour la destination de Tignes. Pour connaître le prix exact de ce trajet et découvrir toutes nos autres destinations, consultez notre page de tarifs.
+            </p>
+            <div class="text-center mt-4">
+                <a href="/nos-tarifs" class="secondary-button">Consulter tous nos tarifs</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prêt(e) pour un voyage vers Tignes sans fatigue ?</h2>
+            <a href="/#booking" class="cta-button">Réserver mon VTC Grenoble ↔ Tignes</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    /* Styles réutilisés pour la cohérence */
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1579895393258-c51586d06158?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        /* ... autres styles ... */
+    }
+    .page-hero h1, .page-hero .subtitle, .cta-button { /* Styles identiques aux autres pages */ }
+    .content-section, .features-section, .cta-section { /* Styles identiques */ }
+    .text-container, .section-title, .features-grid, .feature-card { /* Styles identiques */ }
+    .secondary-button, .text-center, .mt-4 { /* Styles identiques */ }
+</style>

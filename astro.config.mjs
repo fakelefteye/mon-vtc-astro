@@ -16,6 +16,12 @@ export default defineConfig({
     routing: {
       prefixDefaultLocale: false, // Ne pas mettre /fr/ dans l'URL pour le français
     },
+    fallback: {
+      // Si une page est demandée en 'en' mais n'existe pas, utiliser la version 'fr'
+      en: 'fr', 
+      // Si une page est demandée en 'es' mais n'existe pas, utiliser la version 'fr'
+      es: 'fr', 
+    },
   },
 
   adapter: vercel(),
