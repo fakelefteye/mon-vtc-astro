@@ -1,7 +1,9 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import BookingForm from '@/components/BookingForm.astro';
+const currentPath = Astro.url.pathname;
 ---
+
 <Layout 
     title="VTC Grenoble | Chauffeur Privé | Navette Aéroport & Stations de Ski | Chauffeure femme Grenoble | Alternative taxi aéreport Grenoble"
     description="Service de chauffeure VTC à Grenoble en Nissan Leaf 100% électrique. Forfaits fixes pour l'aéroport de Lyon, Genève et les stations de ski. Alternative au taxi.">
@@ -69,7 +71,7 @@ import BookingForm from '@/components/BookingForm.astro';
 
     <section id="booking" class="booking-section">
         <h2>Estimez et Réservez Votre Chauffeur</h2>
-        <BookingForm />
+        <BookingForm currentPath={currentPath} />
     </section>
 
 </Layout>

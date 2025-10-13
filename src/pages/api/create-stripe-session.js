@@ -14,6 +14,15 @@ export async function POST({ request }) {
             return new Response(JSON.stringify({ message: 'Prix invalide' }), { status: 400 });
         }
 
+        const origin = request.headers.get('origin') || '';
+        const referer = request.headers.get('referer') || '';
+
+        // 🔍 Détection de la langue à partir du referer
+        let langPrefix = '';
+        if (referer.includes('/en/')) langPrefix = '/en';
+        else if (referer.includes('/es/')) langPrefix = '/es';
+        else langPrefix = ''; // FR par défaut
+
         const session = await stripe.checkout.sessions.create({
             customer_email: email,
             line_items: [{
@@ -28,10 +37,11 @@ export async function POST({ request }) {
                 quantity: 1,
             }],
             mode: 'payment',
-            // IMPORTANT : On transmet toutes les données de la course pour le webhook.
+
+            // ✅ Redirige vers la bonne langue après paiement
+            success_url: `${origin}${langPrefix}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${origin}${langPrefix}/`,
             metadata: rideDetails,
-            success_url: `${request.headers.get('origin')}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${request.headers.get('origin')}/`,
         });
 
         return new Response(JSON.stringify({ id: session.id }), { status: 200 });

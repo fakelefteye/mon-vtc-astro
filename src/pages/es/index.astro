@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import BookingForm from '@/components/BookingForm.astro';
+const currentPath = Astro.url.pathname;
 ---
 <Layout 
     title="VTC Grenoble | Chófer Privado | Traslado Aeropuerto & Estaciones de Esquí | Conductora mujer Grenoble | Alternativa taxi aeropuerto Grenoble"
@@ -70,7 +71,7 @@ import BookingForm from '@/components/BookingForm.astro';
 
     <section id="booking" class="booking-section">
         <h2>Estima y Reserva Tu Chófer</h2>
-        <BookingForm />
+        <BookingForm currentPath={currentPath} />
     </section>
 
 </Layout>

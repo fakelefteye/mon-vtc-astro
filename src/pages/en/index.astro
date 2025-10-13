@@ -1,7 +1,9 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import BookingForm from '@/components/BookingForm.astro';
+const currentPath = Astro.url.pathname;
 ---
+
 <Layout 
     title="Private Driver Grenoble Airport | Airport & Ski Resort Transfers"
     description="Private driver (VTC) service in Grenoble with a 100% electric Nissan Leaf. Fixed rates for Lyon, Geneva airports and ski resorts. An alternative to taxis.">
@@ -69,7 +71,7 @@ import BookingForm from '@/components/BookingForm.astro';
 
     <section id="booking" class="booking-section">
         <h2>Estimate and Book Your Driver</h2>
-        <BookingForm />
+        <BookingForm currentPath={currentPath} />
     </section>
 
 </Layout>
