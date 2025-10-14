@@ -75,32 +75,9 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     <Footer currentPath={Astro.url.pathname} />
 
     <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
-    <script>
-        window.addEventListener("load", function(){
-            window.cookieconsent.initialise({
-                "palette": {
-                    "popup": {
-                        "background": "#2d3a4c",
-                        "text": "#ffffff",
-                        "link": "#35c2b5"
-                    },
-                    "button": {
-                        "background": "#35c2b5",
-                        "text": "#ffffff"
-                    }
-                },
-                "theme": "classic",
-                "content": {
-                    "message": "Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant à naviguer, vous acceptez notre utilisation des cookies.",
-                    "dismiss": "Accepter",
-                    "link": "En savoir plus",
-                    "href": "/politique-de-confidentialite"
-                }
-            });
-        });
-    </script>
-        <script type="text/javascript">
-    // 1. DÉFINIR LA FONCTION ICI, À L'EXTÉRIEUR
+
+<script type="text/javascript">
+    // 1. DÉFINIR LA FONCTION POUR CHARGER GOOGLE ANALYTICS
     // =========================================================
     function loadGoogleAnalytics() {
         // On vérifie si le script n'a pas déjà été chargé pour éviter les doublons
@@ -124,7 +101,7 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
         console.log("✅ Google Analytics a été chargé car l'utilisateur a consenti.");
     }
 
-    // 2. INITIALISER LA BANNIÈRE DE COOKIES
+    // 2. INITIALISER LA BANNIÈRE DE COOKIES UNE SEULE FOIS
     // =========================================================
     window.addEventListener("load", function(){
         window.cookieconsent.initialise({
@@ -134,34 +111,34 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
             },
             "theme": "edgeless",
             "position": "bottom-right",
-            "type": "opt-in",
+            "type": "opt-in", // Très important pour le RGPD !
             "content": {
-                // ... votre contenu de message (il est correct)
-                "message": "Nous utilisons des cookies pour assurer le bon fonctionnement de notre site et pour analyser son trafic...",
+                "message": "Nous utilisons des cookies pour analyser le trafic du site et améliorer votre expérience.",
                 "allow": "Accepter tout",
-                "deny": "Refuser les cookies non essentiels",
+                "deny": "Refuser",
                 "link": "En savoir plus",
-                "href": "/politique-de-cookies",
+                "href": "/politique-de-cookies", // Assurez-vous que cette page existe
             },
 
-            // 3. APPELER LA FONCTION AU BON MOMENT
+            // 3. APPELER LA FONCTION DE CHARGEMENT AU BON MOMENT
             // =========================================================
             onInitialise: function(status) {
-                console.log('Cookie consent initialisé, statut :', status);
-                // Si le cookie de consentement existe déjà et est 'allow'
+                // Se déclenche au chargement de la page
                 if (this.hasConsented()) {
+                    // Si l'utilisateur a déjà accepté par le passé
                     loadGoogleAnalytics();
                 }
             },
-            onStatusChange: function(status, chosenBefore) {
-                console.log('Statut du consentement changé en :', status);
-                 // Si l'utilisateur vient de cliquer sur 'allow'
+            onStatusChange: function(status) {
+                // Se déclenche quand l'utilisateur clique sur un bouton
                 if (this.hasConsented()) {
+                    // Si l'utilisateur vient d'accepter
                     loadGoogleAnalytics();
                 }
             }
         });
     });
 </script>
+
 </body>
 </html>
