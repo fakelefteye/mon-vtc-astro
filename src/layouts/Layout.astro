@@ -75,83 +75,93 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     <Footer currentPath={Astro.url.pathname} />
 
     <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
-    <script type="text/javascript">
+    <script>
         window.addEventListener("load", function(){
             window.cookieconsent.initialise({
                 "palette": {
-                    "popup": { "background": "#2d3a4c", "text": "#ffffff" }, // Fond bleu marine, texte blanc
-                    "button": { "background": "#35c2b5", "text": "#ffffff" }  // Bouton turquoise, texte blanc
-                },
-                "theme": "edgeless", // ou "classic", "block"
-                "position": "bottom-right", // Position de la bannière
-                "type": "opt-in", // Obligatoire pour RGPD: demande un consentement actif
-                "content": {
-                    "header": "Gestion de vos cookies",
-                    "message": "Nous utilisons des cookies pour assurer le bon fonctionnement de notre site (services de réservation et paiement) et pour analyser son trafic. Cliquez sur 'Accepter tout' pour une expérience complète.",
-                    "dismiss": "J'ai compris !",
-                    "allow": "Accepter tout",
-                    "deny": "Refuser les cookies non essentiels", // Option pour refuser uniquement les non essentiels
-                    "link": "En savoir plus",
-                    "href": "/politique-de-cookies", // LIEN VERS VOTRE PAGE DE POLITIQUE DE COOKIES (À CRÉER !)
-                    "close": "✕",
-                    "target": "_blank",
-                    "policy": "Politique de Cookies",
-                    "always_on": "Toujours activé" // Peut être utilisé pour les cookies essentiels dans l'interface de préférences si vous en faites une
-                },
-                "cookie": {
-                    "name": "cookieconsent_status",
-                    "expiryDays": 365,
-                },
-                "revokable": true, // Permettre à l'utilisateur de modifier son consentement
-                "onStatusChange": function(status, chosenBefore) {
-                    console.log('Cookie consent status changed:', status);
-                    if (status === 'allow') {
-                        // L'utilisateur a accepté tous les cookies.
-                        // Mettez ceci DANS votre balise <script type="text/javascript"> existante
-
-// Fonction pour charger et initialiser Google Analytics
-function loadGoogleAnalytics() {
-    // On vérifie si le script n'a pas déjà été chargé pour éviter les doublons
-    if (window.gaLoaded) {
-        return;
-    }
-
-    const gaId = 'G-82VWM02RGP'; // <-- REMPLACEZ PAR VOTRE ID DE MESURE GA4
-
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-    document.head.appendChild(script);
-
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', gaId);
-    
-    window.gaLoaded = true; // On marque le script comme chargé
-    console.log("✅ Google Analytics a été chargé car l'utilisateur a consenti.");
-    }
-                    } else if (status === 'deny') {
-                        // L'utilisateur a refusé. Vous devrez ajouter ici une logique pour
-                        // désactiver/supprimer les cookies non-essentiels qui auraient été installés
-                        // par d'autres scripts si vous les chargiez AVANT le consentement (ce qu'on évite).
-                        console.log('User denied non-essential cookies. No analytical/tracking cookies loaded.');
+                    "popup": {
+                        "background": "#2d3a4c",
+                        "text": "#ffffff",
+                        "link": "#35c2b5"
+                    },
+                    "button": {
+                        "background": "#35c2b5",
+                        "text": "#ffffff"
                     }
                 },
-                "onInitialise": function(status) {
-                    console.log('Cookie consent initialised:', status);
-                    // Si l'utilisateur avait déjà accepté, pas besoin de faire quelque chose pour Stripe/Maps ici
-                    // car ils sont chargés directement.
+                "theme": "classic",
+                "content": {
+                    "message": "Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant à naviguer, vous acceptez notre utilisation des cookies.",
+                    "dismiss": "Accepter",
+                    "link": "En savoir plus",
+                    "href": "/politique-de-confidentialite"
                 }
             });
         });
-        
-
-        // NOTE: La fonction `activateScriptsByCookieCategory` n'est plus nécessaire ici
-        // car Stripe et Google Maps sont chargés directement.
-        // Si vous ajoutez des scripts analytiques (ex: Google Analytics) plus tard
-        // et que vous voulez les bloquer, il faudra la réintroduire pour eux spécifiquement.
-
     </script>
+        <script type="text/javascript">
+    // 1. DÉFINIR LA FONCTION ICI, À L'EXTÉRIEUR
+    // =========================================================
+    function loadGoogleAnalytics() {
+        // On vérifie si le script n'a pas déjà été chargé pour éviter les doublons
+        if (window.gaLoaded) {
+            return;
+        }
+
+        const gaId = 'G-82VWM02RGP'; // Votre ID est correct
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        document.head.appendChild(script);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', gaId);
+        
+        window.gaLoaded = true; // On marque le script comme chargé
+        console.log("✅ Google Analytics a été chargé car l'utilisateur a consenti.");
+    }
+
+    // 2. INITIALISER LA BANNIÈRE DE COOKIES
+    // =========================================================
+    window.addEventListener("load", function(){
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": { "background": "#2d3a4c", "text": "#ffffff" },
+                "button": { "background": "#35c2b5", "text": "#ffffff" }
+            },
+            "theme": "edgeless",
+            "position": "bottom-right",
+            "type": "opt-in",
+            "content": {
+                // ... votre contenu de message (il est correct)
+                "message": "Nous utilisons des cookies pour assurer le bon fonctionnement de notre site et pour analyser son trafic...",
+                "allow": "Accepter tout",
+                "deny": "Refuser les cookies non essentiels",
+                "link": "En savoir plus",
+                "href": "/politique-de-cookies",
+            },
+
+            // 3. APPELER LA FONCTION AU BON MOMENT
+            // =========================================================
+            onInitialise: function(status) {
+                console.log('Cookie consent initialisé, statut :', status);
+                // Si le cookie de consentement existe déjà et est 'allow'
+                if (this.hasConsented()) {
+                    loadGoogleAnalytics();
+                }
+            },
+            onStatusChange: function(status, chosenBefore) {
+                console.log('Statut du consentement changé en :', status);
+                 // Si l'utilisateur vient de cliquer sur 'allow'
+                if (this.hasConsented()) {
+                    loadGoogleAnalytics();
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>
