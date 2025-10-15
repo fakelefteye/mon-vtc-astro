@@ -3,4 +3,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.transfert-aeroport-grenoble.fr/sitemap.xml
+Sitemap: https://www.transfert-aeroport-grenoble.fr/sitemap-0.xml
