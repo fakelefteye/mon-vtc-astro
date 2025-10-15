@@ -1,113 +1,133 @@
 ---
-import Layout from '../../components/Layout.astro';
-import Seo from '../../components/Seo.astro';
-
-const pageTitle = "Alternative Taxi Grenoble Airport | Your Private Transfer";
-const pageDescription = "Looking for an alternative taxi from Grenoble Airport? Book your private transfer with our professional drivers for a comfortable and reliable journey to your destination.";
+import Layout from '@/layouts/Layout.astro';
 ---
 
-<Seo title={pageTitle} description={pageDescription} />
+<Layout 
+    title="Grenoble Airport (GNB) Taxi Alternative | Private VTC | ShipCars"
+    description="Need a taxi alternative at Grenoble Airport (GNB)? Book your private VTC with a driver. Fixed price, comfort, premium service for your transfers to Grenoble and ski resorts.">
 
-<Layout>
-    <h1>Alternative Taxi Grenoble Airport</h1>
-    <p>
-        Are you searching for an alternative to traditional taxis at Grenoble Airport? Our private transfer service offers a comfortable, reliable, and affordable solution for your journey to or from the airport.
-    </p>
+    <section class="page-hero">
+        <div class="container">
+            <h1><strong>Taxi Alternative</strong> at Grenoble Airport (GNB)</h1>
+            <p class="subtitle">Your <strong>private VTC driver</strong> service for direct, comfortable, and fixed-price transfers.</p>
+            <a href="/#booking" class="cta-button">Book my VTC from GNB</a>
+        </div>
+    </section>
 
-    <h2>Why Choose Our Alternative Taxi Service?</h2>
-    <ul>
-        <li>Professional and experienced drivers</li>
-        <li>Fixed prices with no hidden fees</li>
-        <li>Comfortable and clean vehicles</li>
-        <li>24/7 availability</li>
-        <li>Easy online booking</li>
-    </ul>
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>A Personalized Welcome upon your Arrival in Grenoble</h2>
+            <p>
+                Grenoble Alpes Isère Airport (GNB) is the ideal gateway to the Oisans and Vercors resorts. To start your stay without delay, our <strong>VTC service at Grenoble Airport</strong> offers you immediate pick-up. No more uncertain waiting: your <strong>private driver</strong> will be waiting for you upon your arrival to take you directly to your destination.
+            </p>
+        </div>
+    </section>
 
-    <h2>How It Works</h2>
-    <ol>
-        <li>Book your transfer online or by phone</li>
-        <li>Receive instant confirmation</li>
-        <li>Your driver will meet you at the airport with a name sign</li>
-        <li>Enjoy a smooth and safe ride to your destination</li>
-    </ol>
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">The Advantages of a <strong>Private Driver</strong> over a Taxi at GNB</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">⏰</div>
+                    <h3><strong>Punctuality</strong> and Flight Tracking</h3>
+                    <p>
+                        We track your flight in real time. In case of a delay, we adjust our arrival time <strong>at no extra cost</strong>. Your transfer is guaranteed, regardless of any unforeseen events.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎿</div>
+                    <h3><strong>Ski Resort</strong> Specialist</h3>
+                    <p>
+                        From GNB, we provide direct connections to major resorts like <strong>Alpe d'Huez</strong> and <strong>Les Deux Alpes</strong>. Our <a href="/vehicle"><strong>spacious vehicle</strong></a> is perfect for your ski equipment.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">✅</div>
+                    <h3>A <strong>Price Known in Advance</strong></h3>
+                    <p>
+                        The price of your trip is fixed at the time of booking. Enjoy a stress-free transfer without worrying about the final cost, a <strong>transparent alternative to a taxi</strong> at Grenoble Airport.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <h2>Popular Destinations from Grenoble Airport</h2>
-    <ul>
-        <li>Grenoble city center</li>
-        <li>Alps ski resorts (Alpe d'Huez, Les Deux Alpes, etc.)</li>
-        <li>Lyon, Chambéry, Annecy, and more</li>
-    </ul>
-
-    <h2>Book Your Alternative Taxi Now</h2>
-    <p>
-        Avoid waiting in line for a taxi. Book your private transfer from Grenoble Airport today and travel with peace of mind!
-    </p>
-    <a href="/en/book" class="btn">Book Now</a>
+    <section class="cta-section">
+        <div class="container">
+            <h2>Your <strong>VTC at Grenoble Airport</strong> is waiting for you</h2>
+            <a href="/#booking" class="cta-button">Book my transfer</a>
+        </div>
+    </section>
 </Layout>
 
 <style>
-    h1 {
-        font-size: 2.2rem;
-        margin-bottom: 1rem;
-        color: #1a2236;
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+        --text-color: #333;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1599827551004-9359f53856d1?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 5rem 1.5rem;
         text-align: center;
     }
-    h2 {
-        font-size: 1.4rem;
-        margin-top: 2rem;
-        margin-bottom: 0.7rem;
-        color: #2d3a4a;
-    }
-    p {
-        font-size: 1.1rem;
-        margin-bottom: 1.2rem;
-        color: #444;
-        line-height: 1.6;
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    ul, ol {
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 1.5rem;
-        color: #333;
-        font-size: 1rem;
-        padding-left: 1.2rem;
-    }
-    li {
-        margin-bottom: 0.5rem;
-    }
-    .btn {
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+    
+    .cta-button {
         display: inline-block;
-        background: #1a2236;
-        color: #fff;
-        padding: 0.7em 2em;
-        border-radius: 4px;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent); 
+        color: white;
         text-decoration: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        margin-top: 1.5rem;
-        transition: background 0.2s;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2 { margin-bottom: 1.5rem; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+
+    .features-section { padding: 4rem 1.5rem; }
+    .features-section h2 { text-align: center; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         text-align: center;
     }
-    .btn:hover {
-        background: #2d3a4a;
+    .feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+    .feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); }
+    .feature-card p { color: #666; line-height: 1.6; }
+    .feature-card a { font-weight: bold; }
+
+    .links-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    @media (min-width: 768px) { .links-grid { grid-template-columns: 1fr 1fr; } }
+    .link-card {
+        border-left: 4px solid var(--accent);
+        padding-left: 1.5rem;
     }
-    @media (max-width: 600px) {
-        h1 {
-            font-size: 1.4rem;
-        }
-        h2 {
-            font-size: 1.1rem;
-        }
-        p, ul, ol {
-            font-size: 0.97rem;
-        }
-        .btn {
-            width: 100%;
-            padding: 0.9em 0;
-        }
+    .link-card h4 { font-size: 1.4em; }
+
+    .cta-section {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 4rem 1.5rem;
+        text-align: center;
     }
+    .cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; }
+
+    .bg-light { background-color: var(--light-bg); }
+    .bg-light .text-container p, .bg-light .feature-card p { color: #333; }
 </style>
