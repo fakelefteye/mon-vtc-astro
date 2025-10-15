@@ -1,0 +1,113 @@
+---
+import Layout from '../../components/Layout.astro';
+import Seo from '../../components/Seo.astro';
+
+const pageTitle = "Alternative Taxi Grenoble Airport | Your Private Transfer";
+const pageDescription = "Looking for an alternative taxi from Grenoble Airport? Book your private transfer with our professional drivers for a comfortable and reliable journey to your destination.";
+---
+
+<Seo title={pageTitle} description={pageDescription} />
+
+<Layout>
+    <h1>Alternative Taxi Grenoble Airport</h1>
+    <p>
+        Are you searching for an alternative to traditional taxis at Grenoble Airport? Our private transfer service offers a comfortable, reliable, and affordable solution for your journey to or from the airport.
+    </p>
+
+    <h2>Why Choose Our Alternative Taxi Service?</h2>
+    <ul>
+        <li>Professional and experienced drivers</li>
+        <li>Fixed prices with no hidden fees</li>
+        <li>Comfortable and clean vehicles</li>
+        <li>24/7 availability</li>
+        <li>Easy online booking</li>
+    </ul>
+
+    <h2>How It Works</h2>
+    <ol>
+        <li>Book your transfer online or by phone</li>
+        <li>Receive instant confirmation</li>
+        <li>Your driver will meet you at the airport with a name sign</li>
+        <li>Enjoy a smooth and safe ride to your destination</li>
+    </ol>
+
+    <h2>Popular Destinations from Grenoble Airport</h2>
+    <ul>
+        <li>Grenoble city center</li>
+        <li>Alps ski resorts (Alpe d'Huez, Les Deux Alpes, etc.)</li>
+        <li>Lyon, Chambéry, Annecy, and more</li>
+    </ul>
+
+    <h2>Book Your Alternative Taxi Now</h2>
+    <p>
+        Avoid waiting in line for a taxi. Book your private transfer from Grenoble Airport today and travel with peace of mind!
+    </p>
+    <a href="/en/book" class="btn">Book Now</a>
+</Layout>
+
+<style>
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+        color: #1a2236;
+        text-align: center;
+    }
+    h2 {
+        font-size: 1.4rem;
+        margin-top: 2rem;
+        margin-bottom: 0.7rem;
+        color: #2d3a4a;
+    }
+    p {
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
+        color: #444;
+        line-height: 1.6;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    ul, ol {
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1.5rem;
+        color: #333;
+        font-size: 1rem;
+        padding-left: 1.2rem;
+    }
+    li {
+        margin-bottom: 0.5rem;
+    }
+    .btn {
+        display: inline-block;
+        background: #1a2236;
+        color: #fff;
+        padding: 0.7em 2em;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+        transition: background 0.2s;
+        text-align: center;
+    }
+    .btn:hover {
+        background: #2d3a4a;
+    }
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 1.4rem;
+        }
+        h2 {
+            font-size: 1.1rem;
+        }
+        p, ul, ol {
+            font-size: 0.97rem;
+        }
+        .btn {
+            width: 100%;
+            padding: 0.9em 0;
+        }
+    }
+</style>
