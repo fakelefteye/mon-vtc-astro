@@ -5,101 +5,201 @@ const { currentPath = '/' } = Astro.props;
 // Détermine la langue active basée sur le chemin actuel
 const lang = currentPath.startsWith('/en/') ? 'en' : (currentPath.startsWith('/es/') ? 'es' : 'fr');
 
-// --- Textes de navigation par langue ---
+// --- Textes de navigation (Enrichis) ---
 const navTexts = {
     fr: {
         home: 'Accueil',
-        services: 'Nos Tarifs', // Le texte reste "Nos Prestations"
-        vehicles: 'Nos Véhicules', 
+        services: 'Nos Prestations',
+        services_airports: 'Transferts Aéroports',
+        services_ski: 'Transferts Stations de Ski',
+        services_trieves: 'Desserte du Trièves',
+        vehicles: 'Nos Véhicules',
         contact: 'Contact',
         book: 'Réserver',
+        // Pages grappes Aéroports
+        page_lyon: "Alternative Taxi Aéroport Lyon",
+        page_grenoble: "Alternative Taxi Aéroport Grenoble",
+        page_chambery: "Alternative Taxi Aéroport Chambéry",
+        page_versoud: "Alternative Taxi Aérodrome Versoud",
+        // Pages grappes Stations
+        page_alpe_huez: "VTC Grenoble ↔ Alpe d'Huez",
+        page_les2alpes: "Alternative Taxi Les Deux Alpes",
+        page_chamrousse: "VTC Grenoble ↔ Chamrousse",
+        page_tignes: "VTC Grenoble ↔ Tignes",
+        page_courchevel: "VTC Grenoble ↔ Courchevel"
     },
     en: {
         home: 'Home',
-        services: 'Pricing', // Le texte reste "Our Services"
-        vehicles: 'Our Vehicles', 
+        services: 'Our Services',
+        services_airports: 'Airport Transfers',
+        services_ski: 'Ski Resort Transfers',
+        services_trieves: 'Trièves Area Service',
+        vehicles: 'Our Vehicles',
         contact: 'Contact',
         book: 'Book Now',
+        // Airport Cluster Pages
+        page_lyon: "Taxi Alternative Lyon Airport",
+        page_grenoble: "Taxi Alternative Grenoble Airport",
+        page_chambery: "Taxi Alternative Chambéry Airport",
+        page_versoud: "Taxi Alternative Versoud Aerodrome",
+        // Ski Cluster Pages
+        page_alpe_huez: "VTC Grenoble ↔ Alpe d'Huez",
+        page_les2alpes: "Taxi Alternative Les Deux Alpes",
+        page_chamrousse: "VTC Grenoble ↔ Chamrousse",
+        page_tignes: "VTC Grenoble ↔ Tignes",
+        page_courchevel: "VTC Grenoble ↔ Courchevel"
     },
     es: {
         home: 'Inicio',
-        services: 'Precios', // Le texte reste "Nuestros Servicios"
-        vehicles: 'Nuestros Vehículos', 
+        services: 'Nuestros Servicios',
+        services_airports: 'Traslados Aeropuerto',
+        services_ski: 'Traslados Estaciones de Esquí',
+        services_trieves: 'Servicio en Trièves',
+        vehicles: 'Nuestros Vehículos',
         contact: 'Contacto',
         book: 'Reservar Ahora',
+        // Airport Cluster Pages
+        page_lyon: "Alternativa Taxi Aeropuerto Lyon",
+        page_grenoble: "Alternativa Taxi Aeropuerto Grenoble",
+        page_chambery: "Alternativa Taxi Aeropuerto Chambéry",
+        page_versoud: "Alternativa Taxi Aeródromo Versoud",
+        // Ski Cluster Pages
+        page_alpe_huez: "VTC Grenoble ↔ Alpe d'Huez",
+        page_les2alpes: "Alternativa Taxi Les Deux Alpes",
+        page_chamrousse: "VTC Grenoble ↔ Chamrousse",
+        page_tignes: "VTC Grenoble ↔ Tignes",
+        page_courchevel: "VTC Grenoble ↔ Courchevel"
     },
 };
 
-// --- Mappage des chemins de base vers leurs noms de fichiers (sans préfixe de langue) ---
-// Ceci est crucial pour construire les URLs localisées correctement.
+const t = navTexts[lang] || navTexts.fr;
+
+// --- Mappage des chemins de base (chemins FR) ---
 const basePaths = {
     '/': '/',
-    '/nos-tarifs': '/nos-tarifs', // <-- MODIFIÉ : Le chemin de base FR est maintenant 'nos-tarifs'
+    '/transferts-aeroports': '/transferts-aeroports',
+    '/transferts-stations-de-ski': '/transferts-stations-de-ski',
+    '/vtc-trieves': '/vtc-trieves', // Mise à jour du nom de fichier
     '/vehicule': '/vehicule',
     '/contact': '/contact',
-    // Ajoutez d'autres pages ici si nécessaire (ex: '/politique-confidentialite')
+    // Grappes Aéroports
+    '/alternative-taxi-aeroport-lyon': '/alternative-taxi-aeroport-lyon',
+    '/alternative-taxi-aeroport-grenoble': '/alternative-taxi-aeroport-grenoble',
+    '/alternative-taxi-aeroport-chambery': '/alternative-taxi-aeroport-chambery',
+    '/alternative-taxi-aerodrome-versoud': '/alternative-taxi-aerodrome-versoud',
+    // Grappes Ski
+    '/vtc-grenoble-alpe-d-huez': '/vtc-grenoble-alpe-d-huez',
+    '/alternative-taxi-les-deux-alpes': '/alternative-taxi-les-deux-alpes',
+    '/vtc-grenoble-chamrousse': '/vtc-grenoble-chamrousse',
+    '/vtc-grenoble-tignes': '/vtc-grenoble-tignes',
+    '/vtc-grenoble-courchevel': '/vtc-grenoble-courchevel',
 };
 
-// Détermine le chemin de base actuel sans la partie langue.
-// Ex: '/en/our-services' -> '/nos-prestations' (si mappé)
+// --- Logique de détection de chemin ---
 let currentBasePath = '/';
 for (const [key, value] of Object.entries(basePaths)) {
-    // On doit faire attention aux pages d'accueil et s'assurer que /en ne matche pas /
-    if (lang === 'en' && currentPath.startsWith('/en') && currentPath.replace('/en', '') === value) {
-        currentBasePath = key;
-        break;
-    }
-    if (lang === 'es' && currentPath.startsWith('/es') && currentPath.replace('/es', '') === value) {
-        currentBasePath = key;
-        break;
-    }
-    if (lang === 'fr' && (currentPath === value || currentPath.startsWith(`/fr${value}`))) { // Gère /fr/page aussi
-        currentBasePath = key;
-        break;
-    }
-    if (lang === 'fr' && currentPath === '/' && value === '/') { // Cas spécifique pour la page d'accueil FR
+    const pathToCheck = currentPath.endsWith('/') && currentPath.length > 1 ? currentPath.slice(0, -1) : currentPath;
+    const langPrefix = lang === 'fr' ? '' : `/${lang}`;
+    
+    // Gère les chemins traduits
+    const localizedPaths: Record<string, string> = {
+        fr: value,
+        en: value.replace('/transferts-aeroports', '/airport-transfers')
+                 .replace('/transferts-stations-de-ski', '/ski-resort-transfers')
+                 .replace('/vtc-trieves', '/vtc-trieves-en') // Mise à jour du nom de fichier
+                 .replace('/vehicule', '/vehicle')
+                 .replace('/contact', '/contact')
+                 .replace('/alternative-taxi-aeroport-lyon', '/taxi-alternative-lyon-airport')
+                 .replace('/alternative-taxi-aeroport-grenoble', '/taxi-alternative-grenoble-airport')
+                 .replace('/alternative-taxi-aeroport-chambery', '/taxi-alternative-chambery-airport')
+                 .replace('/alternative-taxi-aerodrome-versoud', '/taxi-alternative-versoud-aerodrome')
+                 .replace('/vtc-grenoble-alpe-d-huez', '/vtc-grenoble-alpe-d-huez-en')
+                 .replace('/alternative-taxi-les-deux-alpes', '/taxi-alternative-les-deux-alpes')
+                 .replace('/vtc-grenoble-chamrousse', '/vtc-grenoble-chamrousse-en')
+                 .replace('/vtc-grenoble-tignes', '/vtc-grenoble-tignes-en')
+                 .replace('/vtc-grenoble-courchevel', '/vtc-grenoble-courchevel-en'),
+        es: value.replace('/transferts-aeroports', '/traslados-aeropuerto')
+                 .replace('/transferts-stations-de-ski', '/traslados-esqui')
+                 .replace('/vtc-trieves', '/vtc-trieves-es') // Mise à jour du nom de fichier
+                 .replace('/vehicule', '/vehiculo')
+                 .replace('/contact', '/contacto')
+                 .replace('/alternative-taxi-aeroport-lyon', '/alternativa-taxi-aeropuerto-lyon')
+                 .replace('/alternative-taxi-aeroport-grenoble', '/alternativa-taxi-aeropuerto-grenoble')
+                 .replace('/alternative-taxi-aeroport-chambery', '/alternativa-taxi-aeropuerto-chambery')
+                 .replace('/alternative-taxi-aerodrome-versoud', '/alternativa-taxi-aerodromo-versoud')
+                 .replace('/vtc-grenoble-alpe-d-huez', '/vtc-grenoble-alpe-d-huez-es')
+                 .replace('/alternative-taxi-les-deux-alpes', '/alternativa-taxi-les-deux-alpes')
+                 .replace('/vtc-grenoble-chamrousse', '/vtc-grenoble-chamrousse-es')
+                 .replace('/vtc-grenoble-tignes', '/vtc-grenoble-tignes-es')
+                 .replace('/vtc-grenoble-courchevel', '/vtc-grenoble-courchevel-es'),
+    };
+    
+    const targetPath = lang === 'fr' ? localizedPaths.fr : `/${lang}${localizedPaths[lang]}`;
+    if (pathToCheck === targetPath) {
         currentBasePath = key;
         break;
     }
 }
-// Pour les pages non mappées ou quand le chemin est juste la langue (ex: /en), on reste sur la racine.
-if (!Object.values(basePaths).includes(currentBasePath)) {
-     currentBasePath = '/'; // Fallback si le chemin ne correspond à aucune page de base connue
-}
+// Fallback pour les pages racines de langue
 if (currentPath === '/en' || currentPath === '/en/' || currentPath === '/es' || currentPath === '/es/') {
-    currentBasePath = '/'; // Si on est juste sur le préfixe de langue, on considère que c'est l'accueil
+    currentBasePath = '/';
 }
 
 
-// --- Fonctions pour générer les liens dynamiques ---
+// --- Fonction de traduction des chemins ---
 const getLocalizedLink = (basePath: string, targetLang: string) => {
-    // Si la page est l'accueil, les liens sont '/' ou '/en/' ou '/es/'
     if (basePath === '/') {
         return targetLang === 'fr' ? '/' : `/${targetLang}/`;
     }
-    
-    // Pour les autres pages, on utilise le chemin de base FR et on le préfixe
-    const localizedPaths: Record<string, string> = {
-        fr: basePath, // ex: '/nos-tarifs'
-        en: basePath
-            .replace('/nos-tarifs', '/pricing') // <-- MODIFIÉ : Traduction du chemin pour EN
-            .replace('/vehicule', '/vehicle'),
-        es: basePath
-            .replace('/nos-tarifs', '/Precios') // <-- MODIFIÉ : Traduction du chemin pour ES
-            .replace('/vehicule', '/vehiculo'),
+    if (basePath === '/#booking') {
+        return targetLang === 'fr' ? '/#booking' : `/${targetLang}/#booking`;
+    }
+
+    const localizedPaths: Record<string, Record<string, string>> = {
+        '/transferts-aeroports': { en: '/airport-transfers', es: '/traslados-aeropuerto' },
+        '/transferts-stations-de-ski': { en: '/ski-resort-transfers', es: '/traslados-esqui' },
+        '/vtc-trieves': { en: '/vtc-trieves-en', es: '/vtc-trieves-es' },
+        '/vehicule': { en: '/vehicle', es: '/vehiculo' },
+        '/contact': { en: '/contact', es: '/contacto' },
+        '/alternative-taxi-aeroport-lyon': { en: '/taxi-alternative-lyon-airport', es: '/alternativa-taxi-aeropuerto-lyon' },
+        '/alternative-taxi-aeroport-grenoble': { en: '/taxi-alternative-grenoble-airport', es: '/alternativa-taxi-aeropuerto-grenoble' },
+        '/alternative-taxi-aeroport-chambery': { en: '/taxi-alternative-chambery-airport', es: '/alternativa-taxi-aeropuerto-chambery' },
+        '/alternative-taxi-aerodrome-versoud': { en: '/taxi-alternative-versoud-aerodrome', es: '/alternativa-taxi-aerodromo-versoud' },
+        '/vtc-grenoble-alpe-d-huez': { en: '/vtc-grenoble-alpe-d-huez-en', es: '/vtc-grenoble-alpe-d-huez-es' },
+        '/alternative-taxi-les-deux-alpes': { en: '/taxi-alternative-les-deux-alpes', es: '/alternativa-taxi-les-deux-alpes' },
+        '/vtc-grenoble-chamrousse': { en: '/vtc-grenoble-chamrousse-en', es: '/vtc-grenoble-chamrousse-es' },
+        '/vtc-grenoble-tignes': { en: '/vtc-grenoble-tignes-en', es: '/vtc-grenoble-tignes-es' },
+        '/vtc-grenoble-courchevel': { en: '/vtc-grenoble-courchevel-en', es: '/vtc-grenoble-courchevel-es' },
     };
-    
-    const path = localizedPaths[targetLang] || basePath; // Utilise la version traduite du chemin
-    return targetLang === 'fr' ? path : `/${targetLang}${path}`;
+
+    if (targetLang === 'fr') return basePath;
+    const translatedPath = localizedPaths[basePath]?.[targetLang] || basePath;
+    return `/${targetLang}${translatedPath}`;
 };
 
-
-// Génère les chemins d'URL complets pour la navigation
+// --- Génération des liens ---
 const homeLink = getLocalizedLink('/', lang);
-const servicesLink = getLocalizedLink('/nos-tarifs', lang); // <-- MODIFIÉ : Utilise le nouveau chemin de base
 const vehiclesLink = getLocalizedLink('/vehicule', lang);
 const contactLink = getLocalizedLink('/contact', lang);
 const bookingAnchor = getLocalizedLink('/#booking', lang);
+
+// Liens Piliers
+const airportPilierLink = getLocalizedLink('/transferts-aeroports', lang);
+const skiPilierLink = getLocalizedLink('/transferts-stations-de-ski', lang);
+const trievesPilierLink = getLocalizedLink('/vtc-trieves', lang);
+
+// Liens Grappes Aéroports
+const lyonLink = getLocalizedLink('/alternative-taxi-aeroport-lyon', lang);
+const grenobleLink = getLocalizedLink('/alternative-taxi-aeroport-grenoble', lang);
+const chamberyLink = getLocalizedLink('/alternative-taxi-aeroport-chambery', lang);
+const versoudLink = getLocalizedLink('/alternative-taxi-aerodrome-versoud', lang);
+
+// Liens Grappes Ski
+const alpeHuezLink = getLocalizedLink('/vtc-grenoble-alpe-d-huez', lang);
+const les2AlpesLink = getLocalizedLink('/alternative-taxi-les-deux-alpes', lang);
+const chamrousseLink = getLocalizedLink('/vtc-grenoble-chamrousse', lang);
+const tignesLink = getLocalizedLink('/vtc-grenoble-tignes', lang);
+const courchevelLink = getLocalizedLink('/vtc-grenoble-courchevel', lang);
 
 // Fonction pour déterminer si un lien de navigation est actif
 const isNavLinkActive = (basePathKey: string) => {
@@ -108,15 +208,6 @@ const isNavLinkActive = (basePathKey: string) => {
 ---
 
 <header class="header">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-82VWM02RGP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-82VWM02RGP');
-</script>
     <div class="header-main">
         <a href={homeLink} class="logo">
             <img src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/logo_ship_cars.png" alt="ShipCars Logo">
@@ -124,10 +215,44 @@ const isNavLinkActive = (basePathKey: string) => {
         
         <div class="header-actions">
             <nav class="nav">
-                <a href={homeLink} class:list={{ active: isNavLinkActive('/') }}>{navTexts[lang].home}</a>
-                <a href={servicesLink} class:list={{ active: isNavLinkActive('/nos-tarifs') }}>{navTexts[lang].services}</a> {/* <-- MODIFIÉ : Check d'activité */}
-                <a href={vehiclesLink} class:list={{ active: isNavLinkActive('/vehicule') }}>{navTexts[lang].vehicles}</a>
-                <a href={contactLink} class:list={{ active: isNavLinkActive('/contact') }}>{navTexts[lang].contact}</a>
+                <a href={homeLink} class:list={{ active: isNavLinkActive('/') }}>{t.home}</a>
+                
+                <div class="nav-item dropdown">
+                    <a 
+                        href={airportPilierLink}  
+                        class:list={{ active: isNavLinkActive('/transferts-aeroports') || isNavLinkActive('/transferts-stations-de-ski') || isNavLinkActive('/vtc-trieves') }}
+                    >
+                        {t.services} <span class="arrow">▼</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href={airportPilierLink} class="dropdown-header">{t.services_airports}</a>
+                            <ul class="sub-menu">
+                                <li><a href={lyonLink}>{t.page_lyon}</a></li>
+                                <li><a href={grenobleLink}>{t.page_grenoble}</a></li>
+                                <li><a href={chamberyLink}>{t.page_chambery}</a></li>
+                                <li><a href={versoudLink}>{t.page_versoud}</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href={skiPilierLink} class="dropdown-header">{t.services_ski}</a>
+                            <ul class="sub-menu">
+                                <li><a href={alpeHuezLink}>{t.page_alpe_huez}</a></li>
+                                <li><a href={les2AlpesLink}>{t.page_les2alpes}</a></li>
+                                <li><a href={chamrousseLink}>{t.page_chamrousse}</a></li>
+                                <li><a href={tignesLink}>{t.page_tignes}</a></li>
+                                <li><a href={courchevelLink}>{t.page_courchevel}</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href={trievesPilierLink} class="dropdown-header">{t.services_trieves}</a>
+                            </li>
+                    </ul>
+                </div>
+                <a href={airportPilierLink} class="nav-mobile-link">{t.services}</a>
+                
+                <a href={vehiclesLink} class:list={{ active: isNavLinkActive('/vehicule') }}>{t.vehicles}</a>
+                <a href={contactLink} class:list={{ active: isNavLinkActive('/contact') }}>{t.contact}</a>
             </nav>
             
             <div class="language-picker"> 
@@ -137,14 +262,13 @@ const isNavLinkActive = (basePathKey: string) => {
             </div>
 
             <a href={bookingAnchor} class="header-cta">
-                {navTexts[lang].book}
+                {t.book}
             </a>
         </div>
     </div>
 </header>
 
 <style>
-    /* Vos styles CSS existants, inchangés */
     .header {
         background-color: var(--dark-bg);
         padding: 0.75rem 0;
@@ -177,24 +301,98 @@ const isNavLinkActive = (basePathKey: string) => {
 
     .nav {
         display: flex;
+        /* ✅ CORRECTION ICI : "baseline" aligne les textes, "center" aligne les boîtes */
+        align-items: baseline; 
         gap: 2rem;
     }
-
     .nav a {
         color: white;
         text-decoration: none;
         font-weight: 500;
         transition: color 0.3s ease;
+        padding-bottom: 5px;
+        border-bottom: 2px solid transparent;
+    }
+    .nav a:hover { color: var(--accent); }
+    .nav a.active {
+        color: var(--accent);
+        border-bottom: 2px solid var(--accent);
     }
 
-    .nav a:hover {
-        color: var(--accent);
+    /* --- STYLES DU MENU DÉROULANT --- */
+    .nav-item.dropdown {
+        position: relative;
     }
-    
-    .nav a.active {
-        color: var(--accent); /* Met en surbrillance le lien actif */
+    .nav-item.dropdown > a {
+        border-bottom: 2px solid transparent;
+        padding-bottom: 5px;
+    }
+    .nav-item.dropdown > a.active {
+        color: var(--accent);
         border-bottom: 2px solid var(--accent);
-        padding-bottom: 3px;
+    }
+    .nav-item.dropdown .arrow {
+        font-size: 0.7em;
+        vertical-align: middle;
+        margin-left: 4px;
+    }
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--dark-bg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        z-index: 1001;
+        width: max-content;
+        min-width: 500px;
+        margin-top: 10px;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1.5rem;
+    }
+    .nav-item.dropdown:hover .dropdown-menu,
+    .nav-item.dropdown:focus-within .dropdown-menu {
+        display: grid;
+    }
+    .dropdown-menu a {
+        padding: 0;
+        border-bottom: none;
+    }
+    .dropdown-menu li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .dropdown-menu .dropdown-header {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: var(--accent);
+        border-bottom: 1px solid var(--accent);
+        padding-bottom: 8px;
+        margin-bottom: 1rem;
+        display: inline-block;
+        width: 100%;
+    }
+    .dropdown-menu .sub-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .dropdown-menu .sub-menu li {
+        margin-bottom: 0.75rem;
+    }
+    .dropdown-menu .sub-menu a {
+        color: white;
+        opacity: 0.8;
+        font-weight: normal;
+    }
+    .dropdown-menu .sub-menu a:hover {
+        opacity: 1;
+        text-decoration: underline;
     }
 
     .language-picker {
@@ -245,6 +443,11 @@ const isNavLinkActive = (basePathKey: string) => {
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
+    /* Lien mobile caché par défaut */
+    .nav-mobile-link {
+        display: none;
+    }
+
     @media (max-width: 850px) {
         .header-main {
             flex-direction: column;
@@ -262,6 +465,15 @@ const isNavLinkActive = (basePathKey: string) => {
         }
         .nav a {
             padding: 0.5rem 0.75rem; 
+        }
+        
+        /* Cacher le méga-menu sur mobile */
+        .nav-item.dropdown { 
+            display: none; 
+        }
+        /* Afficher le lien simple "Nos Prestations" à la place */
+        .nav-mobile-link {
+            display: block;
         }
     }
 </style>
