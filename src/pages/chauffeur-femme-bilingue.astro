@@ -1,0 +1,203 @@
+---
+import Layout from '@/layouts/Layout.astro';
+// TODO: Pensez à ajouter une belle photo de vous (professionnelle) ou de votre véhicule dans le dossier /public/images/
+// et à remplacer 'hero-driver-female.jpg' ci-dessous.
+const heroImageUrl = '/images/hero-driver-female.jpg'; // Exemple: remplacez par une vraie image
+---
+
+<Layout 
+    title="Chauffeure Femme VTC Grenoble | English & Spanish Speaking Driver | ShipCars"
+    description="Réservez votre VTC avec Lise, chauffeure femme à Grenoble. Service premium et sécurisé (véhicule 5 étoiles NCAP). Je parle couramment anglais et espagnol pour vos transferts aéroport (Lyon, Genève) et stations.">
+
+    <section class="page-hero" style={`background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${heroImageUrl}')`}>
+        <div class="container">
+            <h1>Votre <strong>Chauffeure Femme VTC</strong> à Grenoble</h1>
+            <p class="subtitle">Un service de transport privé premium, <strong>sécurisé</strong>, parlant <strong>Anglais et Espagnol</strong>.</p>
+            <a href="/#booking" class="cta-button">Réserver mon trajet en toute confiance</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Pourquoi choisir une <strong>femme chauffeure VTC</strong> à Grenoble ?</h2>
+            <p>
+                Dans un monde où le confort et la sécurité sont primordiaux, choisir une <strong>chauffeure femme VTC</strong> à Grenoble n'est pas un détail. C'est un choix délibéré pour la <strong>sérénité</strong>. 
+            </p>
+            <p>
+                Que vous soyez une <strong>femme voyageant seule</strong> pour les affaires, une famille cherchant une conduite douce pour rejoindre les stations, ou un(e) professionnel(le) exigeant un service discret, je m'engage à vous offrir une expérience de transport où vous vous sentirez parfaitement à l'aise et en sécurité, de jour comme de nuit.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Un Service Premium Trilingue : Votre Pont avec l'International</h2>
+            <p class="section-subtitle" style="text-align: center; max-width: 700px; margin: -2rem auto 3rem auto;">
+                Grenoble est un carrefour international. La barrière de la langue ne devrait jamais être un stress lors d'un transfert.
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🇬🇧</div>
+                    <h3>English Speaking Driver</h3>
+                    <p>
+                        Grenoble is an international hub for science and technology (CEA, ESRF). As an <strong>english speaking driver</strong>, I provide seamless communication for researchers, executives, and tourists. Perfect for your <a href="/transfert-aeroport-lyon">transfers from Lyon (LYS) or Geneva (GVA) airports</a>.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🇪🇸</div>
+                    <h3>Chauffeure VTC parlant Espagnol</h3>
+                    <p>
+                        ¿Habla español? ¡Perfecto! Pour nos visiteurs espagnols ou sud-américains, touristes ou professionnels, je propose un service VTC complet. <strong>"Hablo español con fluidez"</strong> pour faciliter votre arrivée et vos déplacements vers le <a href="/nos-prestations">Trièves ou les stations de ski</a>.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">👩</div>
+                    <h3>Sécurité & Sérénité Avant Tout</h3>
+                    <p>
+                        Le choix d'une <strong>chauffeure femme</strong> est plébiscité par nos clientes pour des retours de soirée, des déplacements professionnels ou simplement pour la tranquillité d'esprit. Votre sécurité est ma priorité, avec un <a href="/vehicule">véhicule 100% électrique 5 étoiles NCAP</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Pour qui ce service VTC est-il idéal ?</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>Voyageuses d'Affaires & Seules</h4>
+                    <p>Pour les professionnelles et les femmes voyageant seules, c'est la garantie d'un trajet <strong>fiable et 100% sécurisé</strong>, de jour comme de nuit.</p>
+                </div>
+                <div class="info-item">
+                    <h4>Clients Internationaux</h4>
+                    <p>Chercheurs, cadres ou touristes <strong>anglophones et hispanophones</strong>. La barrière de la langue n'est plus un stress pour vos transferts aéroport.</p>
+                </div>
+                <div class="info-item">
+                    <h4>Les Familles</h4>
+                    <p>Les familles apprécient la <strong>sérénité</strong>, la conduite douce et l'accueil attentionné d'une chauffeure pour leurs départs en vacances.</p>
+                </div>
+                <div class="info-item">
+                    <h4>Une Alternative Sereine</h4>
+                    <p>Pour toute personne (femme ou homme) cherchant une <strong>alternative au taxi</strong> plus personnalisée, discrète et haut de gamme.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Réservez un trajet VTC en toute confiance</h2>
+            <p>Voyagez avec Lise, votre chauffeure femme trilingue à Grenoble. L'alternative VTC qui allie sécurité, confort et communication.</p>
+            <a href="/#booking" class="cta-button">Réserver mon VTC premium</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    /* Copiez-collez TOUS les styles de vos autres pages ici pour garantir la cohérence */
+    /* Voici les styles de base que vous avez utilisés précédemment */
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+        --text-color: #333;
+    }
+    .page-hero {
+        /* L'image de fond est définie en ligne (inline) dans le HTML */
+        background-size: cover;
+        background-position: center 70%; /* Centre un peu plus sur le bas, souvent mieux pour les visages */
+        color: white;
+        padding: 5rem 1.5rem;
+        text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+    
+    .cta-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2 { margin-bottom: 1.5rem; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; margin-bottom: 1.5rem; }
+    .text-container p:last-child { margin-bottom: 0; }
+
+
+    .features-section { padding: 4rem 1.5rem; }
+    .section-title { text-align: center; margin-bottom: 3rem; font-size: 2.2em; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    .feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+    .feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); font-size: 1.4em; }
+    .feature-card p { color: #666; line-height: 1.6; }
+    .feature-card a { 
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .feature-card a:hover {
+        text-decoration: underline;
+    }
+
+    /* Grille d'infos (pour la section "Pour qui ?") */
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem; /* Espace réduit pour plus de densité */
+        max-width: 1000px;
+        margin: 2rem auto 0 auto;
+    }
+    @media (min-width: 768px) { 
+        .info-grid { 
+            grid-template-columns: 1fr 1fr; 
+            gap: 2rem;
+        } 
+    }
+    
+    .info-item {
+        background: var(--light-bg);
+        padding: 1.5rem 2rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--accent); /* Ajoute une touche de couleur */
+    }
+    .info-item h4 {
+        font-size: 1.3em;
+        color: var(--dark-bg);
+        margin-bottom: 0.5rem;
+    }
+    .info-item p {
+        color: #555;
+        line-height: 1.6;
+        margin: 0;
+        font-size: 1em;
+    }
+
+    .cta-section {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 4rem 1.5rem;
+        text-align: center;
+    }
+    .cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; font-size: 1.1em; }
+
+    .bg-light { background-color: var(--light-bg); }
+    .bg-light .text-container p, .bg-light .feature-card p { color: #33

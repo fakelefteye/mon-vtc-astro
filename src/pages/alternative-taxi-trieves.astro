@@ -97,25 +97,70 @@ const trievesVillages = [
 </Layout>
 
 <style>
-    /* Styles réutilisés pour la cohérence */
     :root { 
         --accent: #35c2b5; 
         --dark-bg: #2d3a4c;
         --light-bg: #f8f9fa;
+        --text-color: #333;
     }
     .page-hero {
-        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1616334336211-c9b2e235c3cc?q=80&w=2070&auto=format&fit=crop') no-repeat center center; /* Image du Vercors/Trièves */
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1551694212-085f13b331f2?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
         background-size: cover;
-        color: white; padding: 5rem 1.5rem; text-align: center;
+        color: white;
+        padding: 5rem 1.5rem;
+        text-align: center;
     }
     .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
     .page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
     
-    .cta-button, .secondary-button, .content-section, .text-container, .section-title, .features-section, .features-grid, .feature-card, .cta-section, .bg-light, .text-center, .mt-4 {
-        /* Ces styles sont identiques aux pages précédentes */
+    .cta-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     }
 
-    /* Styles pour la grille des destinations */
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2, .section-title { margin-bottom: 1.5rem; color: var(--dark-bg); text-align: center; font-size: 2.2em; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+    
+    .features-section { padding: 4rem 1.5rem; }
+    .features-section h2 { text-align: center; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    .feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+    .feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); }
+    .feature-card p { color: #666; line-height: 1.6; }
+    .feature-card a { font-weight: bold; }
+
+    .cta-section {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 4rem 1.5rem;
+        text-align: center;
+    }
+    .cta-section h2, .cta-section p { color: white; }
+    .cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; }
+
+    .bg-light { background-color: var(--light-bg); }
+    .bg-light .text-container p, .bg-light .feature-card p { color: #333; }
+
+    /* NOUVEAUX STYLES AJOUTÉS POUR CETTE PAGE */
     .destinations-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -144,5 +189,21 @@ const trievesVillages = [
     }
     .destination-card a:hover {
         color: var(--accent);
+    }
+    .text-center { text-align: center; }
+    .mt-4 { margin-top: 2.5rem; }
+    .secondary-button {
+        display: inline-block;
+        padding: 0.7rem 1.5rem;
+        border: 2px solid var(--dark-bg);
+        color: var(--dark-bg);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+    }
+    .secondary-button:hover {
+        background-color: var(--dark-bg);
+        color: white;
     }
 </style>

@@ -12,63 +12,81 @@ const navTexts = {
         services: 'Nos Prestations',
         services_airports: 'Transferts Aéroports',
         services_ski: 'Transferts Stations de Ski',
-        services_trieves: 'Desserte du Trièves',
+        services_trieves: 'Desserte du Trièves', // Pilier
         vehicles: 'Nos Véhicules',
         contact: 'Contact',
         book: 'Réserver',
-        // Pages grappes Aéroports
+        // Grappes Aéroports
         page_lyon: "Alternative Taxi Aéroport Lyon",
         page_grenoble: "Alternative Taxi Aéroport Grenoble",
         page_chambery: "Alternative Taxi Aéroport Chambéry",
         page_versoud: "Alternative Taxi Aérodrome Versoud",
-        // Pages grappes Stations
+        // Grappes Stations
         page_alpe_huez: "VTC Grenoble ↔ Alpe d'Huez",
         page_les2alpes: "Alternative Taxi Les Deux Alpes",
         page_chamrousse: "VTC Grenoble ↔ Chamrousse",
         page_tignes: "VTC Grenoble ↔ Tignes",
-        page_courchevel: "VTC Grenoble ↔ Courchevel"
+        page_courchevel: "VTC Grenoble ↔ Courchevel",
+        // Grappes Trièves (NOUVEAU)
+        page_monestier: "Grenoble ↔ Monestier-de-Clermont",
+        page_gresse: "Grenoble ↔ Gresse-en-Vercors",
+        // Pilier & Grappe Sécurité
+        page_securite_femme: "VTC Sécurité Femme", // Pilier
+        page_chauffeur_femme: "Chauffeure Femme Bilingue" // Grappe
     },
     en: {
         home: 'Home',
         services: 'Our Services',
         services_airports: 'Airport Transfers',
         services_ski: 'Ski Resort Transfers',
-        services_trieves: 'Trièves Area Service',
+        services_trieves: 'Trièves Area Service', // Pillar
         vehicles: 'Our Vehicles',
         contact: 'Contact',
         book: 'Book Now',
-        // Airport Cluster Pages
+        // Airport Cluster
         page_lyon: "Taxi Alternative Lyon Airport",
         page_grenoble: "Taxi Alternative Grenoble Airport",
         page_chambery: "Taxi Alternative Chambéry Airport",
         page_versoud: "Taxi Alternative Versoud Aerodrome",
-        // Ski Cluster Pages
+        // Ski Cluster
         page_alpe_huez: "VTC Grenoble ↔ Alpe d'Huez",
         page_les2alpes: "Taxi Alternative Les Deux Alpes",
         page_chamrousse: "VTC Grenoble ↔ Chamrousse",
         page_tignes: "VTC Grenoble ↔ Tignes",
-        page_courchevel: "VTC Grenoble ↔ Courchevel"
+        page_courchevel: "VTC Grenoble ↔ Courchevel",
+        // Trièves Cluster (NEW)
+        page_monestier: "Grenoble ↔ Monestier-de-Clermont",
+        page_gresse: "Grenoble ↔ Gresse-en-Vercors",
+        // Security Pillar & Cluster
+        page_securite_femme: "VTC Women Safety", // Pillar
+        page_chauffeur_femme: "Bilingual Female Driver" // Cluster
     },
     es: {
         home: 'Inicio',
         services: 'Nuestros Servicios',
         services_airports: 'Traslados Aeropuerto',
         services_ski: 'Traslados Estaciones de Esquí',
-        services_trieves: 'Servicio en Trièves',
+        services_trieves: 'Servicio en Trièves', // Pilar
         vehicles: 'Nuestros Vehículos',
         contact: 'Contacto',
         book: 'Reservar Ahora',
-        // Airport Cluster Pages
+        // Cluster Aeropuerto
         page_lyon: "Alternativa Taxi Aeropuerto Lyon",
         page_grenoble: "Alternativa Taxi Aeropuerto Grenoble",
         page_chambery: "Alternativa Taxi Aeropuerto Chambéry",
         page_versoud: "Alternativa Taxi Aeródromo Versoud",
-        // Ski Cluster Pages
+        // Cluster Esquí
         page_alpe_huez: "VTC Grenoble ↔ Alpe d'Huez",
         page_les2alpes: "Alternativa Taxi Les Deux Alpes",
         page_chamrousse: "VTC Grenoble ↔ Chamrousse",
         page_tignes: "VTC Grenoble ↔ Tignes",
-        page_courchevel: "VTC Grenoble ↔ Courchevel"
+        page_courchevel: "VTC Grenoble ↔ Courchevel",
+        // Cluster Trièves (NUEVO)
+        page_monestier: "Grenoble ↔ Monestier-de-Clermont",
+        page_gresse: "Grenoble ↔ Gresse-en-Vercors",
+        // Pilar & Cluster Seguridad
+        page_securite_femme: "VTC Seguridad Mujer", // Pilar
+        page_chauffeur_femme: "Conductora Bilingüe" // Cluster
     },
 };
 
@@ -79,7 +97,7 @@ const basePaths = {
     '/': '/',
     '/transferts-aeroports': '/transferts-aeroports',
     '/transferts-stations-de-ski': '/transferts-stations-de-ski',
-    '/vtc-trieves': '/vtc-trieves', // Mise à jour du nom de fichier
+    '/alternative-taxi-trieves': '/alternative-taxi-trieves',
     '/vehicule': '/vehicule',
     '/contact': '/contact',
     // Grappes Aéroports
@@ -93,6 +111,12 @@ const basePaths = {
     '/vtc-grenoble-chamrousse': '/vtc-grenoble-chamrousse',
     '/vtc-grenoble-tignes': '/vtc-grenoble-tignes',
     '/vtc-grenoble-courchevel': '/vtc-grenoble-courchevel',
+    // Grappes Trièves (NOUVEAU)
+    '/alternative-taxi-grenoble-monestier-de-clermont': '/alternative-taxi-grenoble-monestier-de-clermont',
+    '/alternative-taxi-grenoble-gresse-en-vercors': '/alternative-taxi-grenoble-gresse-en-vercors',
+    // Pilier & Grappe Sécurité
+    '/vtc-securite-femme-grenoble': '/vtc-securite-femme-grenoble',
+    '/chauffeur-femme-bilingue': '/chauffeur-femme-bilingue',
 };
 
 // --- Logique de détection de chemin ---
@@ -106,7 +130,7 @@ for (const [key, value] of Object.entries(basePaths)) {
         fr: value,
         en: value.replace('/transferts-aeroports', '/airport-transfers')
                  .replace('/transferts-stations-de-ski', '/ski-resort-transfers')
-                 .replace('/vtc-trieves', '/vtc-trieves-en') // Mise à jour du nom de fichier
+                 .replace('/alternative-taxi-trieves', '/alternative-taxi-trieves-en')
                  .replace('/vehicule', '/vehicle')
                  .replace('/contact', '/contact')
                  .replace('/alternative-taxi-aeroport-lyon', '/taxi-alternative-lyon-airport')
@@ -117,10 +141,15 @@ for (const [key, value] of Object.entries(basePaths)) {
                  .replace('/alternative-taxi-les-deux-alpes', '/taxi-alternative-les-deux-alpes')
                  .replace('/vtc-grenoble-chamrousse', '/vtc-grenoble-chamrousse-en')
                  .replace('/vtc-grenoble-tignes', '/vtc-grenoble-tignes-en')
-                 .replace('/vtc-grenoble-courchevel', '/vtc-grenoble-courchevel-en'),
+                 .replace('/vtc-grenoble-courchevel', '/vtc-grenoble-courchevel-en')
+                 .replace('/vtc-securite-femme-grenoble', '/vtc-women-safety-grenoble')
+                 .replace('/chauffeur-femme-bilingue', '/bilingual-female-driver')
+                 // NOUVEAU
+                 .replace('/alternative-taxi-grenoble-monestier-de-clermont', '/alternative-taxi-grenoble-monestier-de-clermont-en')
+                 .replace('/alternative-taxi-grenoble-gresse-en-vercors', '/alternative-taxi-grenoble-gresse-en-vercors-en'),
         es: value.replace('/transferts-aeroports', '/traslados-aeropuerto')
                  .replace('/transferts-stations-de-ski', '/traslados-esqui')
-                 .replace('/vtc-trieves', '/vtc-trieves-es') // Mise à jour du nom de fichier
+                 .replace('/alternative-taxi-trieves', '/alternative-taxi-trieves-es')
                  .replace('/vehicule', '/vehiculo')
                  .replace('/contact', '/contacto')
                  .replace('/alternative-taxi-aeroport-lyon', '/alternativa-taxi-aeropuerto-lyon')
@@ -131,7 +160,12 @@ for (const [key, value] of Object.entries(basePaths)) {
                  .replace('/alternative-taxi-les-deux-alpes', '/alternativa-taxi-les-deux-alpes')
                  .replace('/vtc-grenoble-chamrousse', '/vtc-grenoble-chamrousse-es')
                  .replace('/vtc-grenoble-tignes', '/vtc-grenoble-tignes-es')
-                 .replace('/vtc-grenoble-courchevel', '/vtc-grenoble-courchevel-es'),
+                 .replace('/vtc-grenoble-courchevel', '/vtc-grenoble-courchevel-es')
+                 .replace('/vtc-securite-femme-grenoble', '/vtc-seguridad-mujer-grenoble')
+                 .replace('/chauffeur-femme-bilingue', '/conductora-bilingue')
+                 // NOUVEAU
+                 .replace('/alternative-taxi-grenoble-monestier-de-clermont', '/alternative-taxi-grenoble-monestier-de-clermont-es')
+                 .replace('/alternative-taxi-grenoble-gresse-en-vercors', '/alternative-taxi-grenoble-gresse-en-vercors-es'),
     };
     
     const targetPath = lang === 'fr' ? localizedPaths.fr : `/${lang}${localizedPaths[lang]}`;
@@ -158,7 +192,7 @@ const getLocalizedLink = (basePath: string, targetLang: string) => {
     const localizedPaths: Record<string, Record<string, string>> = {
         '/transferts-aeroports': { en: '/airport-transfers', es: '/traslados-aeropuerto' },
         '/transferts-stations-de-ski': { en: '/ski-resort-transfers', es: '/traslados-esqui' },
-        '/vtc-trieves': { en: '/vtc-trieves-en', es: '/vtc-trieves-es' },
+        '/alternative-taxi-trieves': { en: '/alternative-taxi-trieves-en', es: '/alternative-taxi-trieves-es' },
         '/vehicule': { en: '/vehicle', es: '/vehiculo' },
         '/contact': { en: '/contact', es: '/contacto' },
         '/alternative-taxi-aeroport-lyon': { en: '/taxi-alternative-lyon-airport', es: '/alternativa-taxi-aeropuerto-lyon' },
@@ -170,6 +204,11 @@ const getLocalizedLink = (basePath: string, targetLang: string) => {
         '/vtc-grenoble-chamrousse': { en: '/vtc-grenoble-chamrousse-en', es: '/vtc-grenoble-chamrousse-es' },
         '/vtc-grenoble-tignes': { en: '/vtc-grenoble-tignes-en', es: '/vtc-grenoble-tignes-es' },
         '/vtc-grenoble-courchevel': { en: '/vtc-grenoble-courchevel-en', es: '/vtc-grenoble-courchevel-es' },
+        '/vtc-securite-femme-grenoble': { en: '/vtc-women-safety-grenoble', es: '/vtc-seguridad-mujer-grenoble' },
+        '/chauffeur-femme-bilingue': { en: '/bilingual-female-driver', es: '/conductora-bilingue' },
+        // NOUVEAU
+        '/alternative-taxi-grenoble-monestier-de-clermont': { en: '/alternative-taxi-grenoble-monestier-de-clermont-en', es: '/alternative-taxi-grenoble-monestier-de-clermont-es' },
+        '/alternative-taxi-grenoble-gresse-en-vercors': { en: '/alternative-taxi-grenoble-gresse-en-vercors-en', es: '/alternative-taxi-grenoble-gresse-en-vercors-es' },
     };
 
     if (targetLang === 'fr') return basePath;
@@ -186,7 +225,8 @@ const bookingAnchor = getLocalizedLink('/#booking', lang);
 // Liens Piliers
 const airportPilierLink = getLocalizedLink('/transferts-aeroports', lang);
 const skiPilierLink = getLocalizedLink('/transferts-stations-de-ski', lang);
-const trievesPilierLink = getLocalizedLink('/vtc-trieves', lang);
+const trievesPilierLink = getLocalizedLink('/alternative-taxi-trieves', lang);
+const securiteFemmePilierLink = getLocalizedLink('/vtc-securite-femme-grenoble', lang); // Renommé
 
 // Liens Grappes Aéroports
 const lyonLink = getLocalizedLink('/alternative-taxi-aeroport-lyon', lang);
@@ -201,10 +241,37 @@ const chamrousseLink = getLocalizedLink('/vtc-grenoble-chamrousse', lang);
 const tignesLink = getLocalizedLink('/vtc-grenoble-tignes', lang);
 const courchevelLink = getLocalizedLink('/vtc-grenoble-courchevel', lang);
 
+// Liens Grappes Trièves (NOUVEAU)
+const monestierLink = getLocalizedLink('/alternative-taxi-grenoble-monestier-de-clermont', lang);
+const gresseLink = getLocalizedLink('/alternative-taxi-grenoble-gresse-en-vercors', lang);
+
+// Liens Grappe Sécurité
+const chauffeurFemmeLink = getLocalizedLink('/chauffeur-femme-bilingue', lang);
+
 // Fonction pour déterminer si un lien de navigation est actif
 const isNavLinkActive = (basePathKey: string) => {
     return currentBasePath === basePathKey;
 };
+
+// Détermine si le lien "Nos Prestations" doit être actif
+const isServicesActive = [
+    '/transferts-aeroports',
+    '/transferts-stations-de-ski',
+    '/alternative-taxi-trieves',
+    '/vtc-securite-femme-grenoble', // Pilier
+    '/alternative-taxi-aeroport-lyon',
+    '/alternative-taxi-aeroport-grenoble',
+    '/alternative-taxi-aeroport-chambery',
+    '/alternative-taxi-aerodrome-versoud',
+    '/vtc-grenoble-alpe-d-huez',
+    '/alternative-taxi-les-deux-alpes',
+    '/vtc-grenoble-chamrousse',
+    '/vtc-grenoble-tignes',
+    '/vtc-grenoble-courchevel',
+    '/alternative-taxi-grenoble-monestier-de-clermont', // Grappe
+    '/alternative-taxi-grenoble-gresse-en-vercors', // Grappe
+    '/chauffeur-femme-bilingue' // Grappe
+].includes(currentBasePath);
 ---
 
 <header class="header">
@@ -220,10 +287,11 @@ const isNavLinkActive = (basePathKey: string) => {
                 <div class="nav-item dropdown">
                     <a 
                         href={airportPilierLink}  
-                        class:list={{ active: isNavLinkActive('/transferts-aeroports') || isNavLinkActive('/transferts-stations-de-ski') || isNavLinkActive('/vtc-trieves') }}
+                        class:list={{ active: isServicesActive }}
                     >
                         {t.services} <span class="arrow">▼</span>
                     </a>
+                    
                     <ul class="dropdown-menu">
                         <li>
                             <a href={airportPilierLink} class="dropdown-header">{t.services_airports}</a>
@@ -246,9 +314,20 @@ const isNavLinkActive = (basePathKey: string) => {
                         </li>
                         <li>
                             <a href={trievesPilierLink} class="dropdown-header">{t.services_trieves}</a>
-                            </li>
+                            <ul class="sub-menu">
+                                <li><a href={monestierLink}>{t.page_monestier}</a></li>
+                                <li><a href={gresseLink}>{t.page_gresse}</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href={securiteFemmePilierLink} class="dropdown-header">{t.page_securite_femme}</a>
+                            <ul class="sub-menu">
+                                <li><a href={chauffeurFemmeLink}>{t.page_chauffeur_femme}</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
+                
                 <a href={airportPilierLink} class="nav-mobile-link">{t.services}</a>
                 
                 <a href={vehiclesLink} class:list={{ active: isNavLinkActive('/vehicule') }}>{t.vehicles}</a>
@@ -301,7 +380,6 @@ const isNavLinkActive = (basePathKey: string) => {
 
     .nav {
         display: flex;
-        /* ✅ CORRECTION ICI : "baseline" aligne les textes, "center" aligne les boîtes */
         align-items: baseline; 
         gap: 2rem;
     }
@@ -319,7 +397,7 @@ const isNavLinkActive = (basePathKey: string) => {
         border-bottom: 2px solid var(--accent);
     }
 
-    /* --- STYLES DU MENU DÉROULANT --- */
+    /* --- STYLES DU MENU DÉROULANT (Adapté pour 4 colonnes) --- */
     .nav-item.dropdown {
         position: relative;
     }
@@ -349,11 +427,12 @@ const isNavLinkActive = (basePathKey: string) => {
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         z-index: 1001;
         width: max-content;
-        min-width: 500px;
+        min-width: 850px; /* Augmenté pour 4 colonnes */
+        grid-template-columns: 1fr 1fr 1fr 1fr; /* 4 colonnes */
+        gap: 2rem;
         margin-top: 10px;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 1.5rem;
     }
+
     .nav-item.dropdown:hover .dropdown-menu,
     .nav-item.dropdown:focus-within .dropdown-menu {
         display: grid;
@@ -376,7 +455,12 @@ const isNavLinkActive = (basePathKey: string) => {
         margin-bottom: 1rem;
         display: inline-block;
         width: 100%;
+        transition: color 0.2s ease;
     }
+    .dropdown-menu .dropdown-header:hover {
+        color: #fff; /* Effet hover sur les titres de piliers */
+    }
+
     .dropdown-menu .sub-menu {
         list-style: none;
         padding: 0;
@@ -449,6 +533,12 @@ const isNavLinkActive = (basePathKey: string) => {
     }
 
     @media (max-width: 850px) {
+        /* Adaptation pour le mobile */
+        .dropdown-menu {
+            /* S'assurer qu'il ne s'affiche pas sur mobile */
+            display: none;
+        }
+
         .header-main {
             flex-direction: column;
             gap: 1.5rem;

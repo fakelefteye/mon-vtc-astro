@@ -1,0 +1,186 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// SEO spécifique à cette page
+const pageTitle = "VTC Sécurité Femme Grenoble | Service de Transport Sûr";
+const pageDescription = "Votre service VTC à Grenoble dédié à la sécurité des femmes. Chauffeures vérifiées, trajets 24/7 et suivi en temps réel pour votre tranquillité d'esprit.";
+---
+
+<Layout 
+    title={pageTitle}
+    description={pageDescription}>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1><strong>Voyagez en toute sécurité</strong> à Grenoble</h1>
+            <p class="subtitle">Notre service VTC priorise la sérénité des femmes. Trajets fiables, 24/7, pour une tranquillité d'esprit totale.</p>
+            <a href="/#booking" class="cta-button">Réserver un trajet sécurisé</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Votre Sérénité, Notre Priorité Absolue</h2>
+            <p>
+                Nous comprenons les préoccupations spécifiques des femmes lors de leurs déplacements. C'est pourquoi nous avons mis en place un service VTC à <strong>Grenoble</strong> spécifiquement conçu pour <strong>votre sécurité</strong>. Voyagez l'esprit léger, de jour comme de nuit, avec des professionnels de confiance.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Nos Engagements pour <strong>Votre Sécurité</strong></h2>
+            <div class="features-grid">
+                
+                <div class="feature-card">
+                    <div class="icon">🛡️</div>
+                    <h3><strong>Chauffeurs</strong> Vérifiés et Formés</h3>
+                    <p>
+                        Tous nos chauffeurs partenaires sont rigoureusement sélectionnés, avec vérification des antécédents et une sensibilisation à la sécurité et au bien-être des passagères.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="icon">👩</div>
+                    <h3>Option <strong>Conductrice</strong> sur Demande</h3>
+                    <p>
+                        Pour votre confort, vous pouvez demander spécifiquement une <a href="/a-propos"><strong>chauffeure femme</strong></a> lors de votre réservation (sous réserve de disponibilité) pour un voyage 100% serein.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon">📍</div>
+                    <h3><strong>Suivi en Temps Réel</strong> & Assistance 24/7</h3>
+                    <p>
+                        Partagez votre trajet en direct avec vos proches. Notre service est disponible à toute heure et notre assistance est joignable en cas de besoin immédiat.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Comment ça marche ?</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>Réservation Facile et Discrète</h4>
+                    <p>Réservez via notre <a href="/#booking">plateforme en ligne</a>. Vous recevez une confirmation instantanée avec les détails de votre chauffeur. Le prix est fixe et connu à l'avance.</p>
+                </div>
+                <div class="info-item">
+                    <h4>Un Trajet Serein</h4>
+                    <p>Votre chauffeure vous attend au point de rendez-vous. Le véhicule est propre, confortable et géolocalisé. Vous n'avez plus qu'à vous détendre.</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/a-propos" class="secondary-button">Découvrir notre engagement</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prête à vous déplacer l'esprit léger ?</h2>
+            <a href="/#booking" class="cta-button">Réserver mon VTC à Grenoble</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+        --text-color: #333;
+    }
+    .page-hero {
+        /* IMAGE MODIFIÉE pour coller au thème "VTC Sécurité Femme" */
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1570805140138-b7f51608b17b?q=80&w=1973&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 5rem 1.5rem;
+        text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+    
+    .cta-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2, .section-title { margin-bottom: 1.5rem; color: var(--dark-bg); text-align: center; font-size: 2.2em; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+
+    .features-section { padding: 4rem 1.5rem; }
+    .features-section h2 { text-align: center; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    .feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+    .feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); }
+    .feature-card p { color: #666; line-height: 1.6; }
+    .feature-card a { font-weight: bold; }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    @media (min-width: 768px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+    .info-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .info-item h4 { font-size: 1.3em; color: var(--accent); }
+
+    .secondary-button {
+        display: inline-block;
+        padding: 0.7rem 1.5rem;
+        border: 2px solid var(--dark-bg);
+        color: var(--dark-bg);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+    }
+    .secondary-button:hover {
+        background-color: var(--dark-bg);
+        color: white;
+    }
+
+    .cta-section {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 4rem 1.5rem;
+        text-align: center;
+    }
+    .cta-section h2, .cta-section p { color: white; }
+    .cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; }
+
+    .bg-light { background-color: var(--light-bg); }
+    .bg-light .text-container p, .bg-light .feature-card p { color: #333; }
+    .text-center { text-align: center; }
+    .mt-4 { margin-top: 2rem; }
+</style>
