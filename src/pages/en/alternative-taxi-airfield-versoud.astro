@@ -1,0 +1,151 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="VTC Aeródromo Le Versoud (LFLG) | Traslado Privado | ShipCars"
+    description="Servicio VTC premium para el aeródromo de Grenoble - Le Versoud (LFLG). Su conductora privada garantiza sus traslados discretos y puntuales a Grenoble, hoteles y estaciones de esquí. Ideal para pilotos y aviación de negocios.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>Su <strong>VTC para el Aeródromo de Le Versoud</strong> (LFLG)</h1>
+            <p class="subtitle">Un servicio de <strong>conductor privado</strong> dedicado a las exigencias de la aviación de negocios y de ocio.</p>
+            <a href="/#booking" class="cta-button">Reservar mi traslado desde Le Versoud</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Un Servicio a Medida para las Exigencias de la Aviación Privada</h2>
+            <p>
+                El aeródromo de Grenoble - Le Versoud es un centro vital para la <strong>aviación de negocios</strong>, los <strong>pilotos privados</strong> y los entusiastas del vuelo sin motor. Consciente de que el transporte público no es adecuado para este lugar, ShipCars ofrece un servicio VTC de alta gama que garantiza una <strong>puntualidad</strong> y <strong>flexibilidad</strong> absolutas, esenciales para cumplir con un plan de vuelo o un horario profesional ajustado.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Por qué los Pilotos y Pasajeros Eligen ShipCars en Le Versoud</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🤫</div>
+                    <h3><strong>Discreción</strong> y Profesionalidad</h3>
+                    <p>
+                        Entendemos la necesidad de confidencialidad de nuestra clientela. Su <strong>conductora</strong> le asegura un servicio de absoluta discreción, desde su recogida al pie del avión hasta su destino final. <a href="/a-propos"><strong>Un servicio de confianza</strong></a>.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔄</div>
+                    <h3><strong>Flexibilidad</strong> Total para sus Vuelos</h3>
+                    <p>
+                        Un plan de vuelo puede cambiar. Nos adaptamos a sus horarios, incluso en caso de modificación de última hora. Aseguramos su recogida a cualquier hora para que solo piense en su vuelo.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">⚡️</div>
+                    <h3>Confort y Silencio para Descansar</h3>
+                    <p>
+                        Después de un vuelo, disfrute del silencio y el confort de nuestro <a href="/vehicule"><strong>vehículo 100% eléctrico</strong></a>. Un espacio de trabajo o de relajación ideal antes o después de pilotar.
+                    </p>
+    _           </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Nuestras Rutas Frecuentes desde el Aeródromo de Le Versoud</h2>
+            <p class="text-container">
+                Aseguramos todos sus desplazamientos desde o hacia el aeródromo. Estos son nuestros destinos más solicitados por los pilotos y pasajeros de la aviación privada.
+            </p>
+            <div class="destinations-grid">
+                <div class="dest-card">
+                    <h4>Grenoble Centro y Hoteles</h4>
+                    <p>Llegue rápidamente al centro de Grenoble, a su hotel o a sus oficinas.</p>
+                </div>
+                <div class="dest-card">
+                    <h4>Polos Empresariales (Inovallée)</h4>
+                    <p>Traslados directos a los principales centros de negocios y tecnológicos de la región.</p>
+                </div>
+                <div class="dest-card">
+                    <h4>Estaciones de Esquí</h4>
+                    <p>Prolongue su viaje hacia las estaciones de los Alpes (Courchevel, Méribel, Alpe d'Huez...).</p>
+                </div>
+                 <div class="dest-card">
+                    <h4>Otros Aeropuertos</h4>
+                    <p>También aseguramos las conexiones con los aeropuertos de Lyon, Grenoble o Ginebra.</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/transferts-aeroports" class="secondary-button">Volver a la página de traslados al aeropuerto</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Organice su <strong>Transporte Terrestre</strong> con Total Simplicidad</h2>
+            <a href="/#booking" class="cta-button">Reservar mi VTC para Le Versoud</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    /* Los estilos se reutilizan para mayor coherencia */
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1542317163-f29e18b570e2?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white; padding: 5rem 1.5rem; text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; max-width: 700px; margin: 1rem auto 2rem auto; }
+    .cta-button, .secondary-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2, .section-title { margin-bottom: 1.5rem; color: var(--dark-bg); text-align: center; font-size: 2.2em; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+    .bg-light { background-color: var(--light-bg); }
+    .features-section { padding: 4rem 1.5rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    
+    /* Styles spécifiques */
+    .destinations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    .dest-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border-bottom: 3px solid var(--accent);
+    }
+    
+    .cta-section { background-color: var(--dark-bg); color: white; padding: 4rem 1.5rem; text-align: center; }
+    .text-center { text-align: center; }
+    .mt-4 { margin-top: 2rem; }
+</style>

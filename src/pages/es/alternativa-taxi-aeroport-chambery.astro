@@ -1,0 +1,145 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="VTC Aeropuerto Chambéry | La Alternativa al Taxi & Uber | ShipCars"
+    description="Reserve su VTC en el aeropuerto de Chambéry (CMF). La alternativa premium al taxi y a Uber: tarifa fija, bienvenida por su conductora privada y confort de un vehículo 100% eléctrico.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>Su <strong>Alternativa al Taxi</strong> en el Aeropuerto de Chambéry (CMF)</h1>
+            <p class="subtitle">El confort de un servicio VTC privado con una <strong>tarifa fija</strong>, sin las incertidumbres de un taxi o una aplicación como Uber.</p>
+            <a href="/#booking" class="cta-button">Reservar mi VTC para Chambéry</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>¿Por qué Elegir un VTC en lugar de un Taxi o Uber en Chambéry?</h2>
+            <p>
+                El aeropuerto de Chambéry es la puerta de entrada a las estaciones de esquí de la Tarentaise. Para un inicio de estancia sin estrés, es esencial elegir el transporte adecuado. ShipCars le ofrece una <strong>alternativa al taxi y a Uber</strong> que prioriza la <strong>fiabilidad</strong>, el <strong>confort</strong> y la <strong>transparencia</strong>.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Nuestros Compromisos: Mucho Más que un Simple Viaje</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">✅</div>
+                    <h3><strong>Cero Sorpresas en el Precio</strong></h3>
+                    <p>
+                        A diferencia de un taxi o de las tarifas dinámicas de Uber, nuestra tarifa está <strong>fijada de antemano</strong>. Conocerá el coste exacto de su traslado a Courchevel, Méribel o Val Thorens incluso antes de subir a bordo.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">👩‍✈️</div>
+                    <h3>Bienvenida Personalizada por su <strong>Conductora</strong></h3>
+                    <p>
+                        Se acabó la espera anónima. Su <strong>conductora</strong> le esperará personalmente en el aeropuerto con un cartel. Un servicio humano y a medida que no encontrará en una aplicación. <a href="/a-propos"><strong>Descubra nuestro servicio</strong></a>.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">❄️</div>
+                    <h3>Seguridad y Confort en la Montaña</h3>
+                    <p>
+                        Viaje con total seguridad por las carreteras alpinas. Nuestro <a href="/vehicule"><strong>vehículo eléctrico</strong></a> está perfectamente equipado para el invierno y ofrece el confort de los <strong>asientos calefactados</strong>, un lujo después de un largo vuelo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Su Traslado Directo a las Estaciones de la Tarentaise</h2>
+            <p>
+                Aseguramos conexiones directas desde el aeropuerto de Chambéry a todas las grandes estaciones, especialmente Les 3 Vallées (<strong>Courchevel, Méribel, Val Thorens</strong>). Es la solución más rápida y cómoda para llegar a las pistas con su material.
+            </p>
+             <div class="text-center mt-4">
+                <a href="/transferts-aeroports" class="secondary-button">Ver todos nuestros traslados de aeropuerto</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>¿Listo/a para elegir la mejor <strong>alternativa al taxi</strong>?</h2>
+            <p>Reserve su VTC desde el aeropuerto de Chambéry y comience sus vacaciones con tranquilidad.</p>
+            <a href="/#booking" class="cta-button">Estimar mi viaje</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    /* Los estilos son similares a los de otras páginas para mantener la coherencia */
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+        --text-color: #333;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1599827551004-9359f53856d1?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white; padding: 5rem 1.5rem; text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; max-width: 700px; margin: 1rem auto 2rem auto; }
+    .cta-button { /* ... */ }
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2, .section-title { margin-bottom: 1.5rem; color: var(--dark-bg); text-align: center; font-size: 2.2em; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+    .bg-light { background-color: var(--light-bg); }
+    .features-section { padding: 4rem 1.5rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card { /* ... */ }
+    .sub-cluster-card {
+        background: white;
+        border-left: 5px solid var(--accent);
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        max-width: 900px;
+        margin: 2rem auto;
+        text-align: center;
+    }
+    .secondary-button {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 0.7rem 1.5rem;
+        border: 2px solid var(--accent);
+        color: var(--accent);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+    }
+    .secondary-button:hover { background-color: var(--accent); color: white; }
+
+    .faq-section { padding: 4rem 1.5rem; background-color: var(--light-bg); }
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item {
+        background: white;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+    .faq-item summary {
+        font-weight: bold;
+        padding: 1.5rem;
+        cursor: pointer;
+        position: relative;
+    }
+    .faq-item summary::after { content: '+'; position: absolute; right: 1.5rem; font-size: 1.5em; }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item p {
+        padding: 0 1.5rem 1.5rem;
+        margin: 0;
+        line-height: 1.6;
+    }
+    .cta-section { background-color: var(--dark-bg); color: white; padding: 4rem 1.5rem; text-align: center; }
+</style>

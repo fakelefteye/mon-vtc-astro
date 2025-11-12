@@ -1,0 +1,178 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="Taxi Alternative Les 2 Alpes | Private VTC Grenoble | ShipCars"
+    description="Book your VTC as a taxi alternative for Les Deux Alpes from Grenoble. Private driver, fixed price, all-comfort electric vehicle with space for skis. The most serene transfer to the resort.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1><strong>Taxi Alternative</strong> for Les Deux Alpes</h1>
+            <p class="subtitle">Your <strong>private VTC driver</strong> for a direct and secure transfer from Grenoble, without the constraints of a taxi.</p>
+            <a href="/#booking" class="cta-button">Book my VTC for Les 2 Alpes</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Reach Les 2 Alpes Easily with a Reliable Taxi Alternative</h2>
+            <p>
+                The journey between <strong>Grenoble and the Les Deux Alpes resort</strong> is known for its mountain road. For a stress-free trip, ShipCars offers a <strong>taxi alternative</strong> that combines comfort, safety, and punctuality. No more waiting and fare uncertainty: your <strong>private driver</strong> will take charge of you for a door-to-door service.
+            </p>
+        </div>
+  	</section>
+
+  	<section class="features-section bg-light">
+      	<div class="container">
+          	<h2 class="section-title">The Unique Advantages of your <strong>VTC Transfer</strong></h2>
+          	<div class="features-grid">
+              	<div class="feature-card">
+                  	<div class="icon">🏔️</div>
+                  	<h3><strong>Safety</strong> on the Oisans Roads</h3>
+                  	<p>
+                      	Your <a href="/a-propos"><strong>experienced driver</strong></a> perfectly masters the roads leading to Les 2 Alpes. Our <a href="/vehicule"><strong>electric vehicle</strong></a> is equipped for winter, guaranteeing you a journey in complete safety.
+                  	</p>
+              	</div>
+              	<div class="feature-card">
+                  	<div class="icon">🎿</div>
+                  	<h3><strong>Guaranteed Space</strong> for your Equipment</h3>
+                  	<p>
+                      	Travel with your <strong>skis, snowboards, and suitcases</strong> without worry. Our large <strong>435-liter</strong> trunk and folding seats are designed to accommodate all your gear.
+                  	</p>
+              	</div>
+              	<div class="feature-card">
+                  	<div class="icon">✅</div>
+                  	<h3><strong>Fixed Price</strong>: The Right Price, No Surprises</h3>
+                  	<p>
+                      	The price of your <strong>VTC Grenoble - Les Deux Alpes</strong> is agreed upon in advance. It's the promise of a controlled budget and a serene journey, a real <strong>alternative to the traditional taxi</strong>.
+                  	</p>
+              	</div>
+          	</div>
+      	</div>
+  	</section>
+
+  	<section class="content-section">
+      	<div class="container">
+          	<h2 class="section-title">How Your Trip Unfolds</h2>
+          	<div class="info-grid">
+              	<div class="info-item">
+                  	<h4>Average Travel Time</h4>
+                  	<p>Expect about <strong>1h15 to 1h30</strong> of travel time between Grenoble center and the Les Deux Alpes resort, depending on traffic and weather conditions.</p>
+              	</div>
+              	<div class="info-item">
+                  	<h4>Tailored Pickup</h4>
+                  	<p>We pick you up at the address of your choice: Grenoble station, home, hotel... and drop you off directly at your accommodation in Les 2 Alpes.</p>
+              	</div>
+          	</div>
+          	<div class="text-center mt-4">
+              	<a href="/transferts-stations-de-ski" class="secondary-button">See all our ski destinations</a>
+          	</div>
+      	</div>
+  	</section>
+
+  	<section class="cta-section">
+      	<div class="container">
+          	<h2>Ready to ski? Let us drive.</h2>
+          	<a href="/#booking" class="cta-button">Book my VTC Grenoble ↔ Les 2 Alpes</a>
+      	</div>
+  	</section>
+</Layout>
+
+<style>
+  	:root { 
+      	--accent: #35c2b5; 
+      	--dark-bg: #2d3a4c;
+      	--light-bg: #f8f9fa;
+      	--text-color: #333;
+  	}
+  	.page-hero {
+      	background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1605540105435-9635b1b702b3?q=80&w=1974&auto=format&fit=crop') no-repeat center center;
+      	background-size: cover;
+      	color: white;
+      	padding: 5rem 1.5rem;
+      	text-align: center;
+  	}
+  	.page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+  	.page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+  	
+  	.cta-button {
+      	display: inline-block;
+      	padding: 0.8rem 2rem;
+      	background-color: var(--accent); 
+      	color: white;
+      	text-decoration: none;
+      	border-radius: 50px; 
+      	font-weight: bold;
+  	  	transition: all 0.3s ease;
+  	}
+  	.cta-button:hover {
+      	transform: translateY(-3px);
+  	  	box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  	}
+
+  	.content-section { padding: 4rem 1.5rem; }
+  	.text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+  	.text-container h2, .section-title { margin-bottom: 1.5rem; color: var(--dark-bg); text-align: center; font-size: 2.2em; }
+  	.text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+
+  	.features-section { padding: 4rem 1.5rem; }
+  	.features-section h2 { text-align: center; margin-bottom: 3rem; }
+  	.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+  	.feature-card {
+      	background: white;
+      	padding: 2rem;
+      	border-radius: 8px;
+      	box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      	text-align: center;
+  	}
+  	.feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+  	.feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); }
+  	.feature-card p { color: #666; line-height: 1.6; }
+  	.feature-card a { font-weight: bold; }
+
+  	.info-grid {
+      	display: grid;
+  	  	grid-template-columns: 1fr;
+      	gap: 2rem;
+      	margin-top: 2rem;
+  	}
+  	@media (min-width: 768px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+  	.info-item {
+      	background: white;
+      	padding: 1.5rem;
+      	border-radius: 8px;
+      	text-align: center;
+      	box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  	}
+  	.info-item h4 { font-size: 1.3em; color: var(--accent); }
+
+  	.secondary-button {
+  	  	display: inline-block;
+      	padding: 0.7rem 1.5rem;
+      	border: 2px solid var(--dark-bg);
+      	color: var(--dark-bg);
+  	  	text-decoration: none;
+      	border-radius: 50px;
+      	font-weight: bold;
+      	transition: all 0.2s ease;
+  	}
+s 	.secondary-button:hover {
+      	background-color: var(--dark-bg);
+      	color: white;
+  	}
+
+  	.cta-section {
+      	background-color: var(--dark-bg);
+section   color: white;
+      	padding: 4rem 1.5rem;
+      	text-align: center;
+  	}
+  	.cta-section h2, .cta-section p { color: white; }
+  	.cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; }
+
+  	.bg-light { background-color: var(--light-bg); }
+  	.bg-light .text-container p, .bg-light .feature-card p { color: #333; }
+  	.text-center { text-align: center; }
+.mt-4 { margin-top: 2rem; }
+</style>

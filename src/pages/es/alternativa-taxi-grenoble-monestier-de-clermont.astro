@@ -1,0 +1,133 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="VTC Grenoble - Monestier-de-Clermont | Conductor Privado Trièves"
+    description="Reserve su VTC para un trayecto directo entre Grenoble y Monestier-de-Clermont. Servicio puerta a puerta fiable con conductora privada. La alternativa cómoda al tren y al autobús.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>VTC <strong>Grenoble ↔ Monestier-de-Clermont</strong></h1>
+            <p class="subtitle">Su solución de transporte privado para trayectos <strong>puntuales y cómodos</strong> hacia la capital del Trièves.</p>
+            <a href="/#booking" class="cta-button">Reservar mi trayecto</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Facilite sus Desplazamientos entre Grenoble y Monestier</h2>
+            <p>
+                Ya sea para una cita profesional, una visita familiar o simplemente para sus desplazamientos diarios, la conexión entre <strong>Grenoble y Monestier-de-Clermont</strong> requiere una solución de transporte fiable. ShipCars le ofrece un servicio de <strong>conductor VTC</strong> que le libera de las limitaciones horarias del tren y del autobús, ofreciéndole un servicio <strong>puerta a puerta</strong>.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Las Ventajas de un <strong>VTC Privado</strong> para este Trayecto</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">⏰</div>
+                    <h3><strong>Flexibilidad</strong> Total</h3>
+                    <p>
+                        Nos adaptamos a sus necesidades. Reserve su VTC a la hora que le convenga, temprano por la mañana o tarde por la noche. Se acabó el estrés de las conexiones, nosotros le esperamos.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🛍️</div>
+                    <h3>Ideal para sus <strong>Compras y Equipaje</strong></h3>
+                    <p>
+                        ¿Necesita transportar compras o equipaje? Nuestro <a href="/vehicule"><strong>vehículo espacioso</strong></a> le permite viajar cómodamente con todas sus cosas, sin esfuerzo.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">✅</div>
+                    <h3>Un <strong>Precio Justo</strong> y Conocido de Antemano</h3>
+                    <p>
+                        El precio de su trayecto se fija en el momento de la reserva. Disfrute de una tarifa transparente y sin sorpresas, una excelente <strong>alternativa al taxi para Monestier-de-Clermont</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Reserve su <strong>VTC Grenoble - Monestier</strong></h2>
+            <a href="/#booking" class="cta-button">Estimar mi trayecto</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+        --text-color: #333;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1599827551004-9359f53856d1?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 5rem 1.5rem;
+        text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+    
+    .cta-button {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent); 
+        color: white;
+        text-decoration: none;
+        border-radius: 50px; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .content-section { padding: 4rem 1.5rem; }
+    .text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+    .text-container h2 { margin-bottom: 1.5rem; }
+    .text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+
+    .features-section { padding: 4rem 1.5rem; }
+    .features-section h2 { text-align: center; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    .feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+    .feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); }
+    .feature-card p { color: #666; line-height: 1.6; }
+    .feature-card a { font-weight: bold; }
+
+    .links-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    @media (min-width: 768px) { .links-grid { grid-template-columns: 1fr 1fr; } }
+    .link-card {
+        border-left: 4px solid var(--accent);
+        padding-left: 1.5rem;
+    }
+    .link-card h4 { font-size: 1.4em; }
+
+    .cta-section {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 4rem 1.5rem;
+        text-align: center;
+    }
+    .cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; }
+
+    .bg-light { background-color: var(--light-bg); }
+    .bg-light .text-container p, .bg-light .feature-card p { color: #333; }
+</style>

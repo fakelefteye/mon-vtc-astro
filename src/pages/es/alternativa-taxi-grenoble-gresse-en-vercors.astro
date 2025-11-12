@@ -1,0 +1,133 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+    title="VTC Grenoble - Gresse-en-Vercors | Transporte Privado Vercors"
+    description="Reserve su VTC para un traslado entre Grenoble y Gresse-en-Vercors. Conductora privada para llevarle con total seguridad al pie del Grand Veymont. Ideal para sus salidas de senderismo o esquí.">
+
+    <section class="page-hero">
+        <div class="container">
+            <h1><strong>VTC Grenoble ↔ Gresse-en-Vercors</strong></h1>
+            <p class="subtitle">Su transporte privado para acceder fácilmente al pueblo más alto del Vercors, en verano como en invierno.</p>
+            <a href="/#booking" class="cta-button">Reservar mi VTC para Gresse-en-Vercors</a>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container text-container">
+            <h2>Acceda a la Naturaleza con Total Tranquilidad</h2>
+            <p>
+                Gresse-en-Vercors, situado al pie del Grand Veymont, es un paraíso para los amantes de la naturaleza. Para llegar allí sin preocuparse por la carretera de montaña, nuestro servicio de <strong>conductor VTC</strong> es la solución ideal. Le aseguramos un viaje <strong>seguro y cómodo</strong> desde Grenoble, permitiéndole comenzar su día de senderismo o esquí en plena forma.
+            </p>
+        </div>
+    </section>
+
+    <section class="features-section bg-light">
+        <div class="container">
+            <h2 class="section-title">¿Por qué un <strong>VTC Privado</strong> para Gresse-en-Vercors?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🏔️</div>
+                    <h3><strong>Conducción Segura</strong> en Montaña</h3>
+                    <p>
+                        Disfrute del paisaje sin estrés. Su <a href="/a-propos"><strong>conductora experimentada</strong></a> le lleva con total seguridad por las carreteras del Vercors, con un <a href="/vehicule"><strong>vehículo adaptado</strong></a>.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎒</div>
+                    <h3>Perfecto para <strong>Senderistas y Esquiadores</strong></h3>
+                    <p>
+                        Nuestro vehículo puede acomodar su equipo de senderismo, sus mochilas o su equipo de esquí. Un servicio <strong>puerta a puerta</strong> desde el centro de Grenoble hasta el inicio de los senderos.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">✅</div>
+                    <h3><strong>Flexibilidad</strong> para sus Salidas</h3>
+                    <p>
+                        Ya sea para un día completo, un fin de semana o un regreso tardío después de una caminata, nos adaptamos a su horario para una máxima flexibilidad.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section">
+        <div class="container">
+            <h2>¿Listo/a para una Escapada en el Vercors?</h2>
+          	<a href="/#booking" class="cta-button">Reservar mi VTC Grenoble ↔ Gresse-en-Vercors</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    :root { 
+        --accent: #35c2b5; 
+        --dark-bg: #2d3a4c;
+        --light-bg: #f8f9fa;
+        --text-color: #333;
+    }
+    .page-hero {
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1599827551004-9359f53856d1?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
+      	background-size: cover;
+      	color: white;
+      	padding: 5rem 1.5rem;
+      	text-align: center;
+    }
+  	.page-hero h1 { font-size: clamp(2em, 5vw, 3.5em); text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+  	.page-hero .subtitle { font-size: 1.2em; opacity: 0.9; max-width: 700px; margin: 1rem auto 2rem auto; }
+  	
+  	.cta-button {
+      	display: inline-block;
+      	padding: 0.8rem 2rem;
+      	background-color: var(--accent); 
+      	color: white;
+      	text-decoration: none;
+      	border-radius: 50px; 
+      	font-weight: bold;
+  	  	transition: all 0.3s ease;
+  	}
+  	.cta-button:hover {
+      	transform: translateY(-3px);
+      	box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  	}
+
+  	.content-section { padding: 4rem 1.5rem; }
+  	.text-container { max-width: 800px; text-align: center; margin: 0 auto; }
+  	.text-container h2 { margin-bottom: 1.5rem; }
+  	.text-container p { font-size: 1.1em; line-height: 1.7; color: #555; }
+
+  	.features-section { padding: 4rem 1.5rem; }
+  	.features-section h2 { text-align: center; margin-bottom: 3rem; }
+  	.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+  	.feature-card {
+      	background: white;
+      	padding: 2rem;
+      	border-radius: 8px;
+      	box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      	text-align: center;
+  	}
+  	.feature-card .icon { font-size: 2.5em; margin-bottom: 1rem; }
+  	.feature-card h3 { margin-bottom: 1rem; color: var(--dark-bg); }
+  	.feature-card p { color: #666; line-height: 1.6; }
+  	.feature-card a { font-weight: bold; }
+
+  	.links-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  	@media (min-width: 768px) { .links-grid { grid-template-columns: 1fr 1fr; } }
+  	.link-card {
+      	border-left: 4px solid var(--accent);
+  	  	padding-left: 1.5rem;
+  	}
+  	.link-card h4 { font-size: 1.4em; }
+
+  	.cta-section {
+  	  	background-color: var(--dark-bg);
+      	color: white;
+      	padding: 4rem 1.5rem;
+      	text-align: center;
+  	}
+  	.cta-section p { max-width: 600px; margin: 1rem auto 2rem auto; opacity: 0.9; }
+
+  	.bg-light { background-color: var(--light-bg); }
+  	.bg-light .text-container p, .bg-light .feature-card p { color: #333; }
+</style>
