@@ -4,10 +4,10 @@ export const prerender = false;
 import { Client } from "@googlemaps/google-maps-services-js";
 
 // --- Modèle de Tarification VTC (configurable) ---
-const PRIX_BASE = 6.00; // Frais de prise en charge
-const PRIX_PAR_KM = 1.85; // Tarif au kilomètre
+const PRIX_BASE = 0.00; // Frais de prise en charge
+const PRIX_PAR_KM = 1.50; // Tarif au kilomètre
 const PRIX_PAR_MINUTE = 0.80; // Tarif horaire (48€/h)
-const PRIX_MINIMUM = 20.00; // Montant minimum de la course
+const PRIX_MINIMUM = 25.00; // Montant minimum de la course
 
 const GRENOBLE_COORDS = { lat: 45.188529, lng: 5.724524 };
 // NOUVELLE LIMITE : 150 km à vol d'oiseau depuis Grenoble
