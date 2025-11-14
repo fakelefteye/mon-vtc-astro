@@ -1,42 +1,45 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 ---
-<Layout title="Contáctanos">
-    <h1>Contáctanos</h1>
-    <p>Para cualquier solicitud específica o un presupuesto personalizado, no dudes en ponerte en contacto. ¡Respondemos rápidamente!</p>
+<Layout title="Contacto | ShipCars" description="Contacte a su conductor VTC en Grenoble. Teléfono, WhatsApp, correo electrónico o en nuestra dirección para cualquier solicitud de presupuesto personalizado.">
+    <h1>Contáctenos</h1>
+    <p>Para cualquier solicitud específica o un presupuesto personalizado, no dude en contactarnos. ¡Respondemos rápidamente!</p>
     
     <ul>
         <li>
             <strong>Teléfono:</strong> 📞 
-            <span id="secure-phone-link">Por favor, activa JavaScript para ver el número.</span>
+            <span id="secure-phone-link">Por favor, active JavaScript para ver el número.</span>
         </li>
         
         <li>
             <strong>WhatsApp:</strong> 🟢 
-            <span id="secure-whatsapp-link">Por favor, activa JavaScript para chatear.</span>
+            <span id="secure-whatsapp-link">Por favor, active JavaScript para chatear.</span>
         </li>
         
         <li>
             <strong>Email:</strong> 📧 
-            <span id="secure-email-link">Por favor, activa JavaScript para ver la dirección.</span>
+            <span id="secure-email-link">Por favor, active JavaScript para ver la dirección.</span>
+        </li>
+        
+        <li>
+            <strong>Dirección:</strong> 📍 
+            8 Place de Sfax, 38000 Grenoble, Francia
         </li>
     </ul>
 
     <script>
-        // --- DATOS BASE (Número corregido: 661691178) ---
+        // --- DATOS BASE ---
         var phone_num = "661691178"; 
-        var phone_display = "06 61 69 11 78"; // Número formateado para mostrar
+        var phone_display = "06 61 69 11 78"; // Formato local
         var country_code = "+33"; 
 
         // --- 1. SEGURIDAD TELÉFONO (Llamada clásica) ---
         var tel_prefix = "tel:" + country_code;
         
-        // Crear el enlace
         var phone_link = document.createElement('a');
         phone_link.href = tel_prefix + phone_num;
         phone_link.textContent = phone_display;
         
-        // Insertar en la página
         var phone_container = document.getElementById('secure-phone-link');
         if (phone_container) {
             phone_container.textContent = ''; 
@@ -44,16 +47,13 @@ import Layout from '@/layouts/Layout.astro';
         }
 
         // --- 2. SEGURIDAD WHATSAPP ---
-        // Enlace WhatsApp: https://wa.me/fullnumber (sin el signo +)
         var whatsapp_link_url = "https://wa.me/" + country_code.replace('+', '') + phone_num;
 
-        // Crear el enlace
         var whatsapp_link = document.createElement('a');
         whatsapp_link.href = whatsapp_link_url;
-        whatsapp_link.textContent = "Iniciar chat";
-        whatsapp_link.target = "_blank"; // Abrir en nueva pestaña
+        whatsapp_link.textContent = "Iniciar un chat"; // Texto traducido
+        whatsapp_link.target = "_blank"; 
         
-        // Insertar en la página
         var whatsapp_container = document.getElementById('secure-whatsapp-link');
         if (whatsapp_container) {
             whatsapp_container.textContent = ''; 
@@ -66,16 +66,13 @@ import Layout from '@/layouts/Layout.astro';
         var part3 = "gmail.com";
         var mailto_prefix = "mailto:";
         
-        // Reconstruir la dirección completa
         var fullAddress = part1 + "." + part2 + "@" + part3;
         var fullLink = mailto_prefix + fullAddress;
         
-        // Crear el enlace
         var email_link = document.createElement('a');
         email_link.href = fullLink;
         email_link.textContent = fullAddress;
         
-        // Insertar en la página
         var email_container = document.getElementById('secure-email-link');
         if (email_container) {
             email_container.textContent = ''; 
