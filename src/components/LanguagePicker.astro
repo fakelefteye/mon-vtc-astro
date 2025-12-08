@@ -2,18 +2,44 @@
 // src/components/LanguagePicker.astro
 const { pathname } = Astro.url;
 
-// Supprime la langue actuelle de l'URL pour créer les nouveaux liens
-const currentPath = pathname.startsWith('/en') || pathname.startsWith('/es')
-  ? pathname.substring(3) || '/'
-  : pathname;
+// On utilise une expression régulière pour retirer '/en-gb' ou '/es' du début de l'URL
+// Cela nous donne le chemin "neutre" (ex: '/contact' au lieu de '/en-gb/contact')
+const currentPath = pathname.replace(/^\/(en-gb|es)/, '') || '/';
 ---
 <div class="language-switcher">
-    <a href={currentPath} class:list={{ active: !pathname.startsWith('/en') && !pathname.startsWith('/es') }}>🇫🇷</a>
-    <a href={`/en${currentPath}`} class:list={{ active: pathname.startsWith('/en') }}>🇬🇧</a>
-    <a href={`/es${currentPath}`} class:list={{ active: pathname.startsWith('/es') }}>🇪🇸</a>
+    <a href={currentPath} aria-label="Version Française" class:list={{ active: !pathname.startsWith('/en-gb') && !pathname.startsWith('/es') }}>
+        🇫🇷
+    </a>
+
+    <a href={`/en-gb${currentPath}`} aria-label="English Version" class:list={{ active: pathname.startsWith('/en-gb') }}>
+        🇬🇧
+    </a>
+
+    <a href={`/es${currentPath}`} aria-label="Versión en Español" class:list={{ active: pathname.startsWith('/es') }}>
+        🇪🇸
+    </a>
 </div>
+
 <style>
-    .language-switcher { display: flex; gap: 0.5rem; }
-    .language-switcher a { text-decoration: none; opacity: 0.6; font-size: 1.5rem; }
-    .language-switcher a.active { opacity: 1; }
+    .language-switcher { 
+        display: flex; 
+        gap: 0.8rem; 
+        align-items: center;
+    }
+    .language-switcher a { 
+        text-decoration: none; 
+        opacity: 0.5; 
+        font-size: 1.5rem; 
+        transition: opacity 0.3s ease, transform 0.2s ease;
+        filter: grayscale(80%); /* Rend les drapeaux inactifs un peu gris */
+    }
+    .language-switcher a:hover {
+        opacity: 0.8;
+        filter: grayscale(0%);
+    }
+    .language-switcher a.active { 
+        opacity: 1; 
+        transform: scale(1.1); /* Agrandi légèrement le drapeau actif */
+        filter: grayscale(0%);
+    }
 </style>

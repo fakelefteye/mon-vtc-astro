@@ -1,15 +1,8 @@
 ---
 // src/layouts/Layout.astro
-// --- PARTIE FRONTMATTER ASTRO ---
-// Ces imports doivent rester ici pour les composants que vous utilisez directement
+
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-
-// Pour Vercel Analytics et Speed Insights, nous allons les gérer via astro.config.mjs
-// Donc, retirez ces imports d'ici :
-import  Analytics  from '@vercel/analytics/astro';
-import  SpeedInsights  from "@vercel/speed-insights/astro";
-
 
 export interface Props {
     title: string;
@@ -18,9 +11,24 @@ export interface Props {
 
 const { title, description } = Astro.props;
 const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+
+// --- NOUVEAU : Récupérer la langue et les locales pour l'i18n ---
+const currentLang = Astro.currentLocale || 'fr';
+// Liste des langues pour la balise hreflang (doit correspondre à astro.config.mjs)
+const locales = ['fr', 'en-gb', 'es']; 
+
+// Fonction utilitaire pour générer le chemin d'une autre langue
+function getAlternatePath(locale: string, currentPath: string): string {
+    if (locale === 'fr') {
+        return currentPath.replace(/^\/(en-gb|es)\/?/, '/');
+    }
+    // La route neutre est le chemin sans le préfixe de langue
+    const neutralPath = currentPath.replace(/^\/(en-gb|es)\/?/, '/');
+    return `/${locale}${neutralPath === '/' ? '' : neutralPath}`;
+}
 ---
 <!DOCTYPE html>
-<html lang="fr">
+<html lang={currentLang}>
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -38,10 +46,23 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
+    {locales.map((locale) => (
+        <link 
+            rel="alternate" 
+            hreflang={locale} 
+            href={new URL(getAlternatePath(locale, Astro.url.pathname), Astro.site).href} 
+        />
+    ))}
+    <link 
+        rel="alternate" 
+        hreflang="x-default" 
+        href={new URL(getAlternatePath('fr', Astro.url.pathname), Astro.site).href} 
+    />
     <script src="https://js.stripe.com/v3/" async defer onload="window.dispatchEvent(new CustomEvent('stripe-loaded'))"></script>
 
     <script define:vars={{ googleMapsApiKey }}>
         function initMap() {
+            // Déclenche l'événement pour que BookingForm sache que l'autocomplétion est prête
             window.dispatchEvent(new CustomEvent('maps-loaded'));
         }
         window.initMap = initMap;
@@ -51,7 +72,7 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
         src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&callback=initMap`}
     ></script>
 
-    <style>
+    <style is:global>
         :root {
             /* Couleurs harmonisées avec le logo */
             --accent: #35c2b5; /* Votre bleu turquoise (pour les éléments d'accent, boutons) */
@@ -60,8 +81,11 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
             --header-bg: var(--dark-bg); /* Fond de l'en-tête, harmonisé avec le logo */
             --header-text: #ffffff; /* Couleur du texte dans l'en-tête */
         }
+        /* Styles globaux pour la police et le comportement */
         html { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
-        body { margin: 0; }
+        body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        main { flex-grow: 1; padding: 2rem 0; }
+        
         /* Styles de base pour le header et la nav si non déjà définis ailleurs */
         header { background-color: var(--header-bg); color: var(--header-text); padding: 1rem 0; }
         header a { color: var(--header-text); text-decoration: none; }
@@ -80,12 +104,9 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
     // 1. DÉFINIR LA FONCTION POUR CHARGER GOOGLE ANALYTICS
     // =========================================================
     function loadGoogleAnalytics() {
-        // On vérifie si le script n'a pas déjà été chargé pour éviter les doublons
-        if (window.gaLoaded) {
-            return;
-        }
+        if (window.gaLoaded) { return; }
 
-        const gaId = 'G-82VWM02RGP'; // Votre ID est correct
+        const gaId = 'G-82VWM02RGP';
 
         const script = document.createElement('script');
         script.async = true;
@@ -97,7 +118,7 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
         gtag('js', new Date());
         gtag('config', gaId);
         
-        window.gaLoaded = true; // On marque le script comme chargé
+        window.gaLoaded = true;
         console.log("✅ Google Analytics a été chargé car l'utilisateur a consenti.");
     }
 
@@ -111,7 +132,7 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
             },
             "theme": "edgeless",
             "position": "bottom-right",
-            "type": "opt-in", // Très important pour le RGPD !
+            "type": "opt-in",
             "content": {
                 "message": "Nous utilisons des cookies pour analyser le trafic du site et améliorer votre expérience.",
                 "allow": "Accepter tout",
@@ -123,16 +144,12 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
             // 3. APPELER LA FONCTION DE CHARGEMENT AU BON MOMENT
             // =========================================================
             onInitialise: function(status) {
-                // Se déclenche au chargement de la page
                 if (this.hasConsented()) {
-                    // Si l'utilisateur a déjà accepté par le passé
                     loadGoogleAnalytics();
                 }
             },
             onStatusChange: function(status) {
-                // Se déclenche quand l'utilisateur clique sur un bouton
                 if (this.hasConsented()) {
-                    // Si l'utilisateur vient d'accepter
                     loadGoogleAnalytics();
                 }
             }
