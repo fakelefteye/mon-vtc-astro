@@ -12,14 +12,13 @@ export default defineConfig({
   // Autres intégrations (React, etc.)
   i18n: {
     defaultLocale: 'fr',
-    locales: ['fr', 'en', 'es'],
+    locales: ['fr', 'en-gb', 'es'],
     routing: {
       prefixDefaultLocale: false, // Ne pas mettre /fr/ dans l'URL pour le français
     },
     fallback: {
-      // Si une page est demandée en 'en' mais n'existe pas, utiliser la version 'fr'
-      en: 'fr', 
-      // Si une page est demandée en 'es' mais n'existe pas, utiliser la version 'fr'
+      // CORRECTION : Supprimer l'ancienne référence 'en'
+      'en-gb': 'fr', // Si une page en 'en-gb' est demandée mais n'existe pas, utiliser 'fr'
       es: 'fr', 
     },
   },
