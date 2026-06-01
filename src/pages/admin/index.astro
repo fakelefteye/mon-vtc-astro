@@ -1,0 +1,566 @@
+---
+// src/pages/admin/index.astro
+export const prerender = false;
+
+import { createHash } from 'node:crypto';
+import { getPricing } from '@/lib/pricing';
+import { siteConfig } from '@/config/site.config';
+
+function isAuthenticated(cookies: any): boolean {
+    const token = cookies.get('admin_session')?.value;
+    if (!token) return false;
+    const password = import.meta.env.ADMIN_PASSWORD;
+    if (!password) return false;
+    const salt = import.meta.env.ADMIN_SALT || 'vtc-admin-salt-change-me';
+    const expected = createHash('sha256').update(password + ':' + salt).digest('hex');
+    return token === expected;
+}
+
+const authenticated = isAuthenticated(Astro.cookies);
+const pricing = authenticated ? await getPricing() : null;
+const blobConfigured = !!import.meta.env.BLOB_READ_WRITE_TOKEN;
+const adminPasswordSet = !!import.meta.env.ADMIN_PASSWORD;
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Admin — {siteConfig.company.name}</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        :root {
+            --accent: {siteConfig.theme.accentColor};
+            --dark: {siteConfig.theme.darkBg};
+            --danger: #dc3545;
+            --success: #28a745;
+            --warn: #ffc107;
+            --bg: #f4f6f9;
+            --card: #ffffff;
+            --border: #dee2e6;
+            --text: #333;
+            --muted: #6c757d;
+        }
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ---- Topbar ---- */
+        .topbar {
+            background: var(--dark, #2d3a4c);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .topbar h1 { margin: 0; font-size: 1.2em; font-weight: 700; }
+        .topbar span { font-size: 0.9em; opacity: 0.7; }
+        .topbar-actions { display: flex; gap: 1rem; align-items: center; }
+        .btn-logout {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-family: inherit;
+        }
+        .btn-logout:hover { background: rgba(255,255,255,0.25); }
+
+        /* ---- Layout ---- */
+        .page { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+
+        /* ---- Login ---- */
+        .login-wrapper {
+            max-width: 400px;
+            margin: 5rem auto;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .login-wrapper h2 { margin-top: 0; }
+        .login-wrapper p { color: var(--muted); font-size: 0.95em; }
+
+        /* ---- Cards ---- */
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 1.5rem;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: var(--text);
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--bg);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ---- Alerts ---- */
+        .alert {
+            padding: 0.9rem 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9em;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        .alert-warn { background: #fff8e1; border: 1px solid #ffe082; color: #7a5700; }
+        .alert-success { background: #e8f5e9; border: 1px solid #a5d6a7; color: #1b5e20; }
+        .alert-danger { background: #fdecea; border: 1px solid #f5c6cb; color: #6d1c1c; }
+        .alert-icon { font-size: 1.2em; flex-shrink: 0; margin-top: 1px; }
+
+        /* ---- Form ---- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem 2rem;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-group.full { grid-column: 1 / -1; }
+        label { font-weight: 600; font-size: 0.9em; color: var(--muted); }
+        label span.unit { font-weight: 400; font-size: 0.85em; }
+        input[type="number"], input[type="password"], input[type="text"] {
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+        input:focus { outline: none; border-color: #35c2b5; box-shadow: 0 0 0 3px rgba(53,194,181,0.15); }
+
+        /* ---- Buttons ---- */
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: #35c2b5; color: white; }
+        .btn-primary:hover { background: #2aa898; transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #b02a37; }
+        .btn-block { width: 100%; margin-top: 1rem; }
+
+        /* ---- Prix actuel badge ---- */
+        .current-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+            border-radius: 50px;
+            padding: 0.15rem 0.7rem;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        /* ---- Stat grid ---- */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+        }
+        .stat-card {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .stat-value { font-size: 2em; font-weight: 700; color: #35c2b5; }
+        .stat-label { font-size: 0.85em; color: var(--muted); margin-top: 0.25rem; }
+
+        /* ---- Status message ---- */
+        #save-status {
+            min-height: 1.5rem;
+            margin-top: 1rem;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-align: center;
+        }
+        .ok { color: var(--success); }
+        .err { color: var(--danger); }
+
+        /* ---- Tabs ---- */
+        .tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            color: var(--muted);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+        .tab-btn.active { color: #35c2b5; border-bottom-color: #35c2b5; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ---- Mobile ---- */
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .topbar { flex-direction: column; gap: 0.75rem; text-align: center; }
+            .page { padding: 0 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+{!authenticated ? (
+    <!-- ======== PAGE DE LOGIN ======== -->
+    <div class="login-wrapper">
+        <h2>🔒 Administration</h2>
+        <p>{siteConfig.company.name} — Accès réservé</p>
+
+        {!adminPasswordSet && (
+            <div class="alert alert-danger">
+                <span class="alert-icon">⚠️</span>
+                <div>
+                    <strong>ADMIN_PASSWORD non configuré.</strong><br/>
+                    Ajoutez cette variable dans vos variables d'environnement Vercel.
+                </div>
+            </div>
+        )}
+
+        <form id="login-form">
+            <div class="form-group" style="text-align:left; margin-bottom:1rem;">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required autofocus />
+            </div>
+            <p id="login-error" class="err" style="min-height:1.5rem; margin:0 0 0.5rem;"></p>
+            <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+        </form>
+    </div>
+) : (
+    <!-- ======== DASHBOARD ======== -->
+    <>
+        <div class="topbar">
+            <h1>⚙️ Admin — {siteConfig.company.name}</h1>
+            <div class="topbar-actions">
+                <span>Connecté</span>
+                <button class="btn-logout" id="logout-btn">Déconnexion</button>
+            </div>
+        </div>
+
+        <div class="page">
+
+            {!blobConfigured && (
+                <div class="alert alert-warn">
+                    <span class="alert-icon">⚠️</span>
+                    <div>
+                        <strong>Vercel Blob non configuré.</strong>
+                        Les tarifs enregistrés ici seront perdus au prochain redéploiement.
+                        Connectez un Vercel Blob Store depuis le dashboard Vercel (onglet Storage)
+                        pour des modifications permanentes.
+                    </div>
+                </div>
+            )}
+
+            <!-- Onglets -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="pricing">💰 Tarifs</button>
+                <button class="tab-btn" data-tab="info">ℹ️ Infos site</button>
+                <button class="tab-btn" data-tab="setup">🔧 Configuration</button>
+            </div>
+
+            <!-- ===== ONGLET TARIFS ===== -->
+            <div class="tab-panel active" id="tab-pricing">
+
+                <!-- Aperçu tarifs actuels -->
+                <div class="card">
+                    <h2>Tarifs actuels</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">{pricing!.pricePerKm.toFixed(2)}€</div>
+                            <div class="stat-label">Par kilomètre</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">{pricing!.pricePerMinute.toFixed(2)}€</div>
+                            <div class="stat-label">Par minute</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">{pricing!.minimumPrice}€</div>
+                            <div class="stat-label">Minimum course</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">{pricing!.hourlyRate}€</div>
+                            <div class="stat-label">Mise à dispo / h</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">+{pricing!.nightSurchargePercent}%</div>
+                            <div class="stat-label">Majoration nuit</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulaire de modification -->
+                <div class="card">
+                    <h2>Modifier les tarifs</h2>
+                    <form id="pricing-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="pricePerKm">Prix par km <span class="unit">(€/km)</span></label>
+                                <input type="number" id="pricePerKm" name="pricePerKm"
+                                    value={pricing!.pricePerKm} min="0" max="10" step="0.01" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="pricePerMinute">Prix par minute <span class="unit">(€/min)</span></label>
+                                <input type="number" id="pricePerMinute" name="pricePerMinute"
+                                    value={pricing!.pricePerMinute} min="0" max="5" step="0.01" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="minimumPrice">Minimum course <span class="unit">(€)</span></label>
+                                <input type="number" id="minimumPrice" name="minimumPrice"
+                                    value={pricing!.minimumPrice} min="0" max="500" step="1" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="hourlyRate">Mise à disposition <span class="unit">(€/h)</span></label>
+                                <input type="number" id="hourlyRate" name="hourlyRate"
+                                    value={pricing!.hourlyRate} min="0" max="500" step="5" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="nightSurchargePercent">Majoration nuit <span class="unit">(%)</span></label>
+                                <input type="number" id="nightSurchargePercent" name="nightSurchargePercent"
+                                    value={pricing!.nightSurchargePercent} min="0" max="100" step="5" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="basePrice">Frais prise en charge <span class="unit">(€)</span></label>
+                                <input type="number" id="basePrice" name="basePrice"
+                                    value={pricing!.basePrice} min="0" max="100" step="0.5" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="nightStartHour">Début nuit <span class="unit">(heure)</span></label>
+                                <input type="number" id="nightStartHour" name="nightStartHour"
+                                    value={pricing!.nightStartHour} min="18" max="23" step="1" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="nightEndHour">Fin nuit <span class="unit">(heure)</span></label>
+                                <input type="number" id="nightEndHour" name="nightEndHour"
+                                    value={pricing!.nightEndHour} min="4" max="10" step="1" required />
+                            </div>
+                        </div>
+
+                        <div style="margin-top:1.5rem; display:flex; justify-content:flex-end; align-items:center; gap:1.5rem; flex-wrap:wrap;">
+                            <p id="save-status"></p>
+                            <button type="submit" class="btn btn-primary" id="save-btn">
+                                💾 Enregistrer les tarifs
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== ONGLET INFOS ===== -->
+            <div class="tab-panel" id="tab-info">
+                <div class="card">
+                    <h2>Informations du site</h2>
+                    <p style="color:var(--muted); font-size:0.9em; margin-top:0;">
+                        Ces informations viennent de <code>src/config/site.config.ts</code>.
+                        Pour les modifier, éditez ce fichier et redéployez.
+                    </p>
+                    <table style="width:100%; border-collapse:collapse; font-size:0.95em;">
+                        <tbody>
+                            {[
+                                ['Entreprise', siteConfig.company.name],
+                                ['Chauffeur', `${siteConfig.driver.firstName} ${siteConfig.driver.lastName}`],
+                                ['Ville de base', siteConfig.location.city],
+                                ['Zone de service', `${siteConfig.location.maxServiceRadiusKm} km`],
+                                ['Langues', siteConfig.driver.languages.join(', ')],
+                                ['Contact', siteConfig.contact.email],
+                                ['Téléphone', siteConfig.contact.phone],
+                                ['Véhicules', siteConfig.vehicles.map(v => `${v.name} (${v.passengerCapacity}p)`).join(', ')],
+                                ['Analytics GA', siteConfig.seo.googleAnalyticsId || '—'],
+                            ].map(([k, v]) => (
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:0.6rem 0.5rem; color:var(--muted); font-weight:600; width:40%;">{k}</td>
+                                    <td style="padding:0.6rem 0.5rem;">{v}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== ONGLET CONFIGURATION ===== -->
+            <div class="tab-panel" id="tab-setup">
+                <div class="card">
+                    <h2>Variables d'environnement requises</h2>
+                    <p style="color:var(--muted); font-size:0.9em; margin-top:0;">
+                        À configurer dans le dashboard Vercel → Projet → Settings → Environment Variables
+                    </p>
+                    <table style="width:100%; border-collapse:collapse; font-size:0.9em;">
+                        <thead>
+                            <tr style="background:var(--bg);">
+                                <th style="padding:0.6rem; text-align:left;">Variable</th>
+                                <th style="padding:0.6rem; text-align:left;">Statut</th>
+                                <th style="padding:0.6rem; text-align:left;">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {[
+                                ['ADMIN_PASSWORD', !!import.meta.env.ADMIN_PASSWORD, 'Mot de passe de cette page admin'],
+                                ['ADMIN_SALT', !!import.meta.env.ADMIN_SALT, 'Sel cryptographique (optionnel mais recommandé)'],
+                                ['BLOB_READ_WRITE_TOKEN', !!import.meta.env.BLOB_READ_WRITE_TOKEN, 'Token Vercel Blob (stockage tarifs)'],
+                                ['PUBLIC_STRIPE_KEY', !!import.meta.env.PUBLIC_STRIPE_KEY, 'Clé publique Stripe'],
+                                ['STRIPE_SECRET_KEY', !!import.meta.env.STRIPE_SECRET_KEY, 'Clé secrète Stripe'],
+                                ['PUBLIC_GOOGLE_MAPS_API_KEY', !!import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY, 'Clé API Google Maps'],
+                            ].map(([name, ok, desc]) => (
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:0.6rem; font-family:monospace; font-size:0.85em;">{name as string}</td>
+                                    <td style="padding:0.6rem;">
+                                        <span style={`color:${ok ? 'var(--success)' : 'var(--danger)'};font-weight:600;`}>
+                                            {ok ? '✓ OK' : '✗ Manquant'}
+                                        </span>
+                                    </td>
+                                    <td style="padding:0.6rem; color:var(--muted);">{desc as string}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h2>GitHub — Stratégie template</h2>
+                    <p>Pour vendre ce site à d'autres chauffeurs VTC :</p>
+                    <ol style="line-height:2; color:var(--text);">
+                        <li>Créez un <strong>nouveau repo GitHub</strong> (ex: <code>vtc-template-astro</code>)</li>
+                        <li>Dans Settings → cochez <strong>"Template repository"</strong></li>
+                        <li>Les acheteurs cliquent <strong>"Use this template"</strong> pour créer leur copie</li>
+                        <li>Ils n'ont qu'à éditer <code>src/config/site.config.ts</code></li>
+                    </ol>
+                    <p style="color:var(--muted); font-size:0.9em;">
+                        Votre repo personnel reste privé. Ne publiez que le template générique (sans vos clés API).
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </>
+)}
+
+<script is:inline>
+    // ---- Login ----
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = loginForm.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Connexion...';
+            const errEl = document.getElementById('login-error');
+            const password = document.getElementById('password').value;
+            const res = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password }),
+            });
+            if (res.ok) {
+                window.location.reload();
+            } else {
+                const data = await res.json();
+                errEl.textContent = data.error || 'Erreur de connexion.';
+                btn.disabled = false;
+                btn.textContent = 'Connexion';
+            }
+        });
+    }
+
+    // ---- Logout ----
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            await fetch('/api/admin/logout', { method: 'POST' });
+            window.location.reload();
+        });
+    }
+
+    // ---- Tabs ----
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach((p) => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+        });
+    });
+
+    // ---- Save pricing ----
+    const pricingForm = document.getElementById('pricing-form');
+    if (pricingForm) {
+        pricingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('save-btn');
+            const status = document.getElementById('save-status');
+            btn.disabled = true;
+            btn.textContent = '⏳ Enregistrement...';
+            status.textContent = '';
+            status.className = '';
+
+            const fd = new FormData(pricingForm);
+            const data = {
+                basePrice: parseFloat(fd.get('basePrice')),
+                pricePerKm: parseFloat(fd.get('pricePerKm')),
+                pricePerMinute: parseFloat(fd.get('pricePerMinute')),
+                minimumPrice: parseFloat(fd.get('minimumPrice')),
+                nightSurchargePercent: parseFloat(fd.get('nightSurchargePercent')),
+                nightStartHour: parseInt(fd.get('nightStartHour')),
+                nightEndHour: parseInt(fd.get('nightEndHour')),
+                hourlyRate: parseFloat(fd.get('hourlyRate')),
+                currency: 'EUR',
+            };
+
+            try {
+                const res = await fetch('/api/admin/pricing', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+                const json = await res.json();
+                if (res.ok) {
+                    status.textContent = '✓ Tarifs enregistrés avec succès !';
+                    status.className = 'ok';
+                    // Recharge la page pour afficher les nouvelles valeurs
+                    setTimeout(() => window.location.reload(), 1200);
+                } else {
+                    status.textContent = json.error + (json.hint ? ' — ' + json.hint : '');
+                    status.className = 'err';
+                }
+            } catch {
+                status.textContent = 'Erreur réseau.';
+                status.className = 'err';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '💾 Enregistrer les tarifs';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

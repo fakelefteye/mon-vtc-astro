@@ -1,9 +1,10 @@
 ---
 // src/components/Header.astro
+import { siteConfig } from '@/config/site.config';
 const { currentPath = '/' } = Astro.props;
 
-// Détermine la langue active basée sur le chemin actuel
-const lang = currentPath.startsWith('/en/') ? 'en' : (currentPath.startsWith('/es/') ? 'es' : 'fr');
+// Détection de langue — les routes EN sont sous /en-gb/
+const lang = currentPath.startsWith('/en-gb') ? 'en' : (currentPath.startsWith('/es') ? 'es' : 'fr');
 
 // --- Textes de navigation (Enrichis) ---
 const navTexts = {
@@ -277,7 +278,7 @@ const isServicesActive = [
 <header class="header">
     <div class="header-main">
         <a href={homeLink} class="logo">
-            <img src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/logo_ship_cars.png" alt="ShipCars Logo">
+            <img src={siteConfig.company.logoUrl} alt={`${siteConfig.company.name} Logo`}>
         </a>
         
         <div class="header-actions">

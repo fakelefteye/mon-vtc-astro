@@ -1,15 +1,10 @@
 ---
 // src/components/Footer.astro
+import { siteConfig } from '@/config/site.config';
 
-// Le code pour la détection de la langue reste tel quel puisque vous confirmez qu'il fonctionne.
 const currentPath = Astro.url.pathname;
-let lang = 'fr'; // Langue par défaut
-
-if (currentPath.startsWith('/en/')) {
-    lang = 'en';
-} else if (currentPath.startsWith('/es/')) {
-    lang = 'es';
-}
+// Détection correcte : les routes EN sont sous /en-gb/
+const lang = currentPath.startsWith('/en-gb') ? 'en' : (currentPath.startsWith('/es') ? 'es' : 'fr');
 
 // Définir les textes et les URLs pour chaque langue
 const legalLinks = {
@@ -42,9 +37,9 @@ const year = new Date().getFullYear();
         <div class="footer-grid">
             {/* Colonne principale ShipCars */}
             <div class="footer-column">
-                <h3>ShipCars</h3>
-                <p>Votre service VTC premium à Grenoble et ses environs.</p>
-                <p>&copy; {year} ShipCars. Tous droits réservés.</p>
+                <h3>{siteConfig.company.name}</h3>
+                <p>{siteConfig.company.tagline} à {siteConfig.location.city} et ses environs.</p>
+                <p>&copy; {year} {siteConfig.company.name}. Tous droits réservés.</p>
             </div>
 
             {/* Nouvelle colonne pour le lien Contact (simple lien/bouton) */}

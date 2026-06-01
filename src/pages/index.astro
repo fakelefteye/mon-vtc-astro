@@ -1,70 +1,53 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import BookingForm from '@/components/BookingForm.astro';
+import { siteConfig } from '@/config/site.config';
+
 const currentPath = Astro.url.pathname;
+const { forfaits, company, seo, reviews, faq, certifications } = siteConfig;
+
+const iconMap: Record<string, string> = {
+    plane: '✈️',
+    mountains: '🏔️',
+    global: '🌍',
+    clock: '⏱️',
+};
 ---
 
-<Layout 
-    title="VTC Grenoble | Chauffeur Privé | Navette Aéroport & Stations de Ski | Chauffeure femme Grenoble | Alternative taxi aéreport Grenoble"
-    description="Service de chauffeure VTC à Grenoble en Nissan Leaf 100% électrique. Forfaits fixes pour l'aéroport de Lyon, Genève et les stations de ski. Alternative au taxi.">
+<Layout title={seo.defaultTitle} description={seo.defaultDescription}>
 
     <section class="hero">
-        <video playsinline autoplay muted loop poster="">
-            <source src="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/nissan.mp4" type="video/mp4">
+        <video playsinline autoplay muted loop>
+            <source src={company.heroVideoUrl} type="video/mp4">
         </video>
         <div class="hero-content">
-            <h1>Votre Chauffeure Privée à Grenoble et Aéroport Lyon</h1>
-            <p>Voyages d'affaires, fvoir  aéroport ou escapades dans les Alpes en véhicule 100% électrique.</p>
+            <h1>{company.heroTitle}</h1>
+            <p>{company.heroSubtitle}</p>
             <a href="#booking" class="cta-button">Estimer et Réserver Votre Trajet</a>
         </div>
+    </section>
+
+    <!-- Badges de confiance -->
+    <section class="trust-bar">
+        {certifications.map((c) => (
+            <div class="trust-badge">
+                <span class="badge-icon">{c.icon}</span>
+                <span>{c.label}</span>
+            </div>
+        ))}
     </section>
 
     <section id="forfaits" class="content-section">
         <h2>Nos Forfaits Exclusifs</h2>
         <div class="forfaits-grid">
-            
-            <div class="forfait-card special-card">
-                <i class="icon-plane"></i>
-                <h3>Grenoble ↔ Aéroport Lyon St-Exupéry</h3>
-                <p class="prix">220€</p>
-                <p><strong>Forfait Berline.</strong> La navette aéroport la plus confortable, une alternative au taxi.</p>
-            </div>
-            
-            <div class="forfait-card">
-                <i class="icon-mountains"></i>
-                <h3>Aéroport Lyon (LYS) ↔ Alpe d'Huez</h3>
-                <p class="prix">360€</p>
-                <p>Transfert direct et rapide vers la station. Service Berline Premium.</p>
-            </div>
-            
-            <div class="forfait-card special-card">
-                <i class="icon-plane"></i>
-                <h3>Aéroport Grenoble (GNB) ↔ Alpe d'Huez</h3>
-                <p class="prix">260€</p>
-                <p>Transfert optimisé pour votre arrivée en Isère.</p>
-            </div>
-
-            <div class="forfait-card">
-                <i class="icon-global"></i>
-                <h3>Grenoble ↔ Genève Aéroport</h3>
-                <p class="prix">350€</p>
-                <p><strong>Forfait Berline.</strong> Voyage international sans stress. Trajet direct vers GVA.</p>
-            </div>
-
-            <div class="forfait-card special-card">
-                <i class="icon-mountains"></i>
-                <h3>Grenoble ↔ Stations de Ski</h3>
-                <p class="prix">À partir de 99€</p>
-                <p>Transferts vers Les 2 Alpes, Chamrousse, Courchevel, etc. Arrivez au pied des pistes.</p>
-            </div>
-            
-            <div class="forfait-card">
-                <i class="icon-clock"></i>
-                <h3>Mise à Disposition</h3>
-                <p class="prix">60€/heure</p>
-                <p>Pour vos rendez-vous professionnels, séminaires ou événements privés. Sur devis pour la journée.</p>
-            </div>
-            
+            {forfaits.map((f) => (
+                <div class:list={["forfait-card", { "special-card": f.highlight }]}>
+                    <i class={`icon-${f.icon}`}></i>
+                    <h3>{f.title}</h3>
+                    <p class="prix">{f.price}</p>
+                    <p>{f.description}</p>
+                </div>
+            ))}
         </div>
         <a href="/nos-tarifs" class="secondary-button">Voir tous nos forfaits &amp; tarifs</a>
     </section>
@@ -74,192 +57,176 @@ const currentPath = Astro.url.pathname;
         <BookingForm currentPath={currentPath} />
     </section>
 
+    <!-- Avis clients -->
+    <section class="reviews-section content-section">
+        <h2>Ce que disent nos clients</h2>
+        <div class="reviews-grid">
+            {reviews.map((r) => (
+                <div class="review-card">
+                    <div class="review-stars">{'★'.repeat(r.rating)}</div>
+                    <p class="review-text">"{r.text}"</p>
+                    <p class="review-author">— {r.author} <span class="review-platform">via {r.platform}</span></p>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section content-section">
+        <h2>Questions fréquentes</h2>
+        <div class="faq-list">
+            {faq.map((item) => (
+                <details class="faq-item">
+                    <summary>{item.question}</summary>
+                    <p>{item.answer}</p>
+                </details>
+            ))}
+        </div>
+    </section>
+
 </Layout>
+
 <style>
-    /* Les styles CSS complets sont inclus pour la cohérence */
-    /* ------------------------------------------- */
-    /* Nouveaux styles pour la vidéo en plein écran */
-    /* ------------------------------------------- */
-    .hero {
-        position: relative; 
-        width: 100%;
-        height: 80vh; 
-        overflow: hidden; 
-        display: flex;
-        flex-direction: column; 
-        align-items: center; 
-        justify-content: center; 
-        color: white; 
-        text-align: center;
-    }
-
-    .hero video {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: 1; 
-        transform: translate(-50%, -50%);
-        filter: brightness(0.65); 
-    }
-
-    .hero-content {
-        position: relative; 
-        z-index: 10; 
-        padding: 1rem;
-    }
-    
-    .hero-content h1 {
-        font-size: clamp(2em, 5vw, 3.5em);
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    }
-    
-    .hero-content p {
-        font-size: clamp(1.1em, 2vw, 1.5em);
-        margin-bottom: 2rem;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-    }
-    
-    /* ------------------------------------------- */
-    /* Styles pour le CTA (Call To Action) - Rendu plus visible et incitatif */
-    /* ------------------------------------------- */
     :root {
-        --accent: #007bff; 
-        --accent-dark: #0056b3; 
+        --accent: #007bff;
+        --accent-dark: #0056b3;
         --primary-text: #333;
         --secondary-bg: #f5f5f5;
     }
 
+    /* ---- Hero ---- */
+    .hero {
+        position: relative;
+        width: 100%;
+        height: 80vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+    }
+    .hero video {
+        position: absolute;
+        top: 50%; left: 50%;
+        min-width: 100%; min-height: 100%;
+        width: auto; height: auto;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+        filter: brightness(0.65);
+    }
+    .hero-content {
+        position: relative;
+        z-index: 10;
+        padding: 1rem;
+    }
+    .hero-content h1 {
+        font-size: clamp(2em, 5vw, 3.5em);
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+    .hero-content p {
+        font-size: clamp(1.1em, 2vw, 1.5em);
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
     .cta-button {
         display: inline-block;
         padding: 1rem 2.5rem;
-        background-color: var(--accent); 
+        background-color: var(--accent);
         color: white;
         text-decoration: none;
-        border-radius: 50px; 
+        border-radius: 50px;
         font-weight: bold;
         font-size: 1.1em;
         letter-spacing: 1px;
         text-transform: uppercase;
-        border: none;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     .cta-button:hover {
-        background-color: var(--accent-dark); 
-        transform: translateY(-2px); 
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        background-color: var(--accent-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.4);
     }
 
-    /* ------------------------------------------- */
-    
-    /* Styles pour les sections de contenu */
+    /* ---- Trust bar ---- */
+    .trust-bar {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem 3rem;
+        padding: 1.5rem 2rem;
+        background: var(--secondary-bg);
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .trust-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        font-size: 0.95em;
+        color: var(--primary-text);
+    }
+    .badge-icon { font-size: 1.4em; }
+
+    /* ---- Sections ---- */
     .content-section, .booking-section { padding: 4rem 2rem; text-align: center; }
     .booking-section { background: var(--secondary-bg); }
-    .content-section h2 { 
-        font-size: 2.2em; 
-        margin-bottom: 3rem; 
+    .content-section h2 {
+        font-size: 2.2em;
+        margin-bottom: 3rem;
         color: var(--primary-text);
         position: relative;
     }
     .content-section h2::after {
         content: '';
         display: block;
-        width: 50px;
-        height: 3px;
+        width: 50px; height: 3px;
         background: var(--accent);
         margin: 10px auto 0;
     }
 
-    /* Styles de la grille et des cartes */
+    /* ---- Forfaits ---- */
     .forfaits-grid {
         display: grid;
-        /* Adapté pour 3 cartes par ligne sur grand écran */
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 2rem;
         max-width: 1200px;
         margin: 0 auto;
     }
-    
-    .forfait-card { 
-        border: 1px solid #ddd; 
-        border-radius: 12px; 
-        text-align: center; 
-        padding: 2.5rem 1.5rem; 
-        box-shadow: 0 8px 15px rgba(0,0,0,0.08); 
+    .forfait-card {
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.08);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         background-color: white;
     }
-    .forfait-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-    }
-
-    /* Style spécifique pour les cartes principales (Aéroport) */
-    .special-card {
-        background-color: var(--accent);
-        color: white;
-        border-color: var(--accent);
-    }
-    .special-card .prix {
-        color: white; 
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    }
-    .special-card .icon-plane, .special-card .icon-global, .special-card .icon-mountains { /* Ajout de .icon-mountains pour les cartes bleues */
-        color: white;
-        background: rgba(255, 255, 255, 0.2); 
-    }
-
-
-    /* Styles du texte dans la carte */
-    .forfait-card h3 {
-        font-size: 1.4em;
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
-    .prix { 
-        font-size: 2.5em; 
-        color: var(--accent); 
-        font-weight: 700; 
-        margin: 0.2em 0;
-    }
-    .forfait-card p {
-        color: #666;
-        font-size: 0.95em;
-    }
-    .special-card p {
-        color: #eee;
-    }
-    
-    /* Icônes (simulées) */
+    .forfait-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
+    .special-card { background-color: var(--accent); color: white; border-color: var(--accent); }
+    .special-card .prix { color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+    .forfait-card h3 { font-size: 1.4em; margin: 0.5rem 0; }
+    .prix { font-size: 2.5em; color: var(--accent); font-weight: 700; margin: 0.2em 0; }
+    .forfait-card p { color: #666; font-size: 0.95em; }
+    .special-card p { color: #eee; }
     .forfait-card i {
         display: block;
         font-size: 2.5em;
         color: var(--accent);
-        margin-bottom: 1rem;
+        margin: 0 auto 1rem;
         background: var(--secondary-bg);
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
+        width: 60px; height: 60px; line-height: 60px;
         border-radius: 50%;
-        margin-left: auto;
-        margin-right: auto;
-        font-style: normal;
-        font-family: Arial, sans-serif;
-        font-weight: bold;
+        font-style: normal; font-family: Arial, sans-serif; font-weight: bold;
     }
-
+    .special-card i { color: white; background: rgba(255,255,255,0.2); }
     .icon-plane::before { content: '✈️'; }
     .icon-mountains::before { content: '🏔️'; }
     .icon-global::before { content: '🌍'; }
     .icon-clock::before { content: '⏱️'; }
 
-    /* Styles du bouton secondaire */
     .secondary-button {
         display: inline-block;
         margin-top: 4rem;
@@ -267,24 +234,67 @@ const currentPath = Astro.url.pathname;
         border: 2px solid var(--accent);
         color: var(--accent);
         text-decoration: none;
-        border-radius: 50px; 
+        border-radius: 50px;
         font-weight: bold;
         transition: background-color 0.2s ease, color 0.2s ease;
         text-transform: uppercase;
         letter-spacing: 1px;
         font-size: 0.9em;
     }
-    .secondary-button:hover {
-        background-color: var(--accent);
-        color: white;
-    }
+    .secondary-button:hover { background-color: var(--accent); color: white; }
 
-    /* Media Queries pour les petits écrans */
+    /* ---- Avis ---- */
+    .reviews-section { background: white; }
+    .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    .review-card {
+        background: var(--secondary-bg);
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: left;
+        border-left: 4px solid var(--accent);
+    }
+    .review-stars { color: #f5a623; font-size: 1.3em; margin-bottom: 0.75rem; }
+    .review-text { font-style: italic; color: #555; margin-bottom: 1rem; line-height: 1.6; }
+    .review-author { font-weight: 600; font-size: 0.9em; color: var(--primary-text); }
+    .review-platform { font-weight: 400; color: #888; font-size: 0.85em; }
+
+    /* ---- FAQ ---- */
+    .faq-section { background: var(--secondary-bg); }
+    .faq-list { max-width: 760px; margin: 0 auto; text-align: left; }
+    .faq-item {
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border: 1px solid #e0e0e0;
+        overflow: hidden;
+    }
+    .faq-item summary {
+        padding: 1.2rem 1.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--primary-text);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; font-size: 1.4em; color: var(--accent); transition: transform 0.2s; }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p { padding: 0 1.5rem 1.2rem; color: #666; line-height: 1.7; margin: 0; }
+
     @media (max-width: 600px) {
         .content-section, .booking-section { padding: 3rem 1rem; }
         .hero { height: 60vh; }
         .hero-content h1 { font-size: 2em; }
         .hero-content p { font-size: 1.1em; }
         .cta-button { padding: 0.8rem 1.5rem; font-size: 1em; }
+        .trust-bar { gap: 1rem 2rem; }
     }
 </style>

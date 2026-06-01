@@ -1,31 +1,32 @@
 ---
 // src/layouts/Layout.astro
-
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import { siteConfig } from '@/config/site.config';
 
 export interface Props {
     title: string;
     description: string;
+    keywords?: string;
 }
 
 const { title, description } = Astro.props;
 const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 
-// --- NOUVEAU : Récupérer la langue et les locales pour l'i18n ---
 const currentLang = Astro.currentLocale || 'fr';
-// Liste des langues pour la balise hreflang (doit correspondre à astro.config.mjs)
-const locales = ['fr', 'en-gb', 'es']; 
+const locales = ['fr', 'en-gb', 'es'];
 
-// Fonction utilitaire pour générer le chemin d'une autre langue
 function getAlternatePath(locale: string, currentPath: string): string {
     if (locale === 'fr') {
         return currentPath.replace(/^\/(en-gb|es)\/?/, '/');
     }
-    // La route neutre est le chemin sans le préfixe de langue
     const neutralPath = currentPath.replace(/^\/(en-gb|es)\/?/, '/');
     return `/${locale}${neutralPath === '/' ? '' : neutralPath}`;
 }
+
+const { accentColor, darkBg, font } = siteConfig.theme;
+const { faviconBaseUrl, name: companyName } = siteConfig.company;
+const gaId = siteConfig.seo.googleAnalyticsId;
 ---
 <!DOCTYPE html>
 <html lang={currentLang}>
@@ -34,35 +35,37 @@ function getAlternatePath(locale: string, currentPath: string): string {
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/png" href="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="SHIP CARS" />
-    <link rel="manifest" href="https://pub-d35dc23058ee46aca93fb6f682ad5e37.r2.dev/favicon/site.webmanifest" />
+
+    <link rel="icon" type="image/png" href={`${faviconBaseUrl}/favicon-96x96.png`} sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href={`${faviconBaseUrl}/favicon.svg`} />
+    <link rel="shortcut icon" href={`${faviconBaseUrl}/favicon.ico`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${faviconBaseUrl}/apple-touch-icon.png`} />
+    <meta name="apple-mobile-web-app-title" content={companyName} />
+    <link rel="manifest" href={`${faviconBaseUrl}/site.webmanifest`} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href={`https://fonts.googleapis.com/css2?family=${font}:wght@400;700&display=swap`} rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
     {locales.map((locale) => (
-        <link 
-            rel="alternate" 
-            hreflang={locale} 
-            href={new URL(getAlternatePath(locale, Astro.url.pathname), Astro.site).href} 
+        <link
+            rel="alternate"
+            hreflang={locale}
+            href={new URL(getAlternatePath(locale, Astro.url.pathname), Astro.site).href}
         />
     ))}
-    <link 
-        rel="alternate" 
-        hreflang="x-default" 
-        href={new URL(getAlternatePath('fr', Astro.url.pathname), Astro.site).href} 
+    <link
+        rel="alternate"
+        hreflang="x-default"
+        href={new URL(getAlternatePath('fr', Astro.url.pathname), Astro.site).href}
     />
+
     <script src="https://js.stripe.com/v3/" async defer onload="window.dispatchEvent(new CustomEvent('stripe-loaded'))"></script>
 
-    <script define:vars={{ googleMapsApiKey }}>
+    <script is:inline define:vars={{ googleMapsApiKey }}>
         function initMap() {
-            // Déclenche l'événement pour que BookingForm sache que l'autocomplétion est prête
             window.dispatchEvent(new CustomEvent('maps-loaded'));
         }
         window.initMap = initMap;
@@ -72,21 +75,17 @@ function getAlternatePath(locale: string, currentPath: string): string {
         src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places&callback=initMap`}
     ></script>
 
-    <style is:global>
+    <style define:vars={{ accentColor, darkBg, font }} is:global>
         :root {
-            /* Couleurs harmonisées avec le logo */
-            --accent: #35c2b5; /* Votre bleu turquoise (pour les éléments d'accent, boutons) */
-            --dark-bg: #2d3a4c; /* Votre bleu marine foncé (pour le fond du header, footer) */
-            --text-color: #333; /* Couleur de texte générale */
-            --header-bg: var(--dark-bg); /* Fond de l'en-tête, harmonisé avec le logo */
-            --header-text: #ffffff; /* Couleur du texte dans l'en-tête */
+            --accent: var(--accentColor);
+            --dark-bg: var(--darkBg);
+            --text-color: #333;
+            --header-bg: var(--darkBg);
+            --header-text: #ffffff;
         }
-        /* Styles globaux pour la police et le comportement */
-        html { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
+        html { font-family: var(--font), sans-serif; scroll-behavior: smooth; }
         body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
         main { flex-grow: 1; padding: 2rem 0; }
-        
-        /* Styles de base pour le header et la nav si non déjà définis ailleurs */
         header { background-color: var(--header-bg); color: var(--header-text); padding: 1rem 0; }
         header a { color: var(--header-text); text-decoration: none; }
         header a:hover { text-decoration: underline; }
@@ -95,67 +94,48 @@ function getAlternatePath(locale: string, currentPath: string): string {
 <body>
     <Header currentPath={Astro.url.pathname} />
     <main><slot /></main>
-
     <Footer currentPath={Astro.url.pathname} />
 
     <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
 
-<script type="text/javascript">
-    // 1. DÉFINIR LA FONCTION POUR CHARGER GOOGLE ANALYTICS
-    // =========================================================
-    function loadGoogleAnalytics() {
-        if (window.gaLoaded) { return; }
+    <script is:inline define:vars={{ gaId, accentColor, darkBg, companyName }}>
+        function loadGoogleAnalytics() {
+            if (!gaId || window._gaLoaded) return;
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+            document.head.appendChild(script);
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { window.dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', gaId);
+            window._gaLoaded = true;
+        }
 
-        const gaId = 'G-82VWM02RGP';
-
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-        document.head.appendChild(script);
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', gaId);
-        
-        window.gaLoaded = true;
-        console.log("✅ Google Analytics a été chargé car l'utilisateur a consenti.");
-    }
-
-    // 2. INITIALISER LA BANNIÈRE DE COOKIES UNE SEULE FOIS
-    // =========================================================
-    window.addEventListener("load", function(){
-        window.cookieconsent.initialise({
-            "palette": {
-                "popup": { "background": "#2d3a4c", "text": "#ffffff" },
-                "button": { "background": "#35c2b5", "text": "#ffffff" }
-            },
-            "theme": "edgeless",
-            "position": "bottom-right",
-            "type": "opt-in",
-            "content": {
-                "message": "Nous utilisons des cookies pour analyser le trafic du site et améliorer votre expérience.",
-                "allow": "Accepter tout",
-                "deny": "Refuser",
-                "link": "En savoir plus",
-                "href": "/politique-de-cookies", // Assurez-vous que cette page existe
-            },
-
-            // 3. APPELER LA FONCTION DE CHARGEMENT AU BON MOMENT
-            // =========================================================
-            onInitialise: function(status) {
-                if (this.hasConsented()) {
-                    loadGoogleAnalytics();
-                }
-            },
-            onStatusChange: function(status) {
-                if (this.hasConsented()) {
-                    loadGoogleAnalytics();
-                }
-            }
+        window.addEventListener('load', function () {
+            window.cookieconsent.initialise({
+                palette: {
+                    popup: { background: darkBg, text: '#ffffff' },
+                    button: { background: accentColor, text: '#ffffff' },
+                },
+                theme: 'edgeless',
+                position: 'bottom-right',
+                type: 'opt-in',
+                content: {
+                    message: 'Nous utilisons des cookies pour analyser le trafic et améliorer votre expérience.',
+                    allow: 'Accepter tout',
+                    deny: 'Refuser',
+                    link: 'En savoir plus',
+                    href: '/politique-de-cookie',
+                },
+                onInitialise: function () {
+                    if (this.hasConsented()) loadGoogleAnalytics();
+                },
+                onStatusChange: function (_status) {
+                    if (this.hasConsented()) loadGoogleAnalytics();
+                },
+            });
         });
-    });
-</script>
-
+    </script>
 </body>
 </html>

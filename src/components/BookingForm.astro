@@ -1,15 +1,17 @@
 ---
 // src/components/BookingForm.astro
+import { siteConfig } from '@/config/site.config';
 
-// On récupère le chemin courant (comme ton Header)
 const { currentPath = '/' } = Astro.props;
 
-// Même logique que dans Header.astro
-const lang = currentPath.startsWith('/en/')
+// Détection correcte : les routes EN sont sous /en-gb/
+const lang = currentPath.startsWith('/en-gb')
   ? 'en'
-  : currentPath.startsWith('/es/')
+  : currentPath.startsWith('/es')
   ? 'es'
   : 'fr';
+
+const autocompleteCountry = siteConfig.location.autocompleteCountry;
 
 // 💬 Dictionnaire complet de traduction
 const translations = {
@@ -94,7 +96,7 @@ const translations = {
 const t = translations[lang];
 ---
 
-<div id="booking-container" class="booking-wrapper">
+<div id="booking-container" class="booking-wrapper" data-autocomplete-country={autocompleteCountry}>
   <h2 class="form-title">{t.formTitle}</h2>
   <p class="form-subtitle">{t.formSubtitle}</p>
 
@@ -201,9 +203,20 @@ const t = translations[lang];
 
 <script>
     import type { Stripe } from '@stripe/stripe-js';
-    
+
+    // Déclaration des globaux injectés via CDN
+    declare global {
+        interface Window {
+            Stripe?: (key: string) => Stripe;
+            google?: typeof google;
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-        let bookingData = {};
+        const container = document.getElementById('booking-container');
+        const autocompleteCountry = container?.dataset.autocompleteCountry ?? 'fr';
+
+        let bookingData: Record<string, unknown> = {};
         let stripe: Stripe | null = null;
 
         const quoteForm = document.getElementById('quote-form') as HTMLFormElement;
@@ -212,31 +225,29 @@ const t = translations[lang];
         const payOnlineBtn = document.getElementById('pay-online-btn') as HTMLButtonElement;
         const bookOnboardBtn = document.getElementById('book-onboard-btn') as HTMLButtonElement;
         const statusEl = document.getElementById('form-status') as HTMLParagraphElement;
-        
+
         function initStripe() {
             const stripePublishableKey = import.meta.env.PUBLIC_STRIPE_KEY;
             if (window.Stripe && stripePublishableKey) {
                 stripe = window.Stripe(stripePublishableKey);
-                console.log("✅ Stripe est prêt !");
             } else {
-                console.error("❌ La clé publique Stripe ou Stripe.js est manquant(e).");
+                console.error("Stripe ou la clé publique est manquante.");
             }
         }
-        
+
         function initAutocomplete() {
             const pickupInput = document.getElementById('pickup');
             const dropoffInput = document.getElementById('dropoff');
             if (pickupInput && dropoffInput && window.google) {
                 const options = {
-                    componentRestrictions: { country: 'fr' },
+                    componentRestrictions: { country: autocompleteCountry },
                     fields: ["formatted_address"],
                 };
                 new window.google.maps.places.Autocomplete(pickupInput as HTMLInputElement, options);
                 new window.google.maps.places.Autocomplete(dropoffInput as HTMLInputElement, options);
-                console.log("✅ Autocomplete initialisé !");
             }
         }
-        
+
         window.addEventListener('stripe-loaded', initStripe);
         window.addEventListener('maps-loaded', initAutocomplete);
         if (window.Stripe) initStripe();
