@@ -20,6 +20,10 @@ const authenticated = isAuthenticated(Astro.cookies);
 const pricing = authenticated ? await getPricing() : null;
 const blobConfigured = !!import.meta.env.BLOB_READ_WRITE_TOKEN;
 const adminPasswordSet = !!import.meta.env.ADMIN_PASSWORD;
+
+// Couleurs pour define:vars sur le style
+const accentColor = siteConfig.theme.accentColor;
+const darkBg = siteConfig.theme.darkBg;
 ---
 
 <!DOCTYPE html>
@@ -31,11 +35,11 @@ const adminPasswordSet = !!import.meta.env.ADMIN_PASSWORD;
     <meta name="robots" content="noindex, nofollow" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
+    <style define:vars={{ accentColor, darkBg }}>
         *, *::before, *::after { box-sizing: border-box; }
         :root {
-            --accent: {siteConfig.theme.accentColor};
-            --dark: {siteConfig.theme.darkBg};
+            --accent: var(--accentColor);
+            --dark: var(--darkBg);
             --danger: #dc3545;
             --success: #28a745;
             --warn: #ffc107;
